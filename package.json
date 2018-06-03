@@ -1,0 +1,26 @@
+{
+  "name": "avuef",
+  "version": "0.0.3",
+  "description": "𝗔 vue flow state machine",
+  "author": "Gleb Panteleev",
+  "license": "Apache-2.0",
+  "main": "lib.commonjs/index.js",
+  "module": "lib.esm/index.js",
+  "typings": "index.d.ts",
+  "dependencies": {
+    "vue": "^2.5.16",
+    "alak": "^0.10.19"
+  },
+  "scripts": {
+    "start": "webpack --config webpack.config.js"
+  },
+  "devDependencies": {
+    "@types/core-js": "^0.9.46",
+    "@types/node": "^10.1.3",
+    "fuse-box": "^3.2.2",
+    "ts-loader": "^4.3.0",
+    "ts-node": "^6.0.5",
+    "typescript": "^2.8.3",
+    "webpack": "^4.10.2"
+  }
+}
