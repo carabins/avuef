@@ -3,16 +3,15 @@ node_js:
   - "8"
 
 install:
-  - npm install typescript -g
-  - npm install @types/node
+  - npm install
 
 script:
-  - tsc
+  - sh build.sh
   - ls
 before_deploy:
   - ls
 deploy:
   provider: npm
   skip_cleanup: true
-  email: 'dev@gleb.pw'
+  email: '+@gleb.pw'
   api_key: $NPM_TOKEN
