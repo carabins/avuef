@@ -1,9 +1,10 @@
 {
   "name": "avuef",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "𝗔 vue flow state machine",
   "author": "Gleb Panteleev",
   "license": "Apache-2.0",
+  "repository": "https://github.com/carabins/avuef",
   "main": "lib.commonjs/index.js",
   "module": "lib.esm/index.js",
   "typings": "index.d.ts",
