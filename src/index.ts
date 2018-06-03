@@ -6,11 +6,13 @@ import {graphEdges} from "./graph-edges";
 import {actions} from "./actions";
 import {graph} from "./graph";
 import {installMixin} from "./install-mixin";
+import {webPackActions} from "./wp-context";
 
 
 InstallAlak()
 
 export const A = alak.A
+export const wpFlolderActions = webPackActions
 export class AVue<T> implements PluginObject<T> {
   kit = alak.A.flow
   f: T

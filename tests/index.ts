@@ -26,19 +26,19 @@ export default class FlowGraphSchema {
 }
 
 const actions = (a, f: FlowGraphSchema) => ({
-  entry() {
-    f.module1.node1(3)
-    f.module1.quadN1.on(v=>{
-      console.log("quadN1", v)
-    })
-    f.module1.nodeFromSameModuleAction.on(v=>{
-      console.log("nodeFromSameModuleAction",v)
-    })
-    f.module2.nodeFromRootAction.on(v=>{
-      console.log("nodeFromRootAction",v)
-    })
-
-  },
+  // entry() {
+  //   f.module1.node1(3)
+  //   f.module1.quadN1.on(v=>{
+  //     console.log("quadN1", v)
+  //   })
+  //   f.module1.nodeFromSameModuleAction.on(v=>{
+  //     console.log("nodeFromSameModuleAction",v)
+  //   })
+  //   f.module2.nodeFromRootAction.on(v=>{
+  //     console.log("nodeFromRootAction",v)
+  //   })
+  //
+  // },
   action1() {
     return "x"
   },

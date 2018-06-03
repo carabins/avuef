@@ -75,8 +75,8 @@ export const webPackActions = context => (a, f) => {
         if (subProxy) {
           return subProxy
         }
-        console.error("unresolved module '", key, "' in ", module)
-        return null
+        // console.warn("unresolved module '", key, "' in ", module)
+        return false
       }
     })
 
