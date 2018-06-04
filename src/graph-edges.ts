@@ -140,6 +140,6 @@ export function graphEdges() {
       }
       flow(a)
     }
-    subscribe(flow, () => f.on(mutator))
+    subscribe(flow, mutator)
   }
 }
