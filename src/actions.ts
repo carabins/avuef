@@ -1,6 +1,7 @@
 import {pathTo} from "./utils";
 import {GlobalState} from "./global-state";
 import {webPackActions} from "./wp-context";
+import {A} from "alak";
 
 
 let actionModules = {}
@@ -70,18 +71,21 @@ const dispatchAction = (...context) => {
   }
 }
 
+
+const runEntity = A.flow
+runEntity.on(app => {
+  let entry = actionModules['entry']
+  if (entry) {
+    console.log(" 𝜶  ← root.entry")
+    entry(app)
+  }
+})
 export const actions = {
   newDispatcher: dispatchAction,
-  runEntity(app) {
-    let entry = actionModules['entry']
-    if (entry) {
-      console.log(" 𝜶  ← root.entry")
-      entry(app)
-    }
-  },
+  runEntity,
   set(v, flow) {
     let ctx = webPackActions(v)
-    if (ctx){
+    if (ctx) {
       actionModules = ctx(dispatchAction("Ω"), flow)
     } else {
       actionModules = v(dispatchAction("Ω"), flow)

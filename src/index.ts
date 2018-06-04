@@ -13,16 +13,21 @@ InstallAlak()
 
 export const A = alak.A
 export const wpFlolderActions = webPackActions
+
 export class AVue<T> implements PluginObject<T> {
   kit = alak.A.flow
   f: T
   a: Function
 
-  constructor(schemaClass, actionModules) {
+  constructor(schemaClass, actionModules, runSchemaAfterVueInstall = true) {
     console.log("𝗔 start")
     graphNodes(schemaClass)
     actions.set(actionModules, graph.flow)
-    graphEdges()
+    if (runSchemaAfterVueInstall) {
+      actions.runEntity.on(graphEdges)
+    } else {
+      graphEdges()
+    }
   }
 
   install(_Vue, options) {
@@ -38,5 +43,6 @@ export class AVue<T> implements PluginObject<T> {
     })
     actions.runEntity(_Vue)
   }
+
   [key: string]: any;
 }
