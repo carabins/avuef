@@ -62,7 +62,7 @@ export const webPackActions = context => (a, f) => {
                 subProxy = makeProxy({}, actionModule)
                 break
             }
-            console.log(key, {subModule})
+            
             activeSubProxys.set(subModule, subProxy)
           }
         }
