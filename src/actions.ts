@@ -9,7 +9,7 @@ const dispatchAction = (...context) => {
   let [contextType, ctxPath, ctxSym] = context
 
   const launch = (action, ...params) => {
-    let log = ` 𝜶  ${action} ← ${contextType} ${ctxPath} ${ctxSym ? ctxSym : ''}`
+    let log = ` 𝜶  ${action} ← ${contextType} ${ctxPath ? ctxPath : ""} ${ctxSym ? ctxSym : ''}`
     let aFn
     const defaultPath = () => aFn = pathTo(action, actionModules)
     switch (contextType) {
