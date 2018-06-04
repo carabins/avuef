@@ -3,6 +3,7 @@ export function pathTo(path, inObject) {
   let lo = inObject
   let wrong = false
   pa.forEach(p => {
+
     if (lo != undefined && lo[p]) {
       lo = lo[p]
     } else {

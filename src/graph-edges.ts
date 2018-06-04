@@ -121,10 +121,7 @@ export function graphEdges() {
     // console.log({path})
 
     let f = getFlow(path, flow) //pathTo(path, graph.flow)
-    // console.log(f)
-
     const mutator = initActionMutator(`← ∴`, action, typeGuard, flow)
-    //
     subscribe(flow, () => f.on(mutator))
   }
 

@@ -12,11 +12,15 @@ const dispatchAction = (...context) => {
     let log = ` 𝜶  ${action} ← ${contextType} ${ctxPath ? ctxPath : ""} ${ctxSym ? ctxSym : ''}`
     let aFn
     const defaultPath = () => aFn = pathTo(action, actionModules)
+    console.log(action, ...context)
+
+    // console.log(action, contextType, ctxPath)
+
     switch (contextType) {
       case 'ƒ':
-        // let actionPath = action.split(".")
         let contextPath = ctxPath.split(".")
         contextPath.pop()
+
         let modulePath = []
         contextPath.some((p, i) => {
           modulePath.push(p)
@@ -90,6 +94,5 @@ export const actions = {
     } else {
       actionModules = v(dispatchAction("Ω"), flow)
     }
-
   }
 }
