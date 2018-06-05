@@ -24,7 +24,7 @@ export class AVue<T> implements PluginObject<T> {
     graphNodes(schemaClass)
     actions.set(actionModules, graph.flow)
     if (runSchemaAfterVueInstall) {
-      actions.runEntity.on(graphEdges)
+      actions.runEntity.on(v=>graphEdges())
     } else {
       graphEdges()
     }
