@@ -66,7 +66,7 @@ const initActionMutator = (sym, action, typeGuard, flow) => async value => {
 
 const subscribe = (flow, fn) => {
   if (flow.isMeta('lazy')) {
-    this.lazyActions.set(flow, () => {
+    graph.lazyActions.set(flow, () => {
       if (!flow.isMeta('subscribed')) {
         flow.meta('subscribed')
         fn()

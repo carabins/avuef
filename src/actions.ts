@@ -83,6 +83,8 @@ export const actions = {
   runEntity,
   set(v, flow) {
     let ctx = webPackActions(v)
+    console.log(ctx)
+
     if (ctx) {
       actionModules = ctx(dispatchAction("Ω"), flow)
     // } else {

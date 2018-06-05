@@ -1,5 +1,5 @@
 export const webPackActions = context => {
-  if (context.name === 'webpackContext')
+  if (context.keys && context.keys())
     return (a, f) => {
       let keys = context.keys()
       let mpath = keys.map(k => k.replace("./", ""))///.replace(new RegExp('/', 'g'), "."))
