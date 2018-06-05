@@ -85,8 +85,8 @@ export const actions = {
     let ctx = webPackActions(v)
     if (ctx) {
       actionModules = ctx(dispatchAction("Ω"), flow)
-    } else {
-      actionModules = v(dispatchAction("Ω"), flow)
+    // } else {
+    //   actionModules = v(dispatchAction("Ω"), flow)
     }
   }
 }
