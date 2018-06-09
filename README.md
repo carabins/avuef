@@ -5,17 +5,20 @@
 [![dependencies](https://david-dm.org/gleba/avuef.svg)](https://david-dm.org/avuef/alak)
 [![Downloads](https://img.shields.io/npm/dt/avuef.svg)](https://www.npmjs.com/package/avuef)
 
-### Documentation DRAFT
+## Documentation DRAFT
 
 TODO перосмыслить, отформатироваь -> перевести
 
 Avue - гибкий инстурмент управления состояением приложения ориентированный на экспертов имеющих опыт постороения flux или mvc архитектур. 
 
-#### A & F
+### A & F
 
 Два базовых понятия небоходимые для построения схемы это потоки - [F]low и действия [A]ctions.
 
-##### Flow
+#### Actions
+
+
+#### Flow
 Класс описания схемы, стейта и связей между узлами. 
 Все параметры класcа являются либо объектами содержашими узлы либо узлами.
 Узлы являются контейнарми состояний, содержат данные и имеют тип AFlow https://github.com/gleba/alak/tree/master/docs
