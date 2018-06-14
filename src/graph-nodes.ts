@@ -2,6 +2,7 @@
 import {graph} from "./graph";
 import {GlobalState} from "./global-state";
 import {LoStorage} from "./utils/LoStorage";
+import {throws} from "assert";
 
 const logFlow = (v, flow) => {
   if (typeof v === 'object' && v != null) {
@@ -21,6 +22,10 @@ const bindFlow = (node,
 ) => {
   Object.keys(node).forEach(name => {
     let maybeFlow = node[name]
+    if (!maybeFlow) {
+      throw `Wrong flow node : ${name}`
+    }
+
     const initFlow = (flow, name) => {
       let mutation = mutations[name] = new Set()
       // let path = aPath.join("_")

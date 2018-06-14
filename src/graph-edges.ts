@@ -21,6 +21,8 @@ const getFlow = (path, flow) => {
   } else {
     return pathTo(path, graph.flow)
   }
+  console.error("Edge Flow Not Found:", path)
+
 }
 const normalizeFlowPath = (path, flow) => {
   let a = path.split(".")
@@ -122,7 +124,11 @@ export function graphEdges() {
 
     let f = getFlow(path, flow) //pathTo(path, graph.flow)
     const mutator = initActionMutator(`← ∴`, action, typeGuard, flow)
-    subscribe(flow, () => f.on(mutator))
+
+
+    // console.log(path, flow)
+
+    // subscribe(flow, () => f.on(mutator))
   }
 
   // Create Mapped Edges
