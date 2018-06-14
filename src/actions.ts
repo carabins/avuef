@@ -11,6 +11,8 @@ function dispatchAction (...context) {
     let log = ` 𝜶  ${action} ← ${contextType} ${ctxPath ? ctxPath : ""} ${ctxSym ? ctxSym : ''}`
     let aFn
     const defaultPath = () => aFn = pathTo(action, actionModules)
+    // console.log(":::", contextType, ctxPath, ctxSym)
+
     switch (contextType) {
       case 'ƒ':
         let contextPath = ctxPath.split(".")

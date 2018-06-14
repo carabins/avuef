@@ -1,8 +1,8 @@
-
 import {graph} from "./graph";
 import {GlobalState} from "./global-state";
 import {LoStorage} from "./utils/LoStorage";
 import {throws} from "assert";
+import {pathTo} from "./utils";
 
 const logFlow = (v, flow) => {
   if (typeof v === 'object' && v != null) {
@@ -14,6 +14,8 @@ const logFlow = (v, flow) => {
     console.log(` ƒ  ${flow.o.m}`, v)
   }
 }
+
+const flowMutations = {}
 
 const bindFlow = (node,
                   mutations = {},
@@ -27,38 +29,41 @@ const bindFlow = (node,
     }
 
     const initFlow = (flow, name) => {
-      let mutation = mutations[name] = new Set()
-      // let path = aPath.join("_")
-      let id = path.join(".") +"."+name
+      let uiListiners = mutations[name] = new Set()
+
+      let id = path.join(".") + "." + name
       flow.setId(id)
       let cmd = flow.isMeta("immutable") ? "im" : "on"
       flow.setMetaObj({
-        m: path.join("."), name, cmd, path : path.slice()
+        m: path.join("."), name, cmd, path: path.slice()
       })
 
-      let isState = flow.isMeta("state")
       let store = flow.isMeta("stored")
       if (store)
-        LoStorage.restoreFlow(id, flow)
-      flow[cmd](v => {
-        if (isState) {
+        LoStorage.restoreFlow(flow.id, flow)
+
+      let uiMutation = flowMutations[id] = v => {
+        if (flow.isMeta("state")) {
           GlobalState.setState(name, v)
         }
-        if (mutation.size) {
+        if (uiListiners.size) {
           logFlow(v, flow)
-          mutation.forEach(f => f(v), true)
+          uiListiners.forEach(f => f(v), true)
         }
         if (store) {
-          LoStorage.setItem(id, v)
+          LoStorage.setItem(flow.id, v)
         }
-      })
+      }
+
+      flow[cmd](uiMutation)
     }
+
     if (maybeFlow.isFlow) {
       initFlow(maybeFlow, name)
     } else {
       let m = mutations[name] = {}
       path.push(name)
-      bindFlow(maybeFlow,  m, name + ".", path)
+      bindFlow(maybeFlow, m, name + ".", path)
     }
   })
   path.shift()
@@ -71,7 +76,19 @@ const bindFlow = (node,
 export function graphNodes(schemaClass) {
   const flow = new schemaClass()
   let binded = bindFlow(flow)
-  graph.flow = flow
+  const mutateViewOnly = (path, value) => {
+    let m = flowMutations[path]
+    let f = pathTo(path, flow)
+    if (f) {
+      f.silent(value)
+      if (m) {
+        m(value)
+      }
+    } else {
+      console.error("flow not found", path)
+    }
+  }
+  graph.flow = Object.assign(mutateViewOnly, flow)
   graph.mutations = binded.mutations
 
 }

@@ -6,24 +6,36 @@ import {A} from "alak";
 
 export default class FlowGraphSchema {
   rootNode = A.f("some_value")
-  mmm = {
-    ten: A.f,
-    quad: A.on("ten", "quad")
+  mod = {
+    x: A.get("getX"),
+    quad: A.on("x", "quad"),
+    sub: {
+      r: A.on("mod.quad", "deepFn")
+    }
   }
 }
 
-const actions = (a, f: FlowGraphSchema) => ({
+const actions = (a, f) => ({
   entry() {
-    console.log("entry?")
+    console.log(f.rootNode.v)
+    f.mod.sub.r.on(v => a("logResult", v))
   },
-  mmm: {
-    getTen() {
-      return 10
+  logResult: v => console.log("result", v),
+  mod: {
+    quad: v => v * v,
+    getX: () => 10,
+    sub: {
+      add: v => v + v,
+      deepFn(v) {
+        let r = a("mod.sub.add", v)
+        f("mod.x", 11) // изменяет узел не вызывая изменения дочерних узлов
+        return r
+      }
     }
   }
 })
 
-const avue = new AVue(FlowGraphSchema, actions, true)
+const avue = new AVue(FlowGraphSchema, actions, false)
 Vue.use(avue)
 //
 let wm = new Vue({

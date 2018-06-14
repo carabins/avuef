@@ -21,7 +21,7 @@ const getFlow = (path, flow) => {
   } else {
     return pathTo(path, graph.flow)
   }
-  console.error("Edge Flow Not Found:", path)
+  console.error("Edge Flow Not Found:", path, "in", flow.o.path.join("."), "schema")
 
 }
 const normalizeFlowPath = (path, flow) => {
@@ -45,8 +45,6 @@ const initActionMutator = (sym, action, typeGuard, flow) => async value => {
   // if (!ar) {
   //   ar = actionRunners[name] = actions.newDispatcher(name)
   // }
-
-
   const safe = v => {
     if (typeGuard && typeGuard != typeof v) {
       console.warn(`Mismatch type for "${flow.id}" flow lazyGet action '${action}'`)
@@ -56,8 +54,6 @@ const initActionMutator = (sym, action, typeGuard, flow) => async value => {
   }
 
   if (value !== null) {
-    // console.log({ar})
-    // console.log({action}, {value})
     let r = await ar(action, value)
     flow(r)
   } else {
@@ -75,26 +71,13 @@ const subscribe = (flow, fn) => {
       }
     })
   } else {
-
     fn()
   }
 }
-// const normActionPath = (flow, action) => {
-//   let a = action.split(".")
-//   if (flow.o.module == a[0]) {
-//     return "." + flow.o.name
-//   }
-//   return flow.id
-// }
-
 
 export function graphEdges() {
-
-
-  // Create getters if
+  // Create if Edges
   for (let [path, exp, action, to] of graph.edges.if) {
-    // path = normalizeFlowPath(path, to)
-    // action = normalizeFlowPath(action, flow)
     let flow = getFlow(path, to)
     flow.on(v => {
       if (v == exp) {
@@ -106,29 +89,20 @@ export function graphEdges() {
     })
   }
 
-  // Create getters
+  // Create get Edges
   for (let [action, defaultValue, flow] of graph.edges.get) {
     let typeGuard = initTypeGuard(defaultValue, flow)
-    // action = normalizeFlowPath(action, flow)
     let mutator = initActionMutator(`↓ ∴`, action, typeGuard, flow)
     subscribe(flow, mutator)
   }
 
 
-  // Create Edges
+  // Create On Edges
   for (let [path, action, defaultValue, flow] of graph.edges.on) {
     let typeGuard = initTypeGuard(defaultValue, flow)
-    // path = normalizeFlowPath(path, flow)
-    // action = normalizeFlowPath(action, flow)
-    // console.log({path})
-
-    let f = getFlow(path, flow) //pathTo(path, graph.flow)
+    let f = getFlow(path, flow)
     const mutator = initActionMutator(`← ∴`, action, typeGuard, flow)
-
-
-    // console.log(path, flow)
-
-    // subscribe(flow, () => f.on(mutator))
+    subscribe(flow, () => f.on(mutator))
   }
 
   // Create Mapped Edges

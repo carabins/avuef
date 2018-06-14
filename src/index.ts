@@ -41,7 +41,7 @@ export class AVue<T> implements PluginObject<T> {
       f: this.flow,
       a: this.action
     })
-    actions.runEntity(_Vue)
+    actions.runEntity(options)
   }
 
   [key: string]: any;
