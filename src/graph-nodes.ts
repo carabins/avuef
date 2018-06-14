@@ -6,7 +6,7 @@ import {pathTo} from "./utils";
 
 const logFlow = (v, flow) => {
   if (typeof v === 'object' && v != null) {
-    console.groupCollapsed(` ƒ  ${flow.o.m}`)
+    console.groupCollapsed(` ƒ  ${flow.id}`)
     console.log(`${flow.isMeta('immutable') ? "immutable" : "mutable"} :`, v)
     console.log(`META : ${flow.meta()}`)
     console.groupEnd()
