@@ -31,32 +31,44 @@ export declare class AVue<T> {
 export declare interface IA {
   /**
    * Create base flow, same as `flow`.
-   * ```A.f```
+   * ```
+   * A.f
+   * ```
    */
   f: AVueFlow
   /**
    * Create base flow same as `f`.
-   * ```A.flow```
+   * ```
+   * A.flow
+   * ```
    */
   flow: AVueFlow
   /**
    * When update parent flow node call action with parent flow data and set returned data from action as current flow.
-   * ```A.on("user.id", "user.get-by-id")```
+   * ```
+   * A.on("user.id", "user.get-by-id")
+   * ```
    */
   on: (parentFlowPath: string, actionPath: string) => AFlow<any>
   /**
    *  Create edge if current flow used in vue templates. When update parent flow node call action with parent flow data and set returned data from action as current flow.
-   * ```A.lazyOn("user.id", "user.get-by-id")```
+   * ```
+   * A.lazyOn("user.id", "user.get-by-id")
+   * ```
    */
   lazyOn: (parentFlowPath: string, actionPath: string) => AFlow<any>
   /**
    * Create edge if current flow used in vue templates. Create flow from returned action data.
-   * ```A.get('users.get-list`)```
+   * ```
+   * A.get('users.get-list`)
+   * ```
    */
   get: (actionPath: string) => AFlow<any>
   /**
    * Create edge if current flow used in vue templates. Create flow from returned action data.
-   * ```A.lazyGet('users.get-list`)```
+   * ```
+   * A.lazyGet('users.get-list`)
+   * ```
    */
   lazyGet: (actionPath: string) => AFlow<any>
 }
@@ -71,14 +83,20 @@ type AVueFlow = {
   /**
    * silent mutation without notify child edges/listeners in flow graph
    * just update state for ui components
-   * ```$f("someModule.firstFlow", {v:true,data:0})```
+   * ```
+   * $f("someModule.firstFlow", {v:true,data:0})
+   * ```
    */
   (flowPath: string, value: any): void
   /**
    * mutate and notify all edges/nodes/listeners in flow graph
-   * ```$f.someModule.firstFlow({v:true,data:0})```
+   * ```
+   * $f.someModule.firstFlow({v:true,data:0})
+   * ```
    * or get value
-   * ```$f.someModule.firstFlow.v```
+   * ```
+   * $f.someModule.firstFlow.v
+   * ```
    */
   [metaParam: string]: AFlow<any>
 }
@@ -90,7 +108,9 @@ type AVueFlow = {
 export declare interface AVueActions {
   /**
    * Call action by path with argument
-   * ```$a.launch("user.get-by-id", 1)```
+   * ```
+   * $a.launch("user.get-by-id", 1)
+   * ```
    */
   launch(actionPath: string, ...args): Promise<any> | any
 
@@ -102,7 +122,9 @@ export declare interface AVueActions {
   state: { [flowName: string]: any }
   /**
    * Progress boolean state for any action by same path
-   * ```$a.during['get-by-id]```
+   * ```
+   * $a.during['get-by-id]
+   * ```
    */
   during: { [actionPath: string]: boolean }
 }
