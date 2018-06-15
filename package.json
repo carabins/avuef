@@ -1,6 +1,6 @@
 {
   "name": "avuef",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "𝗔 vue flow state machine",
   "author": "Gleb Panteleev",
   "license": "Apache-2.0",
@@ -22,6 +22,7 @@
     "ts-loader": "^4.3.0",
     "ts-node": "^6.0.5",
     "typescript": "^2.8.3",
+    "typescript-parser": "^2.4.0",
     "webpack": "^4.10.2"
   }
 }
