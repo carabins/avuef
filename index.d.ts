@@ -44,43 +44,42 @@ export declare interface IA {
    * A.on
    * create edge flow
    * when update parent flow node call action with parent flow data and set returned data from action as current flow
-   * @param parentFlowPath : string as path to parent flow node
-   * @param actionPath : string as path to called action
+   * `parentFlowPath` - path to parent flow node
+   * `actionPath` - path to called action
    */
   on: (parentFlowPath: string, actionPath: string) => AFlow<any>
   /**
-   * A.lazyOn
+   * `A.lazyOn`
    * create edge if current flow used in vue templates
    * when update parent flow node call action with parent flow data and set returned data from action as current flow
-   * @param parentFlowPath : string as path to parent flow node
-   * @param actionPath : string as path to called action
+   * `parentFlowPath` - path to parent flow node
+   * `actionPath` - path to called action
    */
   lazyOn: (parentFlowPath: string, actionPath: string) => AFlow<any>
   /**
-   * A.get
+   * `A.get`
    * create flow from returned action data
-   * @param {string} actionPath
    */
   get: (actionPath: string) => AFlow<any>
   /**
-   * A.lazyGet
+   * `A.lazyGet`
    * create flow from returned action data
    * if current flow used in vue templates
-   * @param {string} actionPath
    */
   lazyGet: (actionPath: string) => AFlow<any>
 }
 export declare const A: IA
 ///-
+ 
+//-- $f
+//* component prototype parameter for mutate flow graph store
+///
 
 //-- $a
-//*vue template parameter for access global state and launch actions and more
+//* component prototype parameter for access global state and launch actions and more
 export declare interface AVueActions {
   /**
-   * Call action by path with argument,
-   * @param {string} actionPath
-   * @param args
-   * @returns {Promise<any>}
+   * Call action by path with argument
    */
   launch(actionPath: string, ...args): Promise<any> | any
 
@@ -89,7 +88,7 @@ export declare interface AVueActions {
    */
   state: { [flowName: string]: any }
   /**
-   * Progress bollean state for any action by same path
+   * Progress boolean state for any action by same path
    */
   during: { [actionPath: string]: boolean }
 }
