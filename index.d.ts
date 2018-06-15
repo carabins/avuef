@@ -18,6 +18,7 @@ import Vue from "vue";
 export declare class AVue<T> {
   a: AVueActions
   f: AFlowMutator<T>
+
   constructor(schemaClass: T, actionModules: {
     (a, f: T): {
       [s: string]: Function
@@ -68,48 +69,61 @@ export declare interface IA {
    */
   lazyGet: (actionPath: string) => AFlow<any>
 }
+
 export declare const A: IA
 ///-
- 
+
 //-- $f
 //* component prototype parameter for mutate flow graph store
-///
+
+type AVueFlow = {
+  /**
+   * silent mutation without notify child edges/listeners in flow graph
+   * just update state for ui components
+   * `$f("someModule.firstFlow", {v:true,data:0})`
+   */
+  (flowPath: string, value: any): void
+  /**
+   * mutate and notify all edges/nodes/listeners in flow graph
+   * `$f.someModule.firstFlow({v:true,data:0})`
+   * or get value
+   * `$f.someModule.firstFlow.v`
+   */
+  [metaParam: string]: AFlow<any>
+}
+
+///-
 
 //-- $a
 //* component prototype parameter for access global state and launch actions and more
 export declare interface AVueActions {
   /**
    * Call action by path with argument
+   * `$a.launch("user.get-by-id", 1)`
    */
   launch(actionPath: string, ...args): Promise<any> | any
 
   /**
    * Global store for nodes with params `state` in flow graph schema
+   * reactive update in ui templates
+   * `$a.state.userId`
    */
   state: { [flowName: string]: any }
   /**
    * Progress boolean state for any action by same path
+   * `$a.during['get-by-id]`
    */
   during: { [actionPath: string]: boolean }
 }
+
 ///-
-
-type AVueFlow = {
-  (s?): AFlow<typeof s>
-  [metaParam: string]: AFlow<any>
-}
-
-
-export type AFlowMutator<T> = T & FlowMutator
-export type FlowMutator = {
-  (s?): AFlow<typeof s>
-}
 
 
 declare module 'vue/types/vue' {
   interface Vue {
     $a: AVueActions
   }
+
   interface VueConstructor {
     $a: AVueActions
   }
@@ -121,14 +135,12 @@ declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
     /**
      * map flow data to component state property
-     * @example
      * ```
      * mapFlow:{
      *  "isOpen": "module1.openExitDialog"
      * }
      * ```
      * map grouped property form module with same name
-     * * @example
      * ```
      * mapFlow:{
      *  "module1": ["openExitDialog","username], //map selected properties
@@ -136,10 +148,9 @@ declare module 'vue/types/options' {
      * }
      * ```
      */
-    mapFlow?: {[propNameOrModuleName: string]: string[] | string}
+    mapFlow?: { [propNameOrModuleName: string]: string[] | string }
     /**
      * listen flow
-     * @example
      * ```
      * onFlow:{
      *  "module1.username"(v){
@@ -149,7 +160,7 @@ declare module 'vue/types/options' {
      * }
      * ```
      */
-    onFlow?: {[flowPath: string]: (...dataValues) => void}
+    onFlow?: { [flowPath: string]: (...dataValues) => void }
   }
 }
 ///-

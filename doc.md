@@ -27,6 +27,17 @@ flow graph schema builder const based on alak library
  `A.lazyGet`
  create flow from returned action data
  if current flow used in vue templates
+##  $f
+ component prototype parameter for mutate flow graph store
+####   (flowPath: string, value: any): void 
+ silent mutation without notify child edges/listeners in flow graph
+ just update state for ui components
+ `$f("someModule.firstFlow", {v:true,data:0})`
+####   [metaParam: string]: AFlow<any> 
+ mutate and notify all edges/nodes/listeners in flow graph
+ `$f.someModule.firstFlow({v:true,data:0})`
+ or get value
+ `$f.someModule.firstFlow.v`
 ##  $a
  component prototype parameter for access global state and launch actions and more
 ####   launch(actionPath: string, ...args): Promise<any> | any 
@@ -37,7 +48,7 @@ flow graph schema builder const based on alak library
  Progress boolean state for any action by same path
 ##  Vue Component Options
 
-####     mapFlow?: {[propNameOrModuleName: string]: string[] | string} 
+####     mapFlow?: { [propNameOrModuleName: string]: string[] | string } 
  map flow data to component state property
  @example
  ```
@@ -53,7 +64,7 @@ flow graph schema builder const based on alak library
   "module2": [] //map all properties
  }
  ```
-####     onFlow?: {[flowPath: string]: (...dataValues) => void} 
+####     onFlow?: { [flowPath: string]: (...dataValues) => void } 
  listen flow
  @example
  ```
