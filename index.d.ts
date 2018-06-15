@@ -1,4 +1,5 @@
-import {AFlow} from "alak/dist/def/AFlow";
+import {AFlow} from "alak";
+
 
 export declare interface AVueActions {
   /**
@@ -25,12 +26,41 @@ type AVueFlow = {
 }
 
 export declare interface IA {
+  /**
+   * create base flow
+   * same as flow
+   */
   f: AVueFlow
+  /**
+   * create base flow
+   * same as f
+   */
   flow: AVueFlow
-  on: (node: string, action: string) => AFlow<any>
-  lazyOn: (node: string, action: string) => AFlow<any>
-  get: (action: string) => AFlow<any>
-  lazyGet: (action: string) => AFlow<any>
+  /**
+   * create edge flow
+   * when update parent flow node call action with parent flow data and set returned data from action as current flow
+   * @param parentFlowPath : string as path to parent flow node
+   * @param actionPath : string as path to called action
+   */
+  on: (parentFlowPath: string, actionPath: string) => AFlow<any>
+  /**
+   * create edge if current flow used in vue templates
+   * when update parent flow node call action with parent flow data and set returned data from action as current flow
+   * @param parentFlowPath : string as path to parent flow node
+   * @param actionPath : string as path to called action
+   */
+  lazyOn: (parentFlowPath: string, actionPath: string) => AFlow<any>
+  /**
+   * create flow from returned action data
+   * @param {string} actionPath
+   */
+  get: (actionPath: string) => AFlow<any>
+  /**
+   * create flow from returned action data
+   * if current flow used in vue templates
+   * @param {string} actionPath
+   */
+  lazyGet: (actionPath: string) => AFlow<any>
 }
 
 export declare const A: IA
@@ -43,7 +73,6 @@ export type FlowMutator = {
 export declare class AVue<T> {
   a: AVueActions
   f: AFlowMutator<T>
-
   constructor(schemaClass: T, actionModules: {
     (a, f: T): {
       [s: string]: Function
