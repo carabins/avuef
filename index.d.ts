@@ -30,42 +30,33 @@ export declare class AVue<T> {
 //*flow graph schema builder const based on alak library
 export declare interface IA {
   /**
-   * A.f
-   * create base flow
-   * same as flow
+   * Create base flow, same as `flow`.
+   * `A.f`
    */
   f: AVueFlow
   /**
-   * A.flow
-   * create base flow
-   * same as f
+   * Create base flow same as `f`.
+   * `A.flow`
    */
   flow: AVueFlow
   /**
-   * A.on
-   * create edge flow
-   * when update parent flow node call action with parent flow data and set returned data from action as current flow
-   * `parentFlowPath` - path to parent flow node
-   * `actionPath` - path to called action
+   * When update parent flow node call action with parent flow data and set returned data from action as current flow.
+   * `A.on("user.id", "user.get-by-id")`
    */
   on: (parentFlowPath: string, actionPath: string) => AFlow<any>
   /**
-   * `A.lazyOn`
-   * create edge if current flow used in vue templates
-   * when update parent flow node call action with parent flow data and set returned data from action as current flow
-   * `parentFlowPath` - path to parent flow node
-   * `actionPath` - path to called action
+   *  Create edge if current flow used in vue templates. When update parent flow node call action with parent flow data and set returned data from action as current flow.
+   * `A.lazyOn("user.id", "user.get-by-id")`
    */
   lazyOn: (parentFlowPath: string, actionPath: string) => AFlow<any>
   /**
-   * `A.get`
-   * create flow from returned action data
+   * Create edge if current flow used in vue templates. Create flow from returned action data.
+   * `A.get('users.get-list`)`
    */
   get: (actionPath: string) => AFlow<any>
   /**
-   * `A.lazyGet`
-   * create flow from returned action data
-   * if current flow used in vue templates
+   * Create edge if current flow used in vue templates. Create flow from returned action data.
+   * `A.lazyGet('users.get-list`)`
    */
   lazyGet: (actionPath: string) => AFlow<any>
 }
