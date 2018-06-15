@@ -1,5 +1,5 @@
 import {AFlow} from "alak";
-
+import Vue from "vue";
 
 export declare interface AVueActions {
   /**
@@ -70,18 +70,68 @@ export type FlowMutator = {
   (s?): AFlow<typeof s>
 }
 
+/**
+ * Base class for create avuef instance
+ * @params schemaClass {class} flow schema for create graph
+ * @params actionModules {object} - action function object or webpack.context to actions folder
+ */
 export declare class AVue<T> {
   a: AVueActions
   f: AFlowMutator<T>
   constructor(schemaClass: T, actionModules: {
     (a, f: T): {
       [s: string]: Function
-    }
+    } | any
   })
 }
 
-declare global {
-  interface Vue<T> {
+declare module 'vue/types/vue' {
+  interface Vue {
     $a: AVueActions
+  }
+  interface VueConstructor {
+    $a: AVueActions
+  }
+}
+
+
+type MapFlowOption = {
+  [componentPropNameOrModuleName: string]: string[] | string
+}
+
+type OnFlowOption = {
+  [flowPath: string]: (...dataValues) => void
+}
+declare module 'vue/types/options' {
+  interface ComponentOptions<V extends Vue> {
+    /**
+     * map flow data to component state property
+     * @example
+     * ```
+     * mapFlow:{
+     *  "isOpen": "module1.openExitDialog"
+     * }
+     * ```
+     * map grouped property form module with same name
+     * * @example
+     * ```
+     * mapFlow:{
+     *  "module1": ["openExitDialog","username], //map selected properties
+     *  "module2": [] //map all properties
+     * }
+     * ```
+     */
+    mapFlow?: MapFlowOption
+    /**
+     * listen flow
+     * @example
+     * onFlow:{
+     *  "module1.username"(v){
+     *     this.username = v.toUpperCase()
+     *     // ... just do something with v flow data value
+     *  }
+     * }
+     */
+    onFlow?: OnFlowOption
   }
 }
