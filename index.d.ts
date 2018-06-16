@@ -142,7 +142,7 @@ export declare class AVue<T> {
 ///-
 
 //-- A
-//*graph flow schema builder const based on alak library
+//*A graph flow schema builder constant based on alak library
 export declare interface IA {
   /**
    * Create base flow node , same as `flow`.
@@ -187,10 +187,10 @@ export declare const A: IA
 ///-
 
 //-- `$f` & `f` graph flow store mutator
-//* component prototype parameter for mutate graph flow store
+//* Component prototype parameter for mutate graph flow store
 type AVueFlow<T> = {
   /**
-   * silent mutation without notify child edges/listeners in graph flow
+   * Silent mutation without notify child edges/listeners in graph flow
    * just update state for ui components
    * ```javascript
    * $f("someModule.firstFlow", {v:true,data:0})
@@ -198,7 +198,7 @@ type AVueFlow<T> = {
    */
   (flowPath: string, value: any): void
   /**
-   * mutate and notify all edges/nodes/listeners in graph flow
+   * Mutate and notify all edges/nodes/listeners in graph flow
    * ```javascript
    * $f.someModule.firstFlow({v:true,data:0})
    * ```
@@ -217,8 +217,8 @@ type AVueFlow<T> = {
 } | T
 ///-
 
-//-- `$a` actions component object
-//* component prototype parameter for launch actions, access global state, and more
+//-- `$a` Actions component object
+//* Component prototype parameter for launch actions, access global state, and more
 export declare interface AVueActions {
   /**
    * Call action by path with argument
@@ -259,18 +259,25 @@ declare module 'vue/types/vue' {
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
     /**
-     * map flow data to component state property
+     * map flow data to component state
      * ```javascript
-     * mapFlow:{
-     *  "isOpen": "module1.openExitDialog"
-     * }
-     * ```
-     * map grouped property form module with same name
-     * ```javascript
-     * mapFlow:{
-     *  "module1": ["openExitDialog","username"], //map selected properties
-     *  "module2": [] //map all properties
-     * }
+     * // in vue component
+     * <template>
+     *   <pre>
+     *     {{hello}} {{world}}
+     *     {{flowFromModule1}}
+     *     {{flowFromModule2}}
+     *     {{otherModule2Flow}}
+     *   </pre>
+     * </template>
+     * <script>
+     *   export default {
+     *    mapFlow:{
+     *      "hello": "module0.greetings"
+     *      "module1": ["world","flowFromModule1"], //map selected properties
+     *      "module2": [] //map all properties
+     * }}
+     * </script>
      * ```
      */
     mapFlow?: { [propNameOrModuleName: string]: string[] | string }

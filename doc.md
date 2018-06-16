@@ -110,7 +110,7 @@ vue.use(avue)
  })
  ```
 #  A
-graph flow schema builder const based on alak library
+A graph flow schema builder constant based on alak library
 ##   f: AGraphNode<any> 
  Create base flow node , same as `flow`.
  ```javascript
@@ -138,15 +138,15 @@ graph flow schema builder const based on alak library
  A.lazyGet('users.get-list')
  ```
 #  `$f` & `f` graph flow store mutator
- component prototype parameter for mutate graph flow store
+ Component prototype parameter for mutate graph flow store
 ##   (flowPath: string, value: any): void 
- silent mutation without notify child edges/listeners in graph flow
+ Silent mutation without notify child edges/listeners in graph flow
  just update state for ui components
  ```javascript
  $f("someModule.firstFlow", {v:true,data:0})
  ```
 ##   [metaParam: string]: AFlow<any> 
- mutate and notify all edges/nodes/listeners in graph flow
+ Mutate and notify all edges/nodes/listeners in graph flow
  ```javascript
  $f.someModule.firstFlow({v:true,data:0})
  ```
@@ -160,8 +160,8 @@ graph flow schema builder const based on alak library
  let sameAs = f.someModule.firstFlow.v
  let immutableValue = f.someModule.firstFlow.imv
  ```
-#  `$a` actions component object
- component prototype parameter for launch actions, access global state, and more
+#  `$a` Actions component object
+ Component prototype parameter for launch actions, access global state, and more
 ##   launch(actionPath: string, ...args): Promise<any> | any 
  Call action by path with argument
  ```javascript
@@ -179,18 +179,25 @@ graph flow schema builder const based on alak library
 #  Vue Component Options
 
 ##     mapFlow?: { [propNameOrModuleName: string]: string[] | string } 
- map flow data to component state property
+ map flow data to component state
  ```javascript
- mapFlow:{
-  "isOpen": "module1.openExitDialog"
- }
- ```
- map grouped property form module with same name
- ```javascript
- mapFlow:{
-  "module1": ["openExitDialog","username"], //map selected properties
-  "module2": [] //map all properties
- }
+ // in vue component
+ <template>
+   <pre>
+     {{hello}} {{world}}
+     {{flowFromModule1}}
+     {{flowFromModule2}}
+     {{otherModule2Flow}}
+   </pre>
+ </template>
+ <script>
+   export default {
+    mapFlow:{
+      "hello": "module0.greetings"
+      "module1": ["world","flowFromModule1"], //map selected properties
+      "module2": [] //map all properties
+ }}
+ </script>
  ```
 ##     onFlow?: { [flowPath: string]: (...dataValues) => void } 
  listen flow
