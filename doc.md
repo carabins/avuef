@@ -130,12 +130,12 @@ graph flow schema builder const based on alak library
 ##   get: (actionPath: string) => AFlow<any> 
  Create edge if current flow used in vue templates. Create flow from returned action data.
  ```javascript
- A.get('users.get-list`)
+ A.get('users.get-list')
  ```
 ##   lazyGet: (actionPath: string) => AFlow<any> 
  Create edge if current flow used in vue templates. Create flow from returned action data.
  ```javascript
- A.lazyGet('users.get-list`)
+ A.lazyGet('users.get-list')
  ```
 #  $f
  component prototype parameter for mutate graph flow store
@@ -168,7 +168,7 @@ graph flow schema builder const based on alak library
 ##   during: { [actionPath: string]: boolean } 
  Progress boolean state for any action by same path
  ```javascript
- $a.during['get-by-id]
+ $a.during['get-by-id']
  ```
 #  Vue Component Options
 
@@ -182,7 +182,7 @@ graph flow schema builder const based on alak library
  map grouped property form module with same name
  ```javascript
  mapFlow:{
-  "module1": ["openExitDialog","username], //map selected properties
+  "module1": ["openExitDialog","username"], //map selected properties
   "module2": [] //map all properties
  }
  ```
