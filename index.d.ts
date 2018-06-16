@@ -1,58 +1,6 @@
 import {AFlow} from "alak";
 import Vue from "vue";
 
-//-- AVue
-//*Base class for create Avue instance
-//*```
-//*import Vue from 'vue'
-//*import {AVue} from "avuef";
-//*const avue = new AVue<FlowGraph>(FlowGraphClass, actionModules)
-//*vue.use(avue)
-//*```
-export declare class AVue<T> {
-  a: AVueActions
-  f: AVueFlow<T>
-  /**
-   * Schema сlass is a store and a data graph flow.
-   * ```
-   * class FlowGraphSchema {
-   *   showSettingsPanel: A.f.emitter()
-   *   module = {
-   *      userDNK: A.f.stored,
-   *      user: A.on("userDNK", "get-user-by-dnk"),
-   *      world: A.lazyOn("user", "get-user-world")
-   *      sub: {
-   *        test: A.lazyOn("module.userDNK", "module0.deep-action")
-   * }}}
-   * ```
-   * Actions modules can be initialized as returned object form function
-   * with flow instance and action launcher arguments
-   * ```
-   * const actionModules (a, f) => ({
-   *  entry() {
-   *    // always run on start
-   *  },
-   *  module0:{
-   *    dif: async (a,b) => a-b
-   *  },
-   *  module:{
-   *    add: v => v+v,
-   *    "new-user-by-dnk" (v) {
-   *      let ten = a("add", 5) // in same module use relative path for call actions
-   *      let two = await a("module0.dif", 5, 3)
-   *      ...some create user by dnk code
-   *      return user
-   *    }
-   * })
-   * ```
-   */
-  constructor(schemaClass: T, actionModules: {
-    (a, f: T): {
-      [s: string]: Function
-    } | any
-  })
-}
-///-
 
 //-- AGraphNode
 //* The types of nodes for the graph flow can be mixed as needed
@@ -105,9 +53,83 @@ type AGraphNode<T> = {
    * ```
    */
   immutable: AGraphNode<T>
-  stateless(): AGraphNode<T>
-  emitter(): AGraphNode<T>
+  /**
+   * Works as event bus. Can't mixed with other types.
+   *```
+   * A.f.stateless()
+   *```
+   */
+  stateless(): AFlow<T>
+  /**
+   * Adds the ability to call a node without a parameter
+   * ```
+   * // in FlowGraph class
+   *  module = {
+   *    showSettingsPanel: A.f.stateless().emitter()
+   *  }
+   * // in vue component
+   * <template>
+   *   <button @click="$f.module.showSettingsPanel()">Show Settings</button>
+   * </template>
+   * ```
+   */
+  emitter(): AFlow<T>
 } | AFlow<T> | { (v): AFlow<typeof v> } | { (v): AGraphNode<typeof v> }
+///-
+
+
+
+//-- AVue
+//*Base class for create Avue instance
+//*```
+//*import Vue from 'vue'
+//*import {AVue} from "avuef";
+//*const avue = new AVue<FlowGraph>(FlowGraphClass, actionModules)
+//*vue.use(avue)
+//*```
+export declare class AVue<T> {
+  a: AVueActions
+  f: AVueFlow<T>
+  /**
+   * Schema сlass is a store and a data graph flow.
+   * ```
+   * class FlowGraphSchema {
+   *   showSettingsPanel: A.f.stateless()
+   *   module = {
+   *      userDNK: A.f.stored,
+   *      user: A.on("userDNK", "get-user-by-dnk"),
+   *      world: A.lazyOn("user", "get-user-world")
+   *      sub: {
+   *        test: A.lazyOn("module.userDNK", "module0.deep-action")
+   * }}}
+   * ```
+   * Actions modules can be initialized as returned object form function
+   * with flow instance and action launcher arguments
+   * ```
+   * const actionModules (a, f) => ({
+   *  entry() {
+   *    // always run on start
+   *  },
+   *  module0:{
+   *    dif: async (a,b) => a-b
+   *  },
+   *  module:{
+   *    add: v => v+v,
+   *    "new-user-by-dnk" (v) {
+   *      let ten = a("add", 5) // in same module use relative path for call actions
+   *      let two = await a("module0.dif", 5, 3)
+   *      ...some create user by dnk code
+   *      return user
+   *    }
+   * })
+   * ```
+   */
+  constructor(schemaClass: T, actionModules: {
+    (a, f: T): {
+      [s: string]: Function
+    } | any
+  })
+}
 ///-
 
 //-- A
@@ -157,7 +179,6 @@ export declare const A: IA
 
 //-- $f
 //* component prototype parameter for mutate graph flow store
-
 type AVueFlow<T> = {
   /**
    * silent mutation without notify child edges/listeners in graph flow
@@ -179,7 +200,6 @@ type AVueFlow<T> = {
    */
   [metaParam: string]: AFlow<any>
 } | T
-
 ///-
 
 //-- $a
