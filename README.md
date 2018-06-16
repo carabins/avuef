@@ -4,7 +4,6 @@
 [![Build Status](https://travis-ci.org/carabins/avuef.svg?branch=master)](https://travis-ci.org/carabins/avuef)
 [![dependencies](https://david-dm.org/gleba/avuef.svg)](https://david-dm.org/avuef/alak)
 [![Downloads](https://img.shields.io/npm/dt/avuef.svg)](https://www.npmjs.com/package/avuef)
-s
 #  A Base node types
  The types of nodes for the graph flow can be mixed as needed
  ```javascript
@@ -40,13 +39,14 @@ s
  // in FlowGraph class
   module = {
     user: A.f({name:"Xaero"}).immutable
+    spy: A.on("user", "make-spy")
   }
  // in action function
  (a,f)=>({
-  "send-user-to-space"(){
-    let user = f.module.user.v
-    user.teleport = await a("open-teleport", user)
-    f.module.user.v.teleport // is undefined
+  "make-spy"(user){
+    user.name = "Spy"
+    f.module.user.v.name // Xaero
+    return user
   }
  })
  ```
