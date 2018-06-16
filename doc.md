@@ -4,7 +4,7 @@
  A.f.state.stored
  A.f.stored.immutable
  ```
-##   `typescript state: AGraphNode<T> `
+##   state: AGraphNode<T> 
  Create one way binding in global store.
  ```javascript
  // in FlowGraph class
@@ -58,6 +58,15 @@
  <template>
    <button @click="$f.module.showSettingsPanel()">Show Settings</button>
  </template>
+ // in other vue component
+ <script>
+   export default {
+    data:()=>({isOpen:false})
+    onFlow: {
+      "module.showSettingsPanel"() {
+        this.isOpen = true
+   }}}
+ </script>
  ```
 #  AVue
 Base class for create Avue instance

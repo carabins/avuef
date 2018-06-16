@@ -71,6 +71,15 @@ type AGraphNode<T> = {
    * <template>
    *   <button @click="$f.module.showSettingsPanel()">Show Settings</button>
    * </template>
+   * // in other vue component
+   * <script>
+   *   export default {
+   *    data:()=>({isOpen:false})
+   *    onFlow: {
+   *      "module.showSettingsPanel"() {
+   *        this.isOpen = true
+   *   }}}
+   * </script>
    * ```
    */
   emitter(): AFlow<T>
