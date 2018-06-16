@@ -86,7 +86,7 @@ type AGraphNode<T> = {
 } | AFlow<T> | { (v): AFlow<typeof v> } | { (v): AGraphNode<typeof v> }
 ///-
 
-//-- A Edges
+//-- A Graph Edges between nodes
 //*A graph flow schema builder constant based on alak library
 export declare interface IA {
   /**

@@ -4,7 +4,6 @@
 [![Build Status](https://travis-ci.org/carabins/avuef.svg?branch=master)](https://travis-ci.org/carabins/avuef)
 [![dependencies](https://david-dm.org/gleba/avuef.svg)](https://david-dm.org/avuef/alak)
 [![Downloads](https://img.shields.io/npm/dt/avuef.svg)](https://www.npmjs.com/package/avuef)
-
 #  A Base node types
  The types of nodes for the graph flow can be mixed as needed
  ```javascript
@@ -75,7 +74,7 @@
    }}}
  </script>
  ```
-#  A Edges
+#  A Graph Edges between nodes
 A graph flow schema builder constant based on alak library
 ##   f: AGraphNode<any>
  Create base flow node , same as `flow`.
