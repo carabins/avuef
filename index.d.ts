@@ -4,14 +4,14 @@ import Vue from "vue";
 
 //-- AGraphNode
 //* The types of nodes for the graph flow can be mixed as needed
-//* ```
+//* ```javascript
 //* A.f.state.stored
 //* A.f.stored.immutable
 //* ```
 type AGraphNode<T> = {
   /**
    * Create one way binding in global store.
-   * ```
+   * ```javascript
    * // in FlowGraph class
    *  module = {
    *    hello: A.f.state
@@ -28,7 +28,7 @@ type AGraphNode<T> = {
   state: AGraphNode<T>
   /**
    * Save and restore in local storage any data value.
-   * ```
+   * ```javascript
    *  module = {
    *    user: A.f.state.stored
    *    userId: A.f.stored
@@ -38,7 +38,7 @@ type AGraphNode<T> = {
   stored: AGraphNode<T>
   /**
    * Any get data value for node will be cloned
-   * ```
+   * ```javascript
    * // in FlowGraph class
    *  module = {
    *    user: A.f({name:"Xaero"}).immutable
@@ -55,14 +55,14 @@ type AGraphNode<T> = {
   immutable: AGraphNode<T>
   /**
    * Works as event bus. Can't mixed with other types.
-   *```
+   *```javascript
    * A.f.stateless()
    *```
    */
   stateless(): AFlow<T>
   /**
    * Adds the ability to call a node without a parameter
-   * ```
+   * ```javascript
    * // in FlowGraph class
    *  module = {
    *    showSettingsPanel: A.f.stateless().emitter()
@@ -81,7 +81,7 @@ type AGraphNode<T> = {
 
 //-- AVue
 //*Base class for create Avue instance
-//*```
+//*```javascript
 //*import Vue from 'vue'
 //*import {AVue} from "avuef";
 //*const avue = new AVue<FlowGraph>(FlowGraphClass, actionModules)
@@ -92,7 +92,7 @@ export declare class AVue<T> {
   f: AVueFlow<T>
   /**
    * Schema сlass is a store and a data graph flow.
-   * ```
+   * ```javascript
    * class FlowGraphSchema {
    *   showSettingsPanel: A.f.stateless()
    *   module = {
@@ -102,10 +102,10 @@ export declare class AVue<T> {
    *      sub: {
    *        test: A.lazyOn("module.userDNK", "module0.deep-action")
    * }}}
-   * ```
+   * ```javascript
    * Actions modules can be initialized as returned object form function
    * with flow instance and action launcher arguments
-   * ```
+   * ```javascript
    * const actionModules (a, f) => ({
    *  entry() {
    *    // always run on start
@@ -137,7 +137,7 @@ export declare class AVue<T> {
 export declare interface IA {
   /**
    * Create base flow node , same as `flow`.
-   * ```
+   * ```javascript
    * A.f
    * A.flow
    * ```
@@ -146,28 +146,28 @@ export declare interface IA {
   flow: AGraphNode<any>
   /**
    * When update parent flow node call action with parent flow data and set returned data from action as current flow.
-   * ```
+   * ```javascript
    * A.on("user.id", "user.get-by-id")
    * ```
    */
   on: (parentFlowPath: string, actionPath: string) => AFlow<any>
   /**
    *  Create edge if current flow used in vue templates. When update parent flow node call action with parent flow data and set returned data from action as current flow.
-   * ```
+   * ```javascript
    * A.lazyOn("user.id", "user.get-by-id")
    * ```
    */
   lazyOn: (parentFlowPath: string, actionPath: string) => AFlow<any>
   /**
    * Create edge if current flow used in vue templates. Create flow from returned action data.
-   * ```
+   * ```javascript
    * A.get('users.get-list`)
    * ```
    */
   get: (actionPath: string) => AFlow<any>
   /**
    * Create edge if current flow used in vue templates. Create flow from returned action data.
-   * ```
+   * ```javascript
    * A.lazyGet('users.get-list`)
    * ```
    */
@@ -183,18 +183,18 @@ type AVueFlow<T> = {
   /**
    * silent mutation without notify child edges/listeners in graph flow
    * just update state for ui components
-   * ```
+   * ```javascript
    * $f("someModule.firstFlow", {v:true,data:0})
    * ```
    */
   (flowPath: string, value: any): void
   /**
    * mutate and notify all edges/nodes/listeners in graph flow
-   * ```
+   * ```javascript
    * $f.someModule.firstFlow({v:true,data:0})
    * ```
    * or get value
-   * ```
+   * ```javascript
    * $f.someModule.firstFlow.v
    * ```
    */
@@ -207,7 +207,7 @@ type AVueFlow<T> = {
 export declare interface AVueActions {
   /**
    * Call action by path with argument
-   * ```
+   * ```javascript
    * $a.launch("user.get-by-id", 1)
    * ```
    */
@@ -221,7 +221,7 @@ export declare interface AVueActions {
   state: { [flowName: string]: any }
   /**
    * Progress boolean state for any action by same path
-   * ```
+   * ```javascript
    * $a.during['get-by-id]
    * ```
    */
@@ -245,13 +245,13 @@ declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
     /**
      * map flow data to component state property
-     * ```
+     * ```javascript
      * mapFlow:{
      *  "isOpen": "module1.openExitDialog"
      * }
      * ```
      * map grouped property form module with same name
-     * ```
+     * ```javascript
      * mapFlow:{
      *  "module1": ["openExitDialog","username], //map selected properties
      *  "module2": [] //map all properties
@@ -261,7 +261,7 @@ declare module 'vue/types/options' {
     mapFlow?: { [propNameOrModuleName: string]: string[] | string }
     /**
      * listen flow
-     * ```
+     * ```javascript
      * onFlow:{
      *  "module1.username"(v){
      *     this.username = v.toUpperCase()
