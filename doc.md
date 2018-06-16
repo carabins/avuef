@@ -137,7 +137,7 @@ graph flow schema builder const based on alak library
  ```javascript
  A.lazyGet('users.get-list')
  ```
-#  $f
+#  `$f` & `f` graph flow store mutator
  component prototype parameter for mutate graph flow store
 ##   (flowPath: string, value: any): void 
  silent mutation without notify child edges/listeners in graph flow
@@ -160,8 +160,8 @@ graph flow schema builder const based on alak library
  let sameAs = f.someModule.firstFlow.v
  let immutableValue = f.someModule.firstFlow.imv
  ```
-#  $a
- component prototype parameter for access global state and launch actions and more
+#  `$a` actions component object
+ component prototype parameter for launch actions, access global state, and more
 ##   launch(actionPath: string, ...args): Promise<any> | any 
  Call action by path with argument
  ```javascript
