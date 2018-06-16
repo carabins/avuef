@@ -2,7 +2,7 @@ import {AFlow} from "alak";
 import Vue from "vue";
 
 
-//-- AGraphNode
+//-- A Base node types
 //* The types of nodes for the graph flow can be mixed as needed
 //* ```javascript
 //* A.f.state.stored
@@ -86,6 +86,50 @@ type AGraphNode<T> = {
 } | AFlow<T> | { (v): AFlow<typeof v> } | { (v): AGraphNode<typeof v> }
 ///-
 
+//-- A Edges
+//*A graph flow schema builder constant based on alak library
+export declare interface IA {
+  /**
+   * Create base flow node , same as `flow`.
+   * ```javascript
+   * A.f
+   * A.flow
+   * ```
+   */
+  f: AGraphNode<any>
+  flow: AGraphNode<any>
+  /**
+   * When update parent flow node call action with parent flow data and set returned data from action as current flow.
+   * ```javascript
+   * A.on("user.id", "user.get-by-id")
+   * ```
+   */
+  on: (parentFlowPath: string, actionPath: string) => AFlow<any>
+  /**
+   *  Create edge if current flow used in vue templates. When update parent flow node call action with parent flow data and set returned data from action as current flow.
+   * ```javascript
+   * A.lazyOn("user.id", "user.get-by-id")
+   * ```
+   */
+  lazyOn: (parentFlowPath: string, actionPath: string) => AFlow<any>
+  /**
+   * Create edge if current flow used in vue templates. Create flow from returned action data.
+   * ```javascript
+   * A.get('users.get-list')
+   * ```
+   */
+  get: (actionPath: string) => AFlow<any>
+  /**
+   * Create edge if current flow used in vue templates. Create flow from returned action data.
+   * ```javascript
+   * A.lazyGet('users.get-list')
+   * ```
+   */
+  lazyGet: (actionPath: string) => AFlow<any>
+}
+
+export declare const A: IA
+///-
 
 
 //-- AVue
@@ -142,50 +186,6 @@ export declare class AVue<T> {
 }
 ///-
 
-//-- A
-//*A graph flow schema builder constant based on alak library
-export declare interface IA {
-  /**
-   * Create base flow node , same as `flow`.
-   * ```javascript
-   * A.f
-   * A.flow
-   * ```
-   */
-  f: AGraphNode<any>
-  flow: AGraphNode<any>
-  /**
-   * When update parent flow node call action with parent flow data and set returned data from action as current flow.
-   * ```javascript
-   * A.on("user.id", "user.get-by-id")
-   * ```
-   */
-  on: (parentFlowPath: string, actionPath: string) => AFlow<any>
-  /**
-   *  Create edge if current flow used in vue templates. When update parent flow node call action with parent flow data and set returned data from action as current flow.
-   * ```javascript
-   * A.lazyOn("user.id", "user.get-by-id")
-   * ```
-   */
-  lazyOn: (parentFlowPath: string, actionPath: string) => AFlow<any>
-  /**
-   * Create edge if current flow used in vue templates. Create flow from returned action data.
-   * ```javascript
-   * A.get('users.get-list')
-   * ```
-   */
-  get: (actionPath: string) => AFlow<any>
-  /**
-   * Create edge if current flow used in vue templates. Create flow from returned action data.
-   * ```javascript
-   * A.lazyGet('users.get-list')
-   * ```
-   */
-  lazyGet: (actionPath: string) => AFlow<any>
-}
-
-export declare const A: IA
-///-
 
 //-- `$f` & `f` graph flow store mutator
 //* Component prototype parameter for mutate graph flow store
