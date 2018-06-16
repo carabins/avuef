@@ -1,4 +1,12 @@
-##   constructor(schemaClass: T, actionModules: {
+##  AVue
+Base class for create Avue instance
+```
+import Vue from 'vue'
+import {AVue} from "avuef";
+const avue = new AVue<FlowGraph>(FlowGraphClass, actionModules)
+vue.use(avue)
+```
+####   constructor(schemaClass: T, actionModules: { 
  Schema сlass is a store and a data graph flow.
  ```
  class FlowGraphSchema {
