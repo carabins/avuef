@@ -5,6 +5,9 @@ node_modules
 package-lock.json
 .tmp
 src
+doc
+doc.md
+old.md
 tests
 
 node_modules

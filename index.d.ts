@@ -47,7 +47,8 @@ type AGraphNode<T> = {
    * (a,f)=>({
    *  "send-user-to-space"(){
    *    let user = f.module.user.v
-   *    user.
+   *    user.teleport = await a("open-teleport", user)
+   *    f.module.user.v.teleport // is undefined
    *  }
    * })
    * ```
@@ -64,7 +65,7 @@ type AGraphNode<T> = {
    * Adds the ability to call a node without a parameter
    * ```javascript
    * // in FlowGraph class
-   *  module = {
+   *  class FlowGraphSchema {
    *    showSettingsPanel: A.f.stateless().emitter()
    *  }
    * // in vue component
