@@ -4,7 +4,7 @@
  A.f.state.stored
  A.f.stored.immutable
  ```
-##   state: AGraphNode<T> 
+##   `typescript state: AGraphNode<T> `
  Create one way binding in global store.
  ```javascript
  // in FlowGraph class
