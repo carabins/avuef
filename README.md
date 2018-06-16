@@ -43,7 +43,7 @@
   }
  // in action function
  (a,f)=>({
-  "make-spy"(user){
+  "make-spy" (user) {
     user.name // Xaero
     user.name = "Spy"
     f.module.user.v.name // Xaero
