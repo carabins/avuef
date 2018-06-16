@@ -8,7 +8,7 @@
  Create one way binding in global store.
  ```javascript
  // in FlowGraph class
-  module = {
+ class FlowGraphSchema {
     hello: A.f.state
     subModule: {
       world: A.f("predefinedValue").state
@@ -72,7 +72,8 @@
 Base class for create Avue instance
 ```javascript
 import Vue from 'vue'
-import {AVue} from "avuef";
+import {AVue} from "avuef"
+
 const avue = new AVue<FlowGraph>(FlowGraphClass, actionModules)
 vue.use(avue)
 ```
@@ -181,6 +182,20 @@ A graph flow schema builder constant based on alak library
 ##     mapFlow?: { [propNameOrModuleName: string]: string[] | string } 
  map flow data to component state
  ```javascript
+ // in FlowGraph class
+ class FlowGraphSchema {
+    module0 = {
+      greetings: A.f
+    },
+    module1 = {
+      world: A.f,
+      flowFromModule1: A.f
+    },
+    module2 = {
+      flowFromModule2: A.f
+      otherModule2Flow: A.f
+    }
+  }
  // in vue component
  <template>
    <pre>
