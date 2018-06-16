@@ -1,13 +1,86 @@
+##   constructor(schemaClass: T, actionModules: {
+ Schema сlass is a store and a data graph flow.
+ ```
+ class FlowGraphSchema {
+   showSettingsPanel: A.f.emitter()
+   module = {
+      userDNK: A.f.stored,
+      user: A.on("userDNK", "get-user-by-dnk"),
+      world: A.lazyOn("user", "get-user-world")
+      sub: {
+        test: A.lazyOn("module.userDNK", "module0.deep-action")
+ }}}
+ ```
+ Actions modules can be initialized as returned object form function
+ with flow instance and action launcher arguments
+ ```
+ const actionModules (a, f) => ({
+  entry() {
+    // always run on start
+  },
+  module0:{
+    dif: async (a,b) => a-b
+  },
+  module:{
+    add: v => v+v,
+    "new-user-by-dnk" (v) {
+      let ten = a("add", 5) // in same module use relative path for call actions
+      let two = await a("module0.dif", 5, 3)
+      ...some create user by dnk code
+      return user
+    }
+ })
+ ```
+##  AGraphNode
+ The types of nodes for the graph flow can be mixed as needed
+ ```
+ A.f.state.stored
+ A.f.stored.immutable
+ ```
+####   state: AGraphNode<T> 
+ Create one way binding in global store.
+ ```
+ // in FlowGraph class
+  module = {
+    hello: A.f.state
+    subModule: {
+      world: A.f("predefinedValue").state
+    }
+  }
+ // in vue component
+ <template>
+   <div>{{$a.state.hello}} + {{$a.state.world}} </div>
+ </template>
+ ```
+####   stored: AGraphNode<T> 
+ Save and restore in local storage any data value.
+ ```
+  module = {
+    user: A.f.state.stored
+    userId: A.f.stored
+  }
+ ```
+####   immutable: AGraphNode<T> 
+ Any get data value for node will be cloned
+ ```
+ // in FlowGraph class
+  module = {
+    user: A.f({name:"Xaero"}).immutable
+  }
+ // in action function
+ (a,f)=>({
+  "send-user-to-space"(){
+    let user = f.module.user.v
+    user.
+  }
+ })
+ ```
 ##  A
-flow graph schema builder const based on alak library
-####   f: AVueFlow 
- Create base flow, same as `flow`.
+graph flow schema builder const based on alak library
+####   f: AGraphNode<any> 
+ Create base flow node , same as `flow`.
  ```
  A.f
- ```
-####   flow: AVueFlow 
- Create base flow same as `f`.
- ```
  A.flow
  ```
 ####   on: (parentFlowPath: string, actionPath: string) => AFlow<any> 
@@ -31,15 +104,15 @@ flow graph schema builder const based on alak library
  A.lazyGet('users.get-list`)
  ```
 ##  $f
- component prototype parameter for mutate flow graph store
+ component prototype parameter for mutate graph flow store
 ####   (flowPath: string, value: any): void 
- silent mutation without notify child edges/listeners in flow graph
+ silent mutation without notify child edges/listeners in graph flow
  just update state for ui components
  ```
  $f("someModule.firstFlow", {v:true,data:0})
  ```
 ####   [metaParam: string]: AFlow<any> 
- mutate and notify all edges/nodes/listeners in flow graph
+ mutate and notify all edges/nodes/listeners in graph flow
  ```
  $f.someModule.firstFlow({v:true,data:0})
  ```
@@ -55,7 +128,7 @@ flow graph schema builder const based on alak library
  $a.launch("user.get-by-id", 1)
  ```
 ####   state: { [flowName: string]: any } 
- Global store for nodes with params `state` in flow graph schema.
+ Global store for nodes with params `state` in graph flow schema.
  Reactive update in ui templates.
  ```$a.state.userId```
 ####   during: { [actionPath: string]: boolean } 

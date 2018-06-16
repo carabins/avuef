@@ -2,47 +2,126 @@ import {AFlow} from "alak";
 import Vue from "vue";
 
 //-- AVue
-//*Base class for create avuef instance
+//*Base class for create Avue instance
 //*```
-//*AVue<T>{
-//*  a: AVueActions
-//*  f: AFlowMutator<T>
-//*  constructor(schemaClass: T, actionModules: {
-//*    (a, f: T): {
-//*      [s: string]: Function
-//*    } | any
-//*  })
-//*}
+//*import Vue from 'vue'
+//*import {AVue} from "avuef";
+//*const avue = new AVue<FlowGraph>(FlowGraphClass, actionModules)
+//*vue.use(avue)
 //*```
-///
 export declare class AVue<T> {
   a: AVueActions
-  f: AFlowMutator<T>
-
+  f: AVueFlow<T>
+  /**
+   * Schema сlass is a store and a data graph flow.
+   * ```
+   * class FlowGraphSchema {
+   *   showSettingsPanel: A.f.emitter()
+   *   module = {
+   *      userDNK: A.f.stored,
+   *      user: A.on("userDNK", "get-user-by-dnk"),
+   *      world: A.lazyOn("user", "get-user-world")
+   *      sub: {
+   *        test: A.lazyOn("module.userDNK", "module0.deep-action")
+   * }}}
+   * ```
+   * Actions modules can be initialized as returned object form function
+   * with flow instance and action launcher arguments
+   * ```
+   * const actionModules (a, f) => ({
+   *  entry() {
+   *    // always run on start
+   *  },
+   *  module0:{
+   *    dif: async (a,b) => a-b
+   *  },
+   *  module:{
+   *    add: v => v+v,
+   *    "new-user-by-dnk" (v) {
+   *      let ten = a("add", 5) // in same module use relative path for call actions
+   *      let two = await a("module0.dif", 5, 3)
+   *      ...some create user by dnk code
+   *      return user
+   *    }
+   * })
+   * ```
+   */
   constructor(schemaClass: T, actionModules: {
     (a, f: T): {
       [s: string]: Function
     } | any
   })
 }
+///
 
-//-- A
-//*flow graph schema builder const based on alak library
-export declare interface IA {
+//-- AGraphNode
+//* The types of nodes for the graph flow can be mixed as needed
+//* ```
+//* A.f.state.stored
+//* A.f.stored.immutable
+//* ```
+type AGraphNode<T> = {
   /**
-   * Create base flow, same as `flow`.
+   * Create one way binding in global store.
    * ```
-   * A.f
+   * // in FlowGraph class
+   *  module = {
+   *    hello: A.f.state
+   *    subModule: {
+   *      world: A.f("predefinedValue").state
+   *    }
+   *  }
+   * // in vue component
+   * <template>
+   *   <div>{{$a.state.hello}} + {{$a.state.world}} </div>
+   * </template>
    * ```
    */
-  f: AVueFlow
+  state: AGraphNode<T>
   /**
-   * Create base flow same as `f`.
+   * Save and restore in local storage any data value.
    * ```
+   *  module = {
+   *    user: A.f.state.stored
+   *    userId: A.f.stored
+   *  }
+   * ```
+   */
+  stored: AGraphNode<T>
+  /**
+   * Any get data value for node will be cloned
+   * ```
+   * // in FlowGraph class
+   *  module = {
+   *    user: A.f({name:"Xaero"}).immutable
+   *  }
+   * // in action function
+   * (a,f)=>({
+   *  "send-user-to-space"(){
+   *    let user = f.module.user.v
+   *    user.
+   *  }
+   * })
+   * ```
+   */
+  immutable: AGraphNode<T>
+  stateless(): AGraphNode<T>
+  emitter(): AGraphNode<T>
+} | AFlow<T> | { (v): AFlow<typeof v> } | { (v): AGraphNode<typeof v> }
+///-
+
+//-- A
+//*graph flow schema builder const based on alak library
+export declare interface IA {
+  /**
+   * Create base flow node , same as `flow`.
+   * ```
+   * A.f
    * A.flow
    * ```
    */
-  flow: AVueFlow
+  f: AGraphNode<any>
+  flow: AGraphNode<any>
   /**
    * When update parent flow node call action with parent flow data and set returned data from action as current flow.
    * ```
@@ -77,11 +156,11 @@ export declare const A: IA
 ///-
 
 //-- $f
-//* component prototype parameter for mutate flow graph store
+//* component prototype parameter for mutate graph flow store
 
-type AVueFlow = {
+type AVueFlow<T> = {
   /**
-   * silent mutation without notify child edges/listeners in flow graph
+   * silent mutation without notify child edges/listeners in graph flow
    * just update state for ui components
    * ```
    * $f("someModule.firstFlow", {v:true,data:0})
@@ -89,7 +168,7 @@ type AVueFlow = {
    */
   (flowPath: string, value: any): void
   /**
-   * mutate and notify all edges/nodes/listeners in flow graph
+   * mutate and notify all edges/nodes/listeners in graph flow
    * ```
    * $f.someModule.firstFlow({v:true,data:0})
    * ```
@@ -99,7 +178,7 @@ type AVueFlow = {
    * ```
    */
   [metaParam: string]: AFlow<any>
-}
+} | T
 
 ///-
 
@@ -115,7 +194,7 @@ export declare interface AVueActions {
   launch(actionPath: string, ...args): Promise<any> | any
 
   /**
-   * Global store for nodes with params `state` in flow graph schema.
+   * Global store for nodes with params `state` in graph flow schema.
    * Reactive update in ui templates.
    * ```$a.state.userId```
    */
@@ -128,7 +207,6 @@ export declare interface AVueActions {
    */
   during: { [actionPath: string]: boolean }
 }
-
 ///-
 
 
@@ -136,7 +214,6 @@ declare module 'vue/types/vue' {
   interface Vue {
     $a: AVueActions
   }
-
   interface VueConstructor {
     $a: AVueActions
   }
