@@ -88,7 +88,7 @@ vue.use(avue)
       sub: {
         test: A.lazyOn("module.userDNK", "module0.deep-action")
  }}}
- ```javascript
+ ```
  Actions modules can be initialized as returned object form function
  with flow instance and action launcher arguments
  ```javascript
@@ -150,9 +150,15 @@ graph flow schema builder const based on alak library
  ```javascript
  $f.someModule.firstFlow({v:true,data:0})
  ```
- or get value
+ get value in component methods
+ ```
+ let firstFlow = this.$f.someModule.firstFlow()
+ let sameAs = this.$f.someModule.firstFlow.v
+ ```
+ same get value in action modules
  ```javascript
- $f.someModule.firstFlow.v
+ let sameAs = f.someModule.firstFlow.v
+ let immutableValue = f.someModule.firstFlow.imv
  ```
 #  $a
  component prototype parameter for access global state and launch actions and more
