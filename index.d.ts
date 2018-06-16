@@ -186,7 +186,7 @@ export declare interface IA {
 export declare const A: IA
 ///-
 
-//-- $f
+//-- `$f` & `f` graph flow store mutator
 //* component prototype parameter for mutate graph flow store
 type AVueFlow<T> = {
   /**
@@ -217,8 +217,8 @@ type AVueFlow<T> = {
 } | T
 ///-
 
-//-- $a
-//* component prototype parameter for access global state and launch actions and more
+//-- `$a` actions component object
+//* component prototype parameter for launch actions, access global state, and more
 export declare interface AVueActions {
   /**
    * Call action by path with argument
