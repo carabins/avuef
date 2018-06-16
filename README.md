@@ -1,4 +1,4 @@
-# Avue - Finte State Mashine
+# Avue - Finite State Machine
 ## plugin for vue and nuxt
 [![npm version](https://badge.fury.io/js/avuef.svg)](https://badge.fury.io/js/avuef)
 [![Build Status](https://travis-ci.org/carabins/avuef.svg?branch=master)](https://travis-ci.org/carabins/avuef)
