@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.org/carabins/avuef.svg?branch=master)](https://travis-ci.org/carabins/avuef)
 [![dependencies](https://david-dm.org/gleba/avuef.svg)](https://david-dm.org/avuef/alak)
 [![Downloads](https://img.shields.io/npm/dt/avuef.svg)](https://www.npmjs.com/package/avuef)
+s
 #  A Base node types
  The types of nodes for the graph flow can be mixed as needed
  ```javascript
@@ -44,7 +45,8 @@
  (a,f)=>({
   "send-user-to-space"(){
     let user = f.module.user.v
-    user.
+    user.teleport = await a("open-teleport", user)
+    f.module.user.v.teleport // is undefined
   }
  })
  ```
@@ -57,7 +59,7 @@
  Adds the ability to call a node without a parameter
  ```javascript
  // in FlowGraph class
-  module = {
+  class FlowGraphSchema {
     showSettingsPanel: A.f.stateless().emitter()
   }
  // in vue component
@@ -230,4 +232,3 @@ vue.use(avue)
   }
  }
  ```
-
