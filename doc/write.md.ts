@@ -6,16 +6,16 @@ export const writeMD = data => {
 
     switch (o.type){
       case "param":
-        md += `## ${o.name}
+        md += `# ${o.name}
 ${o.info}
 `
         break
       case "group":
-        md += `## ${o.name}
+        md += `# ${o.name}
 ${o.info?o.info:''}
 `
         o.obj.forEach(oo=>{
-          md += `#### ${oo.name} 
+          md += `## ${oo.name} 
 ${oo.info}
 `
         })
