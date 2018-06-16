@@ -1,10 +1,10 @@
-##  AGraphNode
+#  AGraphNode
  The types of nodes for the graph flow can be mixed as needed
  ```
  A.f.state.stored
  A.f.stored.immutable
  ```
-####   state: AGraphNode<T> 
+##   state: AGraphNode<T> 
  Create one way binding in global store.
  ```
  // in FlowGraph class
@@ -19,7 +19,7 @@
    <div>{{$a.state.hello}} + {{$a.state.world}} </div>
  </template>
  ```
-####   stored: AGraphNode<T> 
+##   stored: AGraphNode<T> 
  Save and restore in local storage any data value.
  ```
   module = {
@@ -27,7 +27,7 @@
     userId: A.f.stored
   }
  ```
-####   immutable: AGraphNode<T> 
+##   immutable: AGraphNode<T> 
  Any get data value for node will be cloned
  ```
  // in FlowGraph class
@@ -42,12 +42,12 @@
   }
  })
  ```
-####   stateless(): AFlow<T> 
+##   stateless(): AFlow<T> 
  Works as event bus. Can't mixed with other types.
 ```
  A.f.stateless()
 ```
-####   emitter(): AFlow<T> 
+##   emitter(): AFlow<T> 
  Adds the ability to call a node without a parameter
  ```
  // in FlowGraph class
@@ -59,7 +59,7 @@
    <button @click="$f.module.showSettingsPanel()">Show Settings</button>
  </template>
  ```
-##  AVue
+#  AVue
 Base class for create Avue instance
 ```
 import Vue from 'vue'
@@ -67,7 +67,7 @@ import {AVue} from "avuef";
 const avue = new AVue<FlowGraph>(FlowGraphClass, actionModules)
 vue.use(avue)
 ```
-####   constructor(schemaClass: T, actionModules: { 
+##   constructor(schemaClass: T, actionModules: { 
  Schema сlass is a store and a data graph flow.
  ```
  class FlowGraphSchema {
@@ -100,43 +100,43 @@ vue.use(avue)
     }
  })
  ```
-##  A
+#  A
 graph flow schema builder const based on alak library
-####   f: AGraphNode<any> 
+##   f: AGraphNode<any> 
  Create base flow node , same as `flow`.
  ```
  A.f
  A.flow
  ```
-####   on: (parentFlowPath: string, actionPath: string) => AFlow<any> 
+##   on: (parentFlowPath: string, actionPath: string) => AFlow<any> 
  When update parent flow node call action with parent flow data and set returned data from action as current flow.
  ```
  A.on("user.id", "user.get-by-id")
  ```
-####   lazyOn: (parentFlowPath: string, actionPath: string) => AFlow<any> 
+##   lazyOn: (parentFlowPath: string, actionPath: string) => AFlow<any> 
   Create edge if current flow used in vue templates. When update parent flow node call action with parent flow data and set returned data from action as current flow.
  ```
  A.lazyOn("user.id", "user.get-by-id")
  ```
-####   get: (actionPath: string) => AFlow<any> 
+##   get: (actionPath: string) => AFlow<any> 
  Create edge if current flow used in vue templates. Create flow from returned action data.
  ```
  A.get('users.get-list`)
  ```
-####   lazyGet: (actionPath: string) => AFlow<any> 
+##   lazyGet: (actionPath: string) => AFlow<any> 
  Create edge if current flow used in vue templates. Create flow from returned action data.
  ```
  A.lazyGet('users.get-list`)
  ```
-##  $f
+#  $f
  component prototype parameter for mutate graph flow store
-####   (flowPath: string, value: any): void 
+##   (flowPath: string, value: any): void 
  silent mutation without notify child edges/listeners in graph flow
  just update state for ui components
  ```
  $f("someModule.firstFlow", {v:true,data:0})
  ```
-####   [metaParam: string]: AFlow<any> 
+##   [metaParam: string]: AFlow<any> 
  mutate and notify all edges/nodes/listeners in graph flow
  ```
  $f.someModule.firstFlow({v:true,data:0})
@@ -145,25 +145,25 @@ graph flow schema builder const based on alak library
  ```
  $f.someModule.firstFlow.v
  ```
-##  $a
+#  $a
  component prototype parameter for access global state and launch actions and more
-####   launch(actionPath: string, ...args): Promise<any> | any 
+##   launch(actionPath: string, ...args): Promise<any> | any 
  Call action by path with argument
  ```
  $a.launch("user.get-by-id", 1)
  ```
-####   state: { [flowName: string]: any } 
+##   state: { [flowName: string]: any } 
  Global store for nodes with params `state` in graph flow schema.
  Reactive update in ui templates.
  ```$a.state.userId```
-####   during: { [actionPath: string]: boolean } 
+##   during: { [actionPath: string]: boolean } 
  Progress boolean state for any action by same path
  ```
  $a.during['get-by-id]
  ```
-##  Vue Component Options
+#  Vue Component Options
 
-####     mapFlow?: { [propNameOrModuleName: string]: string[] | string } 
+##     mapFlow?: { [propNameOrModuleName: string]: string[] | string } 
  map flow data to component state property
  ```
  mapFlow:{
@@ -177,7 +177,7 @@ graph flow schema builder const based on alak library
   "module2": [] //map all properties
  }
  ```
-####     onFlow?: { [flowPath: string]: (...dataValues) => void } 
+##     onFlow?: { [flowPath: string]: (...dataValues) => void } 
  listen flow
  ```
  onFlow:{
