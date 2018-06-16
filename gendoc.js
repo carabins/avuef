@@ -3,4 +3,4 @@ ts.register({
   fast:true,
   cacheDirectory:".tmp"
 })
-require('./tests')
+require('./doc')
