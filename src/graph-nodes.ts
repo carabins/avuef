@@ -31,7 +31,8 @@ const bindFlow = (node,
     const initFlow = (flow, name) => {
       let uiListiners = mutations[name] = new Set()
 
-      let id = path.join(".") + "." + name
+      let pj = path.join(".")
+      let id = pj ? pj + "." + name : name
       flow.setId(id)
       let cmd = flow.isMeta("immutable") ? "im" : "on"
       flow.setMetaObj({

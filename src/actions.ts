@@ -83,6 +83,9 @@ runEntity.on(app => {
 export const actions = {
   newDispatcher: dispatchAction,
   runEntity,
+  get modules(){
+    return actionModules
+  },
   set(v, flow) {
     let ctx = webPackActions(v)
     if (ctx) {

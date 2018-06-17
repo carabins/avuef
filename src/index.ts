@@ -7,13 +7,13 @@ import {actions} from "./actions";
 import {graph} from "./graph";
 import {installMixin} from "./install-mixin";
 import {webPackActions} from "./wp-context";
+import {vuex} from "./vuex";
 
 
 InstallAlak()
 
 export const A = alak.A
 export const wpFlolderActions = webPackActions
-
 
 export class AVue<T> implements PluginObject<T> {
   kit = alak.A.flow
@@ -29,7 +29,7 @@ export class AVue<T> implements PluginObject<T> {
       graphEdges()
     }
   }
-
+  vuex = vuex
   install(_Vue, options) {
     console.log("𝗔 install vue plugin")
     _Vue.prototype.$f = graph.flow
@@ -45,4 +45,5 @@ export class AVue<T> implements PluginObject<T> {
   }
 
   [key: string]: any;
+
 }

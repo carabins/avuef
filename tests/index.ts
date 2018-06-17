@@ -47,9 +47,5 @@ let wm = new Vue({
   methods: {}
 })
 
-
-
-
-
-
+avue.vuex.schema()
 
