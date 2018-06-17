@@ -86,7 +86,7 @@ type AGraphNode<T> = {
    * ```
    */
   emitter(): AFlow<T>
-} | AFlow<T> | { (v): AFlow<typeof v> } | { (v): AGraphNode<typeof v> }
+} & AFlow<T> & { (v): AFlow<typeof v> } | { (v): AGraphNode<typeof v> }
 ///-
 
 //-- A Graph Edges between nodes
@@ -222,7 +222,7 @@ type AVueFlow<T> = {
    * ```
    */
   [metaParam: string]: AFlow<any>
-} | T
+} & T
 ///-
 
 //-- `$a` Actions component object
