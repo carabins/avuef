@@ -145,6 +145,10 @@ export declare const A: IA
 //*vue.use(avue)
 //*```
 export declare class AVue<T> {
+  vuex: {
+    store: (v) => void
+    schema: () => any
+  }
   a: AVueActions
   f: AVueFlow<T>
   /**
