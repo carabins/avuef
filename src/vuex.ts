@@ -37,7 +37,8 @@ const schema = () => {
 
 
   let vuexSchema = {
-    state: {},
+    state: () => {
+    },
     mutations: {
       "avue"(state, o) {
         state[o.key] = o.value
@@ -55,7 +56,6 @@ const schema = () => {
     let launch = actions.newDispatcher("vuex")
     vuexSchema.actions[key] = (ctx, ...value) => launch(key, ...value)
   })
-  console.log(vuexSchema)
   return vuexSchema
 
 
