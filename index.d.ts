@@ -40,16 +40,18 @@ type AGraphNode<T> = {
    * Any get data value for node will be cloned
    * ```javascript
    * // in FlowGraph class
-   *  module = {
+   *  module0 = {
    *    user: A.f({name:"Xaero"}).immutable
+   *    spy: A.on("user", "make-spy")
    *  }
    * // in action function
    * (a,f)=>({
-   *  "send-user-to-space"(){
-   *    let user = f.module.user.v
-   *    user.teleport = await a("open-teleport", user)
-   *    f.module.user.v.teleport // is undefined
-   *  }
+   *   "make-spy" (user) {
+   *     user.name // Xaero
+   *     user.name = "Spy"
+   *     f.module0.user.v.name // Xaero
+   *     return user
+   *   }
    * })
    * ```
    */

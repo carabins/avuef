@@ -37,10 +37,10 @@
  // in action function
  (a,f)=>({
   "send-user-to-space"(){
-    let user = f.module.user.v
-    user.teleport = await a("open-teleport", user)
-    f.module.user.v.teleport // is undefined
-  }
+             let user = f.module.user.v
+             user.teleport = await a("open-teleport", user)
+             f.module.user.v.teleport // is undefined
+           }
  })
  ```
 ##   stateless(): AFlow<T> 
