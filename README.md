@@ -1,5 +1,5 @@
 # Avue - Finite State Machine
-## Store stae managment plugin for vue and nuxt
+## Store state managment plugin for vue and nuxt
 [![npm version](https://badge.fury.io/js/avuef.svg)](https://badge.fury.io/js/avuef)
 [![Build Status](https://travis-ci.org/carabins/avuef.svg?branch=master)](https://travis-ci.org/carabins/avuef)
 [![dependencies](https://david-dm.org/gleba/avuef.svg)](https://david-dm.org/avuef/alak)
