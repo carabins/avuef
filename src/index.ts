@@ -28,6 +28,7 @@ export class AVue<T> implements PluginObject<T> {
     } else {
       graphEdges()
     }
+    this.f = graph.flow
   }
   vuex = vuex
   install(_Vue, options) {
@@ -35,12 +36,9 @@ export class AVue<T> implements PluginObject<T> {
     _Vue.prototype.$f = graph.flow
     _Vue.prototype.$a = actions.newDispatcher("ui")
     _Vue.mixin(installMixin)
-    this.a = actions.newDispatcher("𝗔")
-    this.f = graph.flow
-    this.kit({
-      f: this.flow,
-      a: this.action
-    })
+    let a = actions.newDispatcher("𝗔")
+    this.a = a
+    this.kit({f: graph.flow, a})
     actions.runEntity(options)
   }
 

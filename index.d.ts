@@ -196,7 +196,7 @@ export declare class AVue<T> {
 
 //-- `$f` & `f` graph flow store mutator
 //* Component prototype parameter for mutate graph flow store
-type AVueFlow<T> = {
+export type AVueFlow<T> = {
   /**
    * Silent mutation without notify child edges/listeners in graph flow
    * just update state for ui components
