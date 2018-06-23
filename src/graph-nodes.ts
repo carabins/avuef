@@ -40,8 +40,6 @@ const bindFlow = (node,
       })
 
       let store = flow.isMeta("stored")
-      if (store)
-        LoStorage.restoreFlow(flow.id, flow)
 
       let uiMutation = flowMutations[id] = v => {
         if (flow.isMeta("state")) {
@@ -55,8 +53,9 @@ const bindFlow = (node,
           LoStorage.setItem(flow.id, v)
         }
       }
-
       flow[cmd](uiMutation)
+      if (store)
+        LoStorage.restoreFlow(flow.id, flow)
     }
 
     if (maybeFlow.isFlow) {
