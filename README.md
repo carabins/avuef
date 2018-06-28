@@ -5,7 +5,11 @@
 [![dependencies](https://david-dm.org/gleba/avuef.svg)](https://david-dm.org/avuef/alak)
 [![Downloads](https://img.shields.io/npm/dt/avuef.svg)](https://www.npmjs.com/package/avuef)
 
-# Intro
+# Nota bene
+Refactoring coming soon
+base example : https://github.com/carabins/avue-nuxt-ts-example
+
+# Intro 
 Решения ставшими классикой, vuex/redux/flux - выполняют свои задачи многословно, что не всегда бывает удобно. Излишне описывать отдельно каждую мутацию изменения состояния. Это одна из первопричин возникновения текущего решения. 
 
 ## a & f
