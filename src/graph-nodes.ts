@@ -9,9 +9,9 @@ const logFlow = (v, flow) => {
   if (typeof v === 'object' && v != null) {
     Aloger.group(` ƒ  ${flow.id}`,
       [
-        `${flow.isMeta('immutable') ? "immutable" : "mutable"}`,
+        `META : ${flow.meta()}  ✶  ${flow.isMeta('immutable') ? "immutable" : "mutable"}`,
         v,
-        `META : ${flow.meta()}`
+
       ]
     )
   }
