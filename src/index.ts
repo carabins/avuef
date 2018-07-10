@@ -18,6 +18,7 @@ export const wpFlolderActions = webPackActions
 
 
 export class AVue<T> implements PluginObject<T> {
+  vuex = vuex
   kit = alak.A.flow
   f: T
   a: Function
@@ -28,7 +29,7 @@ export class AVue<T> implements PluginObject<T> {
       Aloger.silent()
     }
   }
-  vuex = vuex
+
   install(_Vue, options) {
     Aloger.simple("𝗔vue ƒlows")
     graphNodes(this.schemaClass)

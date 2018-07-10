@@ -4,11 +4,17 @@ import {actions} from "./actions";
 
 let store
 export const vuex = {
-  store: v => store = v,
+  get state() {
+    return store.state
+  },
+  store(v) {
+    if (v) store = v
+    return store
+  },
   schema: (v) => schema(v)
 }
 
-const schema = (userStore:any = {}) => {
+const schema = (userStore: any = {}) => {
   let flowState = {}
 
   Object.keys(graph.flowMap).forEach((k: any) => {
@@ -16,7 +22,7 @@ const schema = (userStore:any = {}) => {
     if (f.isFlow && f.isMeta("vuex")) {
       flowState[f.id] = f.v
       f.on(value => {
-        store.commit("avue", {key:f.id, value})
+        store.commit("avue", {key: f.id, value})
       })
     }
   })
@@ -57,7 +63,7 @@ const schema = (userStore:any = {}) => {
   return {
     state: () => state,
     mutations,
-    actions: userStore.actions? userStore.actions : {}
+    actions: userStore.actions ? userStore.actions : {}
   }
 
 
