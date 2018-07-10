@@ -2,6 +2,7 @@ import {pathTo} from "./utils";
 import {GlobalState} from "./global-state";
 import {webPackActions} from "./wp-context";
 import {A} from "alak";
+import {Aloger} from "./logger";
 
 
 let actionModules = {}
@@ -26,24 +27,18 @@ function dispatchAction (...context) {
           defaultPath()
         } else {
           let mp = modulePath.join(".")
-          log = ` 𝜶' ${mp} ⋃ ${action} ← ${contextType} ${ctxPath.replace(mp + ".", "")} ${ctxSym}`
+          log = ` 𝜶' ${mp}.(${action} ← ${contextType} ${ctxPath.replace(mp + ".", "")}) ${ctxSym}`
         }
         break
       default :
         defaultPath()
     }
 
-
-    if (params.length > 1) {
-      console.groupCollapsed(log)
-      console.log(params)
-      console.groupEnd()
-    } else {
-      console.log(log)
-    }
+    Aloger.group(log, params)
 
     if (!aFn) {
-      console.warn(" ↑  ⬆  Action not found ⬆  ")
+      console.warn(" ↓  ↓  Action not found ↓")
+      console.warn(log)
       return Promise.resolve(false)
     } else {
       let maybePromise = aFn(...params)
@@ -76,7 +71,7 @@ const runEntity = A.flow
 runEntity.on(app => {
   let entry = actionModules['entry']
   if (entry) {
-    console.log(" 𝜶  ← root.entry")
+    Aloger.simple(" 𝜶  ← root.entry")
     entry(app)
   }
 })

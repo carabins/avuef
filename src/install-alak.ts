@@ -4,7 +4,7 @@ import {graph} from "./graph";
 
 export function InstallAlak() {
 
-  console.log("InstallAlak")
+
   const addEdge = (edges, meta?, len?) => (...a) => {
     let f = A.f
     if (len)

@@ -3,15 +3,17 @@ import {GlobalState} from "./global-state";
 import {LoStorage} from "./utils/LoStorage";
 import {throws} from "assert";
 import {pathTo} from "./utils";
+import {Aloger} from "./logger";
 
 const logFlow = (v, flow) => {
   if (typeof v === 'object' && v != null) {
-    console.groupCollapsed(` ƒ  ${flow.id}`)
-    console.log(`${flow.isMeta('immutable') ? "immutable" : "mutable"} :`, v)
-    console.log(`META : ${flow.meta()}`)
-    console.groupEnd()
-  } else {
-    console.log(` ƒ  ${flow.o.m}`, v)
+    Aloger.group(` ƒ  ${flow.id}`,
+      [
+        `${flow.isMeta('immutable') ? "immutable" : "mutable"}`,
+        v,
+        `META : ${flow.meta()}`
+      ]
+    )
   }
 }
 

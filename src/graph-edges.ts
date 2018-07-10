@@ -1,6 +1,7 @@
 import {actions} from "./actions";
 import {graph} from "./graph";
 import {pathTo} from "./utils";
+import {Aloger} from "./logger";
 
 
 // const getFullPath = (p, flow) => {
@@ -109,7 +110,7 @@ export function graphEdges() {
   for (let [path, action, flow] of graph.edges.map) {
     let f = getFlow(path, flow)
     const mutator = async ar => {
-      console.log(" ∑ ", action)
+      Aloger.simple(" ∑ "+ action)
       let a = ar.map(a => [a])
       for (let i = 0; i < ar.length; i++) {
         const v = ar[i];
