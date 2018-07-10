@@ -20,10 +20,11 @@ const schema = (userStore: any = {}) => {
   Object.keys(graph.flowMap).forEach((k: any) => {
     let f = graph.flowMap[k]
     if (f.isFlow && f.isMeta("vuex")) {
-      flowState[f.id] = f.v
-      f.on(value => {
-        store.commit("avue", {key: f.id, value})
-      })
+      let key = f.id.replace(/\./g,"_")
+      flowState[key] = f.v
+      f.on(value =>
+        store.commit("avue", {key, value})
+      )
     }
   })
 
