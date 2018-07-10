@@ -8,24 +8,19 @@ export const vuex = {
   schema: (v) => schema(v)
 }
 
-const schema = (userStore) => {
-  let flowList = {}
+const schema = (userStore:any = {}) => {
   let flowState = {}
-  const flowToList = o => {
-    Object.keys(o).forEach((k: any) => {
-      let f = o[k]
-      if (f.isFlow && f.isMeta("vuex")) {
-        flowList[f.id] = f
-        flowState[f.id] = f.v
-        f.on(v=>{
-          flowState[f.id] = f.v
-        })
-      } else {
-        flowToList(f)
-      }
-    })
-  }
-  flowToList(graph.flow)
+
+  Object.keys(graph.flowMap).forEach((k: any) => {
+    let f = graph.flowMap[k]
+    if (f.isFlow && f.isMeta("vuex")) {
+      flowState[f.id] = f.v
+      f.on(value => {
+        store.commit("avue", {key:f.id, value})
+      })
+    }
+  })
+
 
   // let actionList = {}
   // const actionsToList = (o, path = "") => {
@@ -39,8 +34,8 @@ const schema = (userStore) => {
   //   })
   // }
   // actionsToList(actions.modules)
-
-
+  // userStore.state = userStore.state ? userStore.state :{}
+  //
   let state = userStore.state ? Object.assign({}, userStore.state, flowState) : flowState
   let flowMutation = {
     "avue"(state, o) {

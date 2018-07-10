@@ -35,9 +35,12 @@ const actions = (a, f) => ({
   }
 })
 
-const avue = new AVue(FlowGraphSchema, actions, false)
+const avue = new AVue(FlowGraphSchema, actions)
 Vue.use(avue)
-//
+
+
+
+
 let wm = new Vue({
   el: '#editor',
   data: {
@@ -47,5 +50,12 @@ let wm = new Vue({
   methods: {}
 })
 
-avue.vuex.schema()
+avue.vuex.schema({
+  actions: {
+    ok() {
+      console.log("ok action store")
+    }
+  }
+})
 
+avue.vuex.store(new Proxy({},{}))

@@ -151,6 +151,7 @@ export declare class AVue<T> {
   }
   a: AVueActions
   f: AVueFlow<T>
+
   /**
    * Schema сlass is a store and a data graph flow.
    * ```javascript
@@ -191,7 +192,13 @@ export declare class AVue<T> {
     } | any
   })
 }
+
 ///-
+
+export declare interface AVueConstructorOptions {
+  prioritySchema: boolean,
+  silent: boolean
+}
 
 
 //-- `$f` & `f` graph flow store mutator
@@ -204,7 +211,7 @@ export type AVueFlow<T> = {
    * $f("someModule.firstFlow", {v:true,data:0})
    * ```
    */
-  (flowPath: string, value: any): void
+  (flowPath: string, value: any, options: AVueConstructorOptions): void
   /**
    * Mutate and notify all edges/nodes/listeners in graph flow
    * ```javascript
@@ -250,6 +257,7 @@ export declare interface AVueActions {
    */
   during: { [actionPath: string]: boolean }
 }
+
 ///-
 
 
@@ -257,6 +265,7 @@ declare module 'vue/types/vue' {
   interface Vue {
     $a: AVueActions
   }
+
   interface VueConstructor {
     $a: AVueActions
   }

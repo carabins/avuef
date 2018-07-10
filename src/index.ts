@@ -16,16 +16,14 @@ InstallAlak()
 export const A = alak.A
 export const wpFlolderActions = webPackActions
 
+
 export class AVue<T> implements PluginObject<T> {
   kit = alak.A.flow
   f: T
   a: Function
   // schemaClass
   // actionModules
-  constructor(private schemaClass, private actionModules, private options:{
-    prioritySchema: boolean,
-    silent: boolean
-  } ) {
+  constructor(private schemaClass, private actionModules, private options:any = {}) {
     if (options.silent){
       Aloger.silent()
     }

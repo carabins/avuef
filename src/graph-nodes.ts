@@ -19,6 +19,7 @@ const logFlow = (v, flow) => {
 
 const flowMutations = {}
 
+let flowMap = {}
 const bindFlow = (node,
                   mutations = {},
                   pathName = "",
@@ -58,6 +59,9 @@ const bindFlow = (node,
       flow[cmd](uiMutation)
       if (store)
         LoStorage.restoreFlow(flow.id, flow)
+      flowMap[id] = flow
+
+
     }
 
     if (maybeFlow.isFlow) {
@@ -70,7 +74,8 @@ const bindFlow = (node,
   })
   path.shift()
   return {
-    mutations: mutations
+    mutations,
+    flowMap
   }
 }
 
@@ -80,17 +85,18 @@ export function graphNodes(schemaClass) {
   let binded = bindFlow(flow)
   const mutateViewOnly = (path, value) => {
     let m = flowMutations[path]
-    let f = pathTo(path, flow)
+    let f = binded.mutations[path]
     if (f) {
       f.silent(value)
       if (m) {
         m(value)
       }
     } else {
-      console.error("flow not found", path)
+      console.error("flow not found for silent mutation", path)
     }
   }
   graph.flow = Object.assign(mutateViewOnly, flow)
   graph.mutations = binded.mutations
+  graph.flowMap = binded.flowMap
 
 }
