@@ -85,7 +85,7 @@ export function graphNodes(schemaClass) {
   let binded = bindFlow(flow)
   const mutateViewOnly = (path, value) => {
     let m = flowMutations[path]
-    let f = binded.mutations[path]
+    let f = binded.flowMap[path]
     if (f) {
       f.silent(value)
       if (m) {
