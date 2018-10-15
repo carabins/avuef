@@ -17,25 +17,41 @@ export const A = alak.A
 export const wpFlolderActions = webPackActions
 
 
-export class AVue<T> implements PluginObject<T> {
+
+
+export class AVue<A, F> implements PluginObject<A> {
   vuex = vuex
   kit = alak.A.flow
-  f: T
+  f: A
   a: Function
-  // schemaClass
-  // actionModules
-  constructor(private schemaClass, private actionModules, private options:any = {}) {
-    if (options.silent){
+
+  private stateClass: A
+  private actionModules: F
+  public edgeClass: {
+  }
+
+  constructor(options: {
+    FlowStore: A,
+    actionModules?: F,
+    edges?: any,
+    silent?: boolean
+  }) {
+    if (options.FlowStore) {
+      this.stateClass = options.FlowStore
+    } else {
+      throw "𝗔vueƒ FlowStore not defined"
+    }
+    if (options.silent) {
       Aloger.silent()
     }
   }
 
   install(_Vue, options) {
-    Aloger.simple("𝗔vue ƒlows")
-    graphNodes(this.schemaClass)
+    Aloger.simple("𝗔vueƒ ")
+    graphNodes(this.stateClass)
     actions.set(this.actionModules, graph.flow)
     if (!this.options.prioritySchema) {
-      actions.runEntity.on(v=>graphEdges())
+      actions.runEntity.on(v => graphEdges())
     } else {
       graphEdges()
     }

@@ -2,21 +2,26 @@ import {AFlow} from "alak";
 import Vue from "vue";
 
 
-//-- A Base node types
+interface CoreFlow {
+
+}
+
+
+//-- F Base node types
 //* The types of nodes for the graph flow can be mixed as needed
 //* ```javascript
-//* A.f.state.stored
-//* A.f.stored.immutable
+//* F.f.state.stored
+//* F.f.stored.immutable
 //* ```
 type AGraphNode<T> = {
   /**
    * Create one way binding in global store.
    * ```javascript
    * // in FlowGraph class
-   * class FlowGraphSchema {
-   *    hello: A.f.state
+   * class FlowStore {
+   *    hello: F.f.state
    *    subModule: {
-   *      world: A.f("predefinedValue").state
+   *      world: F.f("predefinedValue").state
    *    }
    *  }
    * // in vue component
@@ -30,8 +35,8 @@ type AGraphNode<T> = {
    * Save and restore in local storage any data value.
    * ```javascript
    *  module = {
-   *    user: A.f.state.stored
-   *    userId: A.f.stored
+   *    user: F.f.state.stored
+   *    userId: F.f.stored
    *  }
    * ```
    */
@@ -41,8 +46,8 @@ type AGraphNode<T> = {
    * ```javascript
    * // in FlowGraph class
    *  module0 = {
-   *    user: A.f({name:"Xaero"}).immutable
-   *    spy: A.on("user", "make-spy")
+   *    user: F.f({name:"Xaero"}).immutable
+   *    spy: F.on("user", "make-spy")
    *  }
    * // in action function
    * (a,f)=>({
@@ -59,7 +64,7 @@ type AGraphNode<T> = {
   /**
    * Works as event bus. Can't mixed with other types.
    *```javascript
-   * A.f.stateless()
+   * F.f.stateless()
    *```
    */
   stateless(): AFlow<T>
@@ -67,8 +72,8 @@ type AGraphNode<T> = {
    * Adds the ability to call a node without a parameter
    * ```javascript
    * // in FlowGraph class
-   *  class FlowGraphSchema {
-   *    showSettingsPanel: A.f.stateless().emitter()
+   *  class FlowStore {
+   *    showSettingsPanel: F.f.stateless().emitter()
    *  }
    * // in vue component
    * <template>
@@ -89,14 +94,14 @@ type AGraphNode<T> = {
 } & AFlow<T> & { (v): AFlow<typeof v> } | { (v): AGraphNode<typeof v> }
 ///-
 
-//-- A Graph Edges between nodes
-//*A graph flow schema builder constant based on alak library
+//-- F Graph Edges between nodes
+//*F graph flow schema builder constant based on alak library
 export declare interface IA {
   /**
    * Create base flow node , same as `flow`.
    * ```javascript
-   * A.f
-   * A.flow
+   * F.f
+   * F.flow
    * ```
    */
   f: AGraphNode<any>
@@ -104,28 +109,28 @@ export declare interface IA {
   /**
    * When update parent flow node call action with parent flow data and set returned data from action as current flow.
    * ```javascript
-   * A.on("user.id", "user.get-by-id")
+   * F.on("user.id", "user.get-by-id")
    * ```
    */
   on: (parentFlowPath: string, actionPath: string) => AFlow<any>
   /**
    *  Create edge if current flow used in vue templates. When update parent flow node call action with parent flow data and set returned data from action as current flow.
    * ```javascript
-   * A.lazyOn("user.id", "user.get-by-id")
+   * F.lazyOn("user.id", "user.get-by-id")
    * ```
    */
   lazyOn: (parentFlowPath: string, actionPath: string) => AFlow<any>
   /**
    * Create edge if current flow used in vue templates. Create flow from returned action data.
    * ```javascript
-   * A.get('users.get-list')
+   * F.get('users.get-list')
    * ```
    */
   get: (actionPath: string) => AFlow<any>
   /**
    * Create edge if current flow used in vue templates. Create flow from returned action data.
    * ```javascript
-   * A.lazyGet('users.get-list')
+   * F.lazyGet('users.get-list')
    * ```
    */
   lazyGet: (actionPath: string) => AFlow<any>
@@ -155,14 +160,14 @@ export declare class AVue<T> {
   /**
    * Schema сlass is a store and a data graph flow.
    * ```javascript
-   * class FlowGraphSchema {
-   *   showSettingsPanel: A.f.stateless()
+   * class FlowStore {
+   *   showSettingsPanel: F.f.stateless()
    *   module = {
-   *      userDNK: A.f.stored,
-   *      user: A.on("userDNK", "get-user-by-dnk"),
-   *      world: A.lazyOn("user", "get-user-world")
+   *      userDNK: F.f.stored,
+   *      user: F.on("userDNK", "get-user-by-dnk"),
+   *      world: F.lazyOn("user", "get-user-world")
    *      sub: {
-   *        test: A.lazyOn("module.userDNK", "module0.deep-action")
+   *        test: F.lazyOn("module.userDNK", "module0.deep-action")
    * }}}
    * ```
    * Actions modules can be initialized as returned object form function
@@ -279,17 +284,17 @@ declare module 'vue/types/options' {
      * map flow data to component state
      * ```javascript
      * // in FlowGraph class
-     * class FlowGraphSchema {
+     * class FlowStore {
      *    module0 = {
-     *      greetings: A.f
+     *      greetings: F.f
      *    },
      *    module1 = {
-     *      world: A.f,
-     *      flowFromModule1: A.f
+     *      world: F.f,
+     *      flowFromModule1: F.f
      *    },
      *    module2 = {
-     *      flowFromModule2: A.f
-     *      otherModule2Flow: A.f
+     *      flowFromModule2: F.f
+     *      otherModule2Flow: F.f
      *    }
      *  }
      * // in vue component
