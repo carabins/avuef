@@ -3,6 +3,7 @@ import {GlobalState} from "./global-state";
 import {webPackActions} from "./wp-context";
 import {A} from "alak";
 import {Aloger} from "./logger";
+import {graph} from "./graph";
 
 
 let actionModules = {}
@@ -41,7 +42,7 @@ function dispatchAction (...context) {
       console.warn(log)
       return Promise.resolve(false)
     } else {
-      let maybePromise = aFn(...params)
+      let maybePromise = aFn.apply({ a:dispatchAction("𝗔."+action), f: graph.flow }, params)
       if (maybePromise && typeof maybePromise.then === 'function') {
         GlobalState.setRun(action, true)
         return new Promise(((resolve, reject) => {
@@ -84,9 +85,9 @@ export const actions = {
   set(v, flow) {
     let ctx = webPackActions(v)
     if (ctx) {
-      actionModules = ctx(dispatchAction("Ω"), flow)
+      actionModules = ctx(dispatchAction("𝗔"), flow)
     } else {
-      actionModules = v(dispatchAction("Ω"), flow)
+      actionModules = v(dispatchAction("𝗔"), flow)
     }
   }
 }
