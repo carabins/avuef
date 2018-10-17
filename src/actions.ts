@@ -38,8 +38,7 @@ function dispatchAction (...context) {
     Aloger.group(log, params)
 
     if (!aFn) {
-      console.warn(" ↓  ↓  Action not found ↓")
-      console.warn(log)
+      console.error(" →  not found", log )
       return Promise.resolve(false)
     } else {
       let maybePromise = aFn.apply({ a:dispatchAction("𝗔."+action), f: graph.flow }, params)
