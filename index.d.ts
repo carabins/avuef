@@ -20,7 +20,7 @@ export declare interface IA {
   <T>(v: T): AFlow<T>;
 }
 
-export declare const A: AGraphNode;
+export declare const F: AGraphNode;
 
 export declare class AVue<T> {
   vuex: {
