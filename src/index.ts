@@ -9,11 +9,13 @@ import {installMixin} from "./install-mixin";
 import {webPackActions} from "./wp-context";
 import {vuex} from "./vuex";
 import {Aloger} from "./logger";
+import {flowConstructor} from "./flow-constructor";
+
 
 
 InstallAlak()
 
-export const A = alak.A
+export const F = flowConstructor
 export const wpFlolderActions = webPackActions
 
 

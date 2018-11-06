@@ -4,6 +4,8 @@ import {LoStorage} from "./utils/LoStorage";
 import {throws} from "assert";
 import {pathTo} from "./utils";
 import {Aloger} from "./logger";
+import {A} from "alak";
+import {createFlowNode} from "./flow-constructor";
 
 const logFlow = (v, flow) => {
   if (typeof v === 'object' && v != null) {
@@ -45,7 +47,7 @@ const bindFlow = (node,
       let store = flow.isMeta("stored")
 
       let uiMutation = flowMutations[id] = v => {
-        if (flow.isMeta("state")) {
+        if (flow.isMeta("global") || flow.isMeta("state")) {
           GlobalState.setState(name, v)
         }
         if (uiListiners.size) {
@@ -80,8 +82,12 @@ const bindFlow = (node,
 }
 
 
+
 export function graphNodes(schemaClass) {
-  const flow = new schemaClass()
+  const node = new schemaClass()
+  let flow = createFlowNode(node)
+  //console.log({flow})
+
   let binded = bindFlow(flow)
   const mutateViewOnly = (path, value) => {
     let m = flowMutations[path]
