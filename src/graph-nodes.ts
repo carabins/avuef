@@ -27,6 +27,7 @@ const bindFlow = (node,
                   pathName = "",
                   path = []
 ) => {
+
   Object.keys(node).forEach(name => {
     let maybeFlow = node[name]
     if (!maybeFlow) {
@@ -58,9 +59,9 @@ const bindFlow = (node,
           LoStorage.setItem(flow.id, v)
         }
       }
-      flow[cmd](uiMutation)
       if (store)
         LoStorage.restoreFlow(flow.id, flow)
+      flow[cmd](uiMutation)
       flowMap[id] = flow
 
 
@@ -85,6 +86,8 @@ const bindFlow = (node,
 
 export function graphNodes(schemaClass) {
   const node = new schemaClass()
+  // console.log("schemaClass")
+
   let flow = createFlowNode(node)
   //console.log({flow})
 

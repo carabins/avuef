@@ -1,4 +1,4 @@
-import {A} from "alak";
+import {A, AFlow} from "alak";
 import {graph} from "./graph";
 
 const ext = new Set(["valueOf"])
@@ -7,7 +7,9 @@ const alakProps = new Set(["stateless", "emitter"])
 const allowEdges = new Set(["lazyGet", "get", "map", "lazyMap", "on", "lazyOn", "if"])
 
 const createFlow = node => {
-  let flow = A.flow
+  let flow = A.f
+  if (node.v)
+    flow.silent(...node.v)
   node.meta.forEach(k => {
     if (alakProps.has(k)) {
       flow[k]()
@@ -19,9 +21,6 @@ const createFlow = node => {
     let v = node.edges[k]
     flow[k](...v)
   })
-  if (node.v) {
-    flow(node.v)
-  }
   return flow
 }
 
@@ -66,8 +65,6 @@ const deepHandler = {
           target.meta.add(key)
         }
         break
-      case "function":
-        console.log("!!function!!")
 
     }
     return target.deep
@@ -92,5 +89,6 @@ const startHandler = {
 function iceberg(...args) {
   return this.fn(...args)
 }
+
 export const flowConstructor = new Proxy(iceberg, startHandler)
 
