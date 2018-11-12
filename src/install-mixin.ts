@@ -18,12 +18,8 @@ const clearCleaner = (v, t) => {
 }
 function newAction(tagName){
   return function(name, ...args){
-    Aloger.group(` 𝜶 ${name} ← 𝒱 ${tagName}`, args)
-
-
-    // console.log({x})
-
-    return actions.launch(name, ...args)
+    let actionName = ` 𝜶 ${name} ← 𝒱 ${tagName}`
+    return actions.launch(name, actionName, ...args)
   }
 }
 export const installMixin = {

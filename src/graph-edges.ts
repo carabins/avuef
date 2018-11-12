@@ -57,6 +57,8 @@ const initActionMutator = (sym, action, typeGuard, flow) => async value => {
 
   if (value !== null) {
     let actionName = `ƒ ${flow.id} ${sym}`
+    console.log({actionName})
+
     let r = await actions.launch(action, actionName, value)
     flow.o.lc = ` ${action} ← ∴`
     flow(r)
