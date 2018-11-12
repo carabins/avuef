@@ -1,6 +1,7 @@
 import {wayTo} from "./index";
 import {graph} from "../graph";
 import {actions} from "../actions";
+import {Aloger} from "../logger";
 
 // const handler = {
 //   get(target, key) {
@@ -84,9 +85,11 @@ const deepAction = {
   apply(p, ctx, args) {
     // let a = wayTo(p.path, actions.modules)
     let actionName = p.path.join(".")
-    // console.log("→→", {actionName, args})
-    // if (!f) throw `flow → ${p.path} not found ← ${p.ctx}`
-    let promise = actions.launch(actionName, ...args)
+    let promise = actions.launch(actionName, p.ctx, ...args)
+    // promise.catch(v=>{
+    //   console.error(v)
+    // })
+
     // console.log(promise)
     return promise
   },
@@ -105,11 +108,11 @@ const deepAction = {
 export const contextAction = ctx => {
   // console.log("contextAction", ctx)
 
-  return new Proxy(fn, {
+  return new Proxy(Object.assign(fn,{ctx}), {
     apply(o, __, args) {
-      // console.log("contextAction.apply", args)
-      let cmd = args.shift()
-      return actions.launch(cmd, ...args)
+      let actionName = args.shift()
+
+      return actions.launch(actionName, ctx,...args)
     },
     get(o, k) {
       if (typeof k === "symbol"){

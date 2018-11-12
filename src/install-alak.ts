@@ -13,7 +13,6 @@ export function InstallAlak() {
     edges.push(a)
     return f
   }
-  console.log("install")
 
   A.install("lazyGet", addEdge(graph.edges.get, "lazy", 2))
   A.install("get", addEdge(graph.edges.get, false, 2))

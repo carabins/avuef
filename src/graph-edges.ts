@@ -42,20 +42,23 @@ const initTypeGuard = (defaultValue, flow) => {
 }
 const actionRunners = {}
 const initActionMutator = (sym, action, typeGuard, flow) => async value => {
-  let ar = actions.newDispatcher('ƒ', flow.id, sym) //actionRunners[name]
+  // let ar = actions.newDispatcher('ƒ', flow.id, sym) //actionRunners[name]
+  // console.log(value, {ar})
   // if (!ar) {
   //   ar = actionRunners[name] = actions.newDispatcher(name)
   // }
-  const safe = v => {
-    if (typeGuard && typeGuard != typeof v) {
-      console.warn(`Mismatch type for "${flow.id}" flow lazyGet action '${action}'`)
-    } else {
-      flow(v)
-    }
-  }
+  // const safe = v => {
+  //   if (typeGuard && typeGuard != typeof v) {
+  //     console.warn(`Mismatch type for "${flow.id}" flow lazyGet action '${action}'`)
+  //   } else {
+  //     flow(v)
+  //   }
+  // }
 
   if (value !== null) {
-    let r = await ar(action, value)
+    let actionName = `ƒ ${flow.id} ${sym}`
+    let r = await actions.launch(action, actionName, value)
+    flow.o.lc = ` ${action} ← ∴`
     flow(r)
   } else {
     flow(null)
@@ -91,6 +94,12 @@ export function graphEdges() {
   }
 
   // Create get Edges
+  for (let [action, flow] of graph.edges.actions) {
+    flow.on((...v) => {
+      let callerName = `ƒ ${flow.id} ← Ω`
+      actions.launch(action, callerName, ...v)
+    })
+  }
   for (let [action, defaultValue, flow] of graph.edges.get) {
     let typeGuard = initTypeGuard(defaultValue, flow)
     let mutator = initActionMutator(`↓ ∴`, action, typeGuard, flow)
@@ -100,10 +109,15 @@ export function graphEdges() {
 
   // Create On Edges
   for (let [path, action, defaultValue, flow] of graph.edges.on) {
-    let typeGuard = initTypeGuard(defaultValue, flow)
+
+    // let typeGuard = initTypeGuard(defaultValue, flow)
     let f = getFlow(path, flow)
-    const mutator = initActionMutator(`← ∴`, action, typeGuard, flow)
-    subscribe(flow, () => f.on(mutator))
+
+    const mutator = initActionMutator("← ∴", action, false, flow)
+    subscribe(f, mutator)
+    // f.on(v=>{
+    //   console.log("xvv",v)
+    // })
   }
 
   // Create Mapped Edges

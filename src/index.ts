@@ -33,8 +33,8 @@ export class AVue<T> implements PluginObject<T> {
 
   install(_Vue, options) {
     Aloger.simple(" ✶ 𝗔ction ƒlow")
-    graphNodes(this.schemaClass)
     actions.set(this.actionModules)
+    graphNodes(this.schemaClass)
     if (!this.options.prioritySchema) {
       actions.runEntity.on(v => graphEdges())
     } else {

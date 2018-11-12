@@ -1,7 +1,8 @@
 import {A, AFlow} from "alak";
 import {graph} from "./graph";
+import {actions} from "./actions";
 
-export const addEdge = (name, args, flow) => {
+export const addEdge = (name, args, flow, path) => {
 
   const add = (edges, meta?, len?) => {
     if (len)
@@ -11,7 +12,6 @@ export const addEdge = (name, args, flow) => {
     args.push(flow)
     edges.push(args)
   }
-
 
   switch (name) {
     case "lazyGet" :
@@ -35,8 +35,9 @@ export const addEdge = (name, args, flow) => {
     case "if" :
       add(graph.edges.if, "if", 3)
       break
+    case "action" :
+      add(graph.edges.actions)
+      break
   }
-  A.install("action", (...args) => {
-    console.log("A.install", ...args)
-  })
 }
+

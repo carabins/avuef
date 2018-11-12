@@ -8,12 +8,10 @@ const alakProps = new Set(["stateless", "emitter"])
 const allowEdges = new Set(["lazyGet", "get", "map", "lazyMap", "on", "lazyOn", "if", "action"])
 
 
-const createFlow = node => {
+const createFlow = (node, name) => {
   let flow = A.f
-  Object.keys(node.edges).forEach(edgeName => {
-    let edgeArgs = node.edges[edgeName]
-    addEdge(edgeName, edgeArgs, flow)
-  })
+  // console.log({name})
+
   if (node.v) {
     flow.silent(...node.v)
     flow.setMetaObj({
@@ -28,6 +26,11 @@ const createFlow = node => {
       flow.meta(k)
     }
   })
+
+  Object.keys(node.edges).forEach(edgeName => {
+    let edgeArgs = node.edges[edgeName]
+    addEdge(edgeName, edgeArgs, flow,name)
+  })
   return flow
 }
 
@@ -36,7 +39,7 @@ export const createFlowNode = o => {
   Object.keys(o).forEach(name => {
     let n = o[name]
     if (n.isNode) {
-      node[name] = createFlow(n)
+      node[name] = createFlow(n, name)
     } else {
       node[name] = createFlowNode(n)
     }
