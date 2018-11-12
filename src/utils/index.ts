@@ -13,6 +13,21 @@ export function pathTo(path, inObject) {
   return wrong ? !wrong : lo
 }
 
+export function wayTo(path, inObject) {
+
+  let lo = inObject
+  let wrong = false
+  path.forEach(p => {
+
+    if (lo != undefined && lo[p]) {
+      lo = lo[p]
+    } else {
+      wrong = true
+    }
+  })
+  return wrong ? null : lo
+}
+
 export function getFlowData(pathArray, stateFlow, inValue) {
   // console.log("getFlowData.start")
 

@@ -31,6 +31,7 @@ export class LoStorage {
     let v = localStorage.getItem(id)
     // console.log("restoreFlow", id,flow,v)
     if (v && v!='undefined') {
+      flow.o.lc = "restored"
       flow(JSON.parse(v))
     }
   }

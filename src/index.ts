@@ -10,7 +10,8 @@ import {webPackActions} from "./wp-context";
 import {vuex} from "./vuex";
 import {Aloger} from "./logger";
 import {flowConstructor} from "./flow-constructor";
-
+import {GlobalState} from "./global-state";
+import {contextFlow} from "./utils/deepProxy";
 
 
 InstallAlak()
@@ -24,26 +25,23 @@ export class AVue<T> implements PluginObject<T> {
   kit = alak.A.flow
   f: T
   a: Function
-  // schemaClass
-  // actionModules
-  constructor(private schemaClass, private actionModules, private options:any = {}) {
-    if (options.silent){
+  constructor(private schemaClass, private actionModules, private options: any = {}) {
+    if (options.silent) {
       Aloger.silent()
     }
   }
 
   install(_Vue, options) {
-    Aloger.simple("𝗔vue ƒlows")
+    Aloger.simple(" ✶ 𝗔ction ƒlow")
     graphNodes(this.schemaClass)
-    actions.set(this.actionModules, graph.flow)
+    actions.set(this.actionModules)
     if (!this.options.prioritySchema) {
-      actions.runEntity.on(v=>graphEdges())
+      actions.runEntity.on(v => graphEdges())
     } else {
       graphEdges()
     }
-    this.f = graph.flow
-    _Vue.prototype.$f = graph.flow
-    _Vue.prototype.$a = actions.newDispatcher("ui")
+    this.f = contextFlow("ƒ")
+    _Vue.prototype.$g = GlobalState.data
     _Vue.mixin(installMixin)
     let a = actions.newDispatcher("𝗔")
     this.a = a

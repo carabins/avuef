@@ -1,3 +1,6 @@
+import {graph} from "./graph";
+import {isBrowser} from "./utils/context";
+
 let canlog = true
 export const Aloger = {
   silent() {
@@ -8,13 +11,19 @@ export const Aloger = {
   },
   group: (title, params) => {
     if (canlog) {
-      if (params.length > 1) {
-        console.groupCollapsed(title)
-        params.forEach(console.log)
-        console.groupEnd()
-      } else {
+      if (isBrowser)
+        if (params.length > 1) {
+          console.groupCollapsed(title)
+          params.forEach(v=>console.log(v))
+          console.groupEnd()
+        } else {
+          console.log(title)
+        }
+      else
         console.log(title)
-      }
     }
-  }
+  },
+  flow: (context)=> new Proxy({},{
+
+  })
 }

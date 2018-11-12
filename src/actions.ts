@@ -4,66 +4,47 @@ import {webPackActions} from "./wp-context";
 import {A} from "alak";
 import {Aloger} from "./logger";
 import {graph} from "./graph";
+import {contextAction, contextFlow} from "./utils/deepProxy";
 
+const doAction = (name, ctx, ...args) => {
+  Aloger.group(` 𝜶 ${name} ← ${ctx}`, args)
+  return launch(name, ...args)
+}
+const launcher = (ctx, ...args) => (name, ...args) => {
+  Aloger.group(` 𝜶  ${name} ← ${ctx}`, args)
+  return launch(name, ...args)
+}
+const launch = (actionName, ...args) => {
 
-let actionModules = {}
+  let aFn = pathTo(actionName, actionModules)
+
+  let ctxLabel = `𝜶 ${actionName}`
+  if (!aFn) {
+    console.error(`𝗔ction "${actionName}" not found`, args)
+    return Promise.resolve(false)
+  } else {
+    let launch = actions.newDispatcher(ctxLabel)
+    let maybePromise = aFn.apply({ a:launch, f: contextFlow(ctxLabel) }, args)
+    if (maybePromise && typeof maybePromise.then === 'function') {
+      GlobalState.setRun(actionName, true)
+      return new Promise(((resolve, reject) => {
+        maybePromise.then(r => {
+          GlobalState.setRun(actionName, false)
+          resolve(r)
+        }).catch(e => {
+          GlobalState.setRun(actionName, false)
+          reject(e)
+        })
+      }))
+    }
+    return maybePromise
+  }
+}
 function dispatchAction (...context) {
   let [contextType, ctxPath, ctxSym] = context
-  const launch = (action, ...params) => {
-    let log = ` 𝜶  ${action} ← ${contextType} ${ctxPath ? ctxPath : ""} ${ctxSym ? ctxSym : ''}`
-    let aFn
-    const defaultPath = () => aFn = pathTo(action, actionModules)
-    // console.log(":::", contextType, ctxPath, ctxSym)
-
-    switch (contextType) {
-      case 'ƒ':
-        let contextPath = ctxPath.split(".")
-        contextPath.pop()
-        let modulePath = []
-        contextPath.some((p, i) => {
-          modulePath.push(p)
-          aFn = pathTo(`${modulePath.join(".")}.${action}`, actionModules)
-        })
-        if (!aFn) {
-          defaultPath()
-        } else {
-          let mp = modulePath.join(".")
-          log = ` 𝜶' ${mp}.(${action} ← ${contextType} ${ctxPath.replace(mp + ".", "")}) ${ctxSym}`
-        }
-        break
-      default :
-        defaultPath()
-    }
-
-    Aloger.group(log, params)
-
-    if (!aFn) {
-      console.error(log, " ← action not found ",  )
-      return Promise.resolve(false)
-    } else {
-      let maybePromise = aFn.apply({ a:dispatchAction("𝗔."+action), f: graph.flow }, params)
-      if (maybePromise && typeof maybePromise.then === 'function') {
-        GlobalState.setRun(action, true)
-        return new Promise(((resolve, reject) => {
-          maybePromise.then(r => {
-            GlobalState.setRun(action, false)
-            resolve(r)
-          }).catch(e => {
-            GlobalState.setRun(action, false)
-            reject(e)
-          })
-        }))
-      }
-      return maybePromise
-    }
-  }
-  if (contextType == 'ui') {
-    let o = GlobalState.data
-    o.launch = launch
-    return o
-  } else {
-    return launch
-  }
+  return contextAction(contextType)
+  // return launcher([contextType, ctxPath, ctxSym].join(" "))
+  // return launcher("xxx")
 }
 
 
@@ -71,22 +52,26 @@ const runEntity = A.flow
 runEntity.on(app => {
   let entry = actionModules['entry']
   if (entry) {
-    Aloger.simple(" 𝜶  ← root.entry")
+    Aloger.simple(" 𝜶  root.entry ← app")
     entry(app)
   }
 })
+
+
+let actionModules = {}
 export const actions = {
   newDispatcher: dispatchAction,
+  launch,
   runEntity,
   get modules(){
     return actionModules
   },
-  set(v, flow) {
+  set(v) {
     let ctx = webPackActions(v)
     if (ctx) {
-      actionModules = ctx(dispatchAction("Ω"), flow)
+      actionModules = ctx()
     } else {
-      actionModules = v(dispatchAction("Ω"), flow)
+      actionModules = v
     }
   }
 }

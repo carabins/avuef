@@ -7,6 +7,7 @@ export function optionOnFlow(cleaner, comp, params) {
   Object.keys(params).forEach(k => {
     let f = params[k]
     let flow = pathTo(k, graph.flow)
+
     if (flow) {
       if (flow.isMeta("lazy")) {
         if (graph.lazyActions.has(flow))

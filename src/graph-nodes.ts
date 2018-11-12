@@ -7,13 +7,14 @@ import {Aloger} from "./logger";
 import {A} from "alak";
 import {createFlowNode} from "./flow-constructor";
 
-const logFlow = (v, flow) => {
-  if (typeof v === 'object' && v != null) {
-    Aloger.group(` ƒ  ${flow.id}`,
-      [
-        `META : ${flow.meta()}  ✶  ${flow.isMeta('immutable') ? "immutable" : "mutable"}`,
-        v,
+const logFlow = (v, flow, size) => {
 
+  if (v != null) {
+
+    Aloger.group(` ƒ  ${flow.id} ← ${flow.o.lc}` ,
+      [
+        v,
+        'hooks : '+size,
       ]
     )
   }
@@ -41,27 +42,31 @@ const bindFlow = (node,
       let id = pj ? pj + "." + name : name
       flow.setId(id)
       let cmd = flow.isMeta("immutable") ? "im" : "on"
-      flow.setMetaObj({
+
+      let metaObj = {
         m: path.join("."), name, cmd, path: path.slice()
-      })
+      }
+      if (flow.o) Object.assign(metaObj,flow.o)
+      flow.setMetaObj(metaObj)
 
       let store = flow.isMeta("stored")
 
-      let uiMutation = flowMutations[id] = v => {
+      let flowMutation = flowMutations[id] = v => {
+        logFlow(v, flow,uiListiners.size )
         if (flow.isMeta("global") || flow.isMeta("state")) {
           GlobalState.setState(name, v)
         }
         if (uiListiners.size) {
-          logFlow(v, flow)
           uiListiners.forEach(f => f(v), true)
         }
+
         if (store) {
           LoStorage.setItem(flow.id, v)
         }
       }
       if (store)
         LoStorage.restoreFlow(flow.id, flow)
-      flow[cmd](uiMutation)
+      flow[cmd](flowMutation)
       flowMap[id] = flow
 
 
@@ -92,10 +97,11 @@ export function graphNodes(schemaClass) {
   //console.log({flow})
 
   let binded = bindFlow(flow)
-  const mutateViewOnly = (path, value) => {
+  const mutateViewOnly = (ctx, path, value) => {
     let m = flowMutations[path]
     let f = binded.flowMap[path]
     if (f) {
+      f.o.lc = "silent ← "+ctx
       f.silent(value)
       if (m) {
         m(value)

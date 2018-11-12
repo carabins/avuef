@@ -1,25 +1,32 @@
 import {A, AFlow} from "alak";
 import {graph} from "./graph";
+import {addEdge} from "./add-edges";
 
 const ext = new Set(["valueOf"])
 
 const alakProps = new Set(["stateless", "emitter"])
-const allowEdges = new Set(["lazyGet", "get", "map", "lazyMap", "on", "lazyOn", "if"])
+const allowEdges = new Set(["lazyGet", "get", "map", "lazyMap", "on", "lazyOn", "if", "action"])
+
 
 const createFlow = node => {
   let flow = A.f
-  if (node.v)
+  Object.keys(node.edges).forEach(edgeName => {
+    let edgeArgs = node.edges[edgeName]
+    addEdge(edgeName, edgeArgs, flow)
+  })
+  if (node.v) {
     flow.silent(...node.v)
+    flow.setMetaObj({
+      lc: "hardcoded",
+    })
+  }
+
   node.meta.forEach(k => {
     if (alakProps.has(k)) {
       flow[k]()
     } else {
       flow.meta(k)
     }
-  })
-  Object.keys(node.edges).forEach(k => {
-    let v = node.edges[k]
-    flow[k](...v)
   })
   return flow
 }
