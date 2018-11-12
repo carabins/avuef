@@ -12,7 +12,7 @@ export const Aloger = {
   group: (title, params) => {
     if (canlog) {
       if (isBrowser)
-        if (params.length > 1) {
+        if (params.length >= 1) {
           console.groupCollapsed(title)
           params.forEach(v=>console.log(v))
           console.groupEnd()

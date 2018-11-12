@@ -10,7 +10,7 @@ const launch = (actionName, callerName, ...args) => {
   Aloger.group(` 𝜶  ${actionName} ← ${callerName}`, args)
   let aFn = pathTo(actionName, actionModules)
 
-  let ctxLabel = `𝜶 ${actionName}`
+  let ctxLabel = `𝜶.${actionName}`
   if (!aFn) {
     // console.error()
     return Promise.reject(`𝗔ction "${actionName}" not found`)

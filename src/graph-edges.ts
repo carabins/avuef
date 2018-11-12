@@ -25,42 +25,20 @@ const getFlow = (path, flow) => {
   console.error("Edge Flow Not Found:", path, "in", flow.o.path.join("."), "schema")
 
 }
-const normalizeFlowPath = (path, flow) => {
-  let a = path.split(".")
-  if (a.length == 1 && !graph.flow[path]) {
-    path = flow.o.m + "." + path
-  }
-  return path
-}
-
-const initTypeGuard = (defaultValue, flow) => {
-  if (defaultValue) {
-    flow(defaultValue)
-    return typeof defaultValue
-  }
-  return false
-}
-const actionRunners = {}
-const initActionMutator = (sym, action, typeGuard, flow) => async value => {
-  // let ar = actions.newDispatcher('ƒ', flow.id, sym) //actionRunners[name]
-  // console.log(value, {ar})
-  // if (!ar) {
-  //   ar = actionRunners[name] = actions.newDispatcher(name)
-  // }
-  // const safe = v => {
-  //   if (typeGuard && typeGuard != typeof v) {
-  //     console.warn(`Mismatch type for "${flow.id}" flow lazyGet action '${action}'`)
-  //   } else {
-  //     flow(v)
-  //   }
-  // }
-
+// const normalizeFlowPath = (path, flow) => {
+//   let a = path.split(".")
+//   if (a.length == 1 && !graph.flow[path]) {
+//     path = flow.o.m + "." + path
+//   }
+//   return path
+// }
+//
+// const actionRunners = {}
+const mutateFlowFromAction = (sym, action, flow) => async value => {
   if (value !== null) {
-    let actionName = `ƒ ${flow.id} ${sym}`
-    console.log({actionName})
-
+    let actionName = `${sym}`
     let r = await actions.launch(action, actionName, value)
-    flow.o.lc = ` ${action} ← ∴`
+    flow.o.lc = `∴ ⇇ 𝜶.${action}`
     flow(r)
   } else {
     flow(null)
@@ -87,7 +65,7 @@ export function graphEdges() {
     let flow = getFlow(path, to)
     flow.on(v => {
       if (v == exp) {
-        actions.newDispatcher('ƒ', to.id, '⋁ ∴')(action)
+        actions.newDispatcher('ƒ', to.id, '∴ if')(action)
           .then(r => {
             to(r)
           })
@@ -98,28 +76,21 @@ export function graphEdges() {
   // Create get Edges
   for (let [action, flow] of graph.edges.actions) {
     flow.on((...v) => {
-      let callerName = `ƒ ${flow.id} ← Ω`
+      let callerName = `∴ action ← ƒ.${flow.id} `
       actions.launch(action, callerName, ...v)
     })
   }
   for (let [action, defaultValue, flow] of graph.edges.get) {
-    let typeGuard = initTypeGuard(defaultValue, flow)
-    let mutator = initActionMutator(`↓ ∴`, action, typeGuard, flow)
+    let mutator = mutateFlowFromAction(`∴ get`, action, flow)
     subscribe(flow, mutator)
   }
 
 
   // Create On Edges
   for (let [path, action, defaultValue, flow] of graph.edges.on) {
-
-    // let typeGuard = initTypeGuard(defaultValue, flow)
     let f = getFlow(path, flow)
-
-    const mutator = initActionMutator("← ∴", action, false, flow)
-    subscribe(f, mutator)
-    // f.on(v=>{
-    //   console.log("xvv",v)
-    // })
+    const mutator = mutateFlowFromAction(`∴ on ← ƒ.${f.id}`, action,  flow)
+    subscribe(f, () => f.on(mutator))
   }
 
   // Create Mapped Edges

@@ -18,7 +18,7 @@ const clearCleaner = (v, t) => {
 }
 function newAction(tagName){
   return function(name, ...args){
-    let actionName = ` 𝜶 ${name} ← 𝒱 ${tagName}`
+    let actionName = `𝜶.${name} ← 𝒱 ${tagName}`
     return actions.launch(name, actionName, ...args)
   }
 }
