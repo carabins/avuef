@@ -13,7 +13,8 @@ const createFlow = (node, name) => {
   // console.log({name})
 
   if (node.v) {
-    flow.silent(...node.v)
+    let vv = node.v
+    flow(...vv)
     flow.setMetaObj({
       lc: "hardcoded",
     })
