@@ -12,6 +12,7 @@ type AGraphNode = {
   lazyOn: (parentFlowPath: string, actionPath: string) => AGraphNode;
   get: (actionPath: string) => AGraphNode;
   lazyGet: (actionPath: string) => AGraphNode;
+  action: (actionPath: string) => AGraphNode;
   v: IA;
 };
 
