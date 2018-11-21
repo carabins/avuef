@@ -12,9 +12,9 @@ const createFlow = (node, name) => {
   let flow = A.f
   // console.log({name})
 
-  if (node.v) {
-    let vv = node.v
-    flow(...vv)
+  let startValue = node.value
+  if (startValue) {
+    flow(...startValue)
     flow.setMetaObj({
       lc: "hardcoded",
     })
@@ -57,12 +57,13 @@ const deepHandler = {
         return Array.from(meta.values())
       case "edges":
         return target.edges
-      case "v":
+      case "value":
         return target.v
       case "isNode":
         return true
     }
     let edges = target.edges
+
 
 
     switch (typeof key) {
@@ -72,11 +73,11 @@ const deepHandler = {
             edges[key] = args
             return target.deep
           }
-        } else if (!meta.has(key) && !ext.has(key)) {
+        } else if (!meta.has(key) && !ext.has(key) && key != "v") {
+          console.log("addMeta", key)
           target.meta.add(key)
         }
         break
-
     }
     return target.deep
   }

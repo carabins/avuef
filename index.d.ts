@@ -12,11 +12,11 @@ type AGraphNode = {
   lazyOn: (parentFlowPath: string, actionPath: string) => AGraphNode;
   get: (actionPath: string) => AGraphNode;
   lazyGet: (actionPath: string) => AGraphNode;
-  f: IA;
+  v: IA;
 };
 
 export declare interface IA {
-  f: AFlow<any>;
+  v: AFlow<any>;
   <T>(v: T): AFlow<T>;
 }
 

@@ -8,17 +8,21 @@ Vue.config.silent = true
 export default class FlowGraphSchema {
   user = {
     id: F.get("user.get"),
-    name: F.stored.global
+    name: F,
+    name3: F.v("noname"),
+    name1: F.stored.global.v("noname")
   }
-  gallery = {
-    list: F.on("user.id", "api.getGallery")
-  }
+  // gallery = {
+  //   list: F.on("user.id", "api.getGallery")
+  // }
 }
 
 const actions = {
   user: {
     get(){
-      // this.f.user.name("hello")
+      console.log(this.f.user.name.v)
+      this.f.user.name("hello")
+      console.log(this.f.user.name.v)
       return 'user'+Math.round(Math.random()*1000)
     }
   },
