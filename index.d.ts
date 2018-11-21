@@ -8,11 +8,11 @@ type AGraphNode = {
   stateless: AGraphNode;
   vuex: AGraphNode;
   emitter: AGraphNode;
-  on: (parentFlowPath: string, actionPath: string) => AGraphNode;
-  lazyOn: (parentFlowPath: string, actionPath: string) => AGraphNode;
-  get: (actionPath: string) => AGraphNode;
-  lazyGet: (actionPath: string) => AGraphNode;
-  action: (actionPath: string) => AGraphNode;
+  on(parentFlowPath: string, actionPath: string) : AGraphNode;
+  lazyOn(parentFlowPath: string, actionPath: string) : AGraphNode;
+  get(actionPath: string) : AGraphNode;
+  lazyGet(actionPath: string) : AGraphNode;
+  action(actionPath: string) : AGraphNode;
   v: IA;
 };
 
