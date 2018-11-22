@@ -74,7 +74,6 @@ const deepHandler = {
             return target.deep
           }
         } else if (!meta.has(key) && !ext.has(key) && key != "v") {
-          console.log("addMeta", key)
           target.meta.add(key)
         }
         break
