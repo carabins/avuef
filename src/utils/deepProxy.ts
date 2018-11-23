@@ -4,14 +4,17 @@ import {actions} from "../actions";
 import {Aloger} from "../logger";
 
 
+const updateFlowByPath = (ctx, path, v) =>{
+  let f = wayTo(path, graph.flow)
+  if (!f) throw `flow → ${path} not found ← ${ctx}`
+  f.o.lc = ctx
+  f(v)
+  return f
+}
+
 const deepFlow = {
   apply(p, ctx, args) {
-    // console.log("apply", p.path)
-    let f = wayTo(p.path, graph.flow)
-    if (!f) throw `flow → ${p.path} not found ← ${p.ctx}`
-    f.o.lc = p.ctx
-    f(...args)
-    return f
+    return updateFlowByPath(p.ctx, p.path, args[0])
   },
   get(p, k) {
     switch (k) {
@@ -29,6 +32,12 @@ const deepFlow = {
     // else return p.q
   }
 }
+
+export const contextFlowPath = ctx1 => (path, value, ctx2) => {
+  let ctx = ctx2 ? ctx2 : ctx1
+  return updateFlowByPath(ctx, path.split("."), value)
+}
+
 let fn = () => {
 }
 export const contextFlow = ctx => {
