@@ -30,7 +30,7 @@ export const addEdge = (name, args, flow, path) => {
       add(graph.edges.on, "lazy", 3)
       break
     case "lazyOn" :
-      add(graph.edges.on, "lazy", 3)
+      add(graph.edges.on, false, 3)
       break
     case "if" :
       add(graph.edges.if, "if", 3)
