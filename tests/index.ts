@@ -12,9 +12,9 @@ export default class FlowGraphSchema {
     name3: F.v("noname"),
     name1: F.stored.global.v("noname")
   }
-  // gallery = {
-  //   list: F.on("user.id", "api.getGallery")
-  // }
+  gallery = {
+    list: F.on("user.id", "api.getGallery")
+  }
 }
 
 const actions = {
