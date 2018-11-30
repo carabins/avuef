@@ -7,7 +7,7 @@ import {graph} from "./graph";
 import {contextAction, contextFlow, contextFlowPath} from "./utils/deepProxy";
 
 const launch = (actionName, callerName, ...args) => {
-  Aloger.group(` 𝜶  ${actionName} ← ${callerName}`, args)
+  // Aloger.group(` 𝜶  ${actionName} ← ${callerName}`, args)
   let aFn = pathTo(actionName, actionModules)
 
   let ctxLabel = `𝜶.${actionName}`
