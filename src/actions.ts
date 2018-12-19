@@ -16,7 +16,7 @@ const launch = (actionName, callerName, ...args) => {
   } else {
     let launch = actions.newDispatcher(ctxLabel)
     let maybePromise = aFn.apply({
-      ctxLabel,
+      caller:callerName,
       a: launch, f: contextFlow(ctxLabel), ff: contextFlowPath(ctxLabel)
     }, args)
     if (maybePromise && typeof maybePromise.then === 'function') {
