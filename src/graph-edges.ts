@@ -2,6 +2,7 @@ import {actions} from "./actions";
 import {graph} from "./graph";
 import {pathTo} from "./utils";
 import {Aloger} from "./logger";
+import {contextAction} from "./utils/deepProxy";
 
 
 // const getFullPath = (p, flow) => {
@@ -34,14 +35,24 @@ const getFlow = (path, flow) => {
 // }
 //
 // const actionRunners = {}
-const mutateFlowFromAction = (sym, action, flow) => async value => {
-  if (value !== null) {
-    let actionName = `${sym}`
-    let r = await actions.launch(action, actionName, value)
-    flow.o.lc = `∴ ⇇ 𝜶.${action}`
-    flow(r)
-  } else {
-    flow(null)
+const getCtxAction = (action, name, sym) => {
+  let a = contextAction(name, sym)
+  let p = action.split(".")
+  let aFn = a[p.shift()]
+  p.forEach(k=>aFn=aFn[k])
+  return aFn
+}
+const mutateFlowFromAction = (sym, action, flow) => {
+  let aFn = getCtxAction(action, flow.id, sym)
+  return async value => {
+    if (value !== null) {
+      let r = await aFn(value)
+      // console.log(aFn.q)
+      flow.o.lc = `∴ ${action}`
+      flow(r)
+    } else {
+      flow(null)
+    }
   }
 }
 
@@ -61,27 +72,28 @@ const subscribe = (flow, fn) => {
 
 export function graphEdges() {
   // Create if Edges
-  for (let [path, exp, action, to] of graph.edges.if) {
-    let flow = getFlow(path, to)
-    flow.on(v => {
-      if (v == exp) {
-        actions.newDispatcher('ƒ', to.id, '∴ if')(action)
-          .then(r => {
-            to(r)
-          })
-      }
-    })
-  }
+  // for (let [path, exp, action, to] of graph.edges.if) {
+  //   let flow = getFlow(path, to)
+  //   // let act = contextAction()
+  //   flow.on(v => {
+  //     if (v == exp) {
+  //       // contextAction()
+  //       // actions.newDispatcher('ƒ', to.id, '∴ if')(action)
+  //       //   .then(r => {
+  //       //     to(r)
+  //       //   })
+  //     }
+  //   })
+  // }
 
   // Create get Edges
   for (let [action, flow] of graph.edges.actions) {
     flow.on((...v) => {
-      let callerName = `∴ action ← ƒ.${flow.id} `
-      actions.launch(action, callerName, ...v)
+      getCtxAction(action, flow.id, "∴")(...v)
     })
   }
   for (let [action, defaultValue, flow] of graph.edges.get) {
-    let mutator = mutateFlowFromAction(`∴ get`, action, flow)
+    let mutator = mutateFlowFromAction(`∴`, action, flow)
     subscribe(flow, mutator)
   }
 
@@ -89,7 +101,7 @@ export function graphEdges() {
   // Create On Edges
   for (let [path, action, defaultValue, flow] of graph.edges.on) {
     let f = getFlow(path, flow)
-    const mutator = mutateFlowFromAction(`∴ on ← ƒ.${f.id}`, action,  flow)
+    const mutator = mutateFlowFromAction(`∴`, action,  flow)
     subscribe(f, () => f.on(mutator))
   }
 
@@ -101,7 +113,7 @@ export function graphEdges() {
       let a = ar.map(a => [a])
       for (let i = 0; i < ar.length; i++) {
         const v = ar[i];
-        a[i][1] = await actions.newDispatcher('ƒ', flow.id, '⇇ ∴')(action, v)
+        // a[i][1] = await actions.newDispatcher('ƒ', flow.id, '⇇ ∴')(action, v)
       }
       flow(a)
     }

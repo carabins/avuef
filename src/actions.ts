@@ -6,18 +6,36 @@ import {Aloger} from "./logger";
 import {graph} from "./graph";
 import {contextAction, contextFlow, contextFlowPath} from "./utils/deepProxy";
 
-const launch = (actionName, callerName, ...args) => {
-  // Aloger.group(` 𝜶  ${actionName} ← ${callerName}`, args)
+const launch = (actionName, callerName, sym, ...args) => {
+
   let aFn = pathTo(actionName, actionModules)
 
-  let ctxLabel = `𝜶.${actionName}`
+
+
+
+  // if (m.length==1){
+  //   mod = "$root"
+  // }
+
+  if (!aFn) {
+    let m = callerName.split(".")
+    if (m.length>1){
+      let mod = m[0]
+      actionName = mod+"."+actionName
+      aFn = pathTo(actionName, actionModules)
+    }
+  }
+
+
   if (!aFn) {
     return Promise.reject(`𝗔ction "${actionName}" not found`)
   } else {
-    let launch = actions.newDispatcher(ctxLabel)
+    Aloger.group(` 𝜶  ${actionName} ← ${sym} ${callerName}`, args)
+
+    let ctxLabel = `𝜶.${actionName}`
     let maybePromise = aFn.apply({
-      caller:callerName,
-      a: launch, f: contextFlow(ctxLabel), ff: contextFlowPath(ctxLabel)
+      caller:actionName,
+      a: contextAction(actionName, "𝜶"), f: contextFlow(ctxLabel), ff: contextFlowPath(ctxLabel)
     }, args)
     if (maybePromise && typeof maybePromise.then === 'function') {
       GlobalState.setRun(actionName, true)
@@ -35,10 +53,10 @@ const launch = (actionName, callerName, ...args) => {
   }
 }
 
-function dispatchAction(...context) {
-  let [contextType, ctxPath, ctxSym] = context
-  return contextAction(contextType)
-}
+// function dispatchAction(...context) {
+//   let [contextType, ctxPath, ctxSym] = context
+//   return contextAction(contextType)
+// }
 
 
 const runEntity = A.flow
@@ -53,7 +71,7 @@ const runEntity = A.flow
 
 let actionModules = {}
 export const actions = {
-  newDispatcher: dispatchAction,
+  // newDispatcher: dispatchAction,
   launch,
   runEntity,
   get modules() {
@@ -65,6 +83,9 @@ export const actions = {
       actionModules = ctx()
     } else {
       actionModules = v
+      Object.keys(actionModules).forEach(k=>{
+        actionModules[k].path = k
+      })
     }
   }
 }

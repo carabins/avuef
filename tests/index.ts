@@ -7,26 +7,33 @@ Vue.config.silent = true
 
 export default class FlowGraphSchema {
   user = {
-    id: F.get("user.get"),
+    id: F.get("get"),
     name: F,
-    name3: F.v("noname"),
-    name1: F.stored.global.v("noname")
+    // name3: F.v("noname"),
+    // name1: F.stored.global.v("noname")
   }
   gallery = {
-    list: F.on("user.id", "api.getGallery")
+    list: F.on("user.id", "getGallery").action("user.echo")
   }
 }
 
 const actions = {
   user: {
     get(){
-      console.log(this.f.user.name.v)
-      this.f.user.name("hello")
-      console.log(this.f.user.name.v)
+      // console.log(this.f.user.name.v)
+      // this.f.user.name("hello")
+      // console.log(this.f.user.name.v)
+      // this.a("user.echo")
+      this.a.user.echo()
+      this.a.echo()
+
       return 'user'+Math.round(Math.random()*1000)
+    },
+    echo(...a){
+      console.log(".", a)
     }
   },
-  api:{
+  gallery:{
     getGallery(userid){
       console.log("api.getGallery", {userid})
       return [1,2,3]

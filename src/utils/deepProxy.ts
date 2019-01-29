@@ -68,37 +68,29 @@ export const contextFlow = ctx => {
 const fnProps = new Set<any>(["call", "constructor", "prototype"])
 const deepAction = {
   apply(p, ctx, args) {
-    // let a = wayTo(p.path, actions.modules)
+    // console.log("callerName::", p.callerName)
     let actionName = p.path.join(".")
-    let promise = actions.launch(actionName, p.ctx, ...args)
-    // promise.catch(v=>{
-    //   console.error(v)
-    // })
-
-    // console.log(promise)
+    let promise = actions.launch(actionName, p.callerName, p.sym, ...args)
     return promise
   },
   get(p, k) {
-    // console.log("←←←←", k)
     if (!fnProps.has(k)){
       p.path.push(k)
       return p.q
     }
-    // p.f = wayTo(p.path, actions.modules)
-    // if (p.f) return p.f
-
   }
 }
 //
-export const contextAction = ctx => {
+export const contextAction = (callerName, sym) => {
   // console.log("contextAction", ctx)
 
-  return new Proxy(Object.assign(fn,{ctx}), {
-    apply(o, __, args) {
-      let actionName = args.shift()
-
-      return actions.launch(actionName, ctx,...args)
-    },
+  return new Proxy(Object.assign(fn,{callerName}), {
+    // apply(o, __, args) {
+    //   console.log("apply", ctx)
+    //   let actionName = args.shift()
+    
+    //   return actions.launch(actionName, ctx, ...args)
+    // },
     get(o, k) {
       if (typeof k === "symbol"){
         return hint => {
@@ -109,11 +101,14 @@ export const contextAction = ctx => {
         return {}
       }
       let p = {
-        ctx,
+        callerName,
+        sym,
         path: [k],
       } as any
       p.q = new Proxy(fn, deepAction)
       Object.assign(fn, p)
+      
+      // console.log(deepAction)
       return p.q
     }
   })

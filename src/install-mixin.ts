@@ -16,12 +16,14 @@ const clearCleaner = (v, t) => {
     v.delete(t)
   }
 }
-function newAction(tagName){
-  return function(name, ...args){
-    let actionName = `𝜶.${name} ← 𝒱 ${tagName}`
-    return actions.launch(name, actionName, ...args)
-  }
-}
+// function newAction(tagName){
+//   let aFn = contextAction(tagName, "𝒱")
+//   return aFn
+//   // return function(..args){
+//   //   let actionName = `𝜶.${name} ← 𝒱 ${tagName}`
+//   //   return contextAction() actions.launch(name, actionName, ...args)
+//   // }
+// }
 export const installMixin = {
   data() {
     if (toData.has(this))
@@ -31,29 +33,9 @@ export const installMixin = {
 
   beforeCreate() {
     if (!this.$vnode) return
-    // console.log(this)
-
     let tag = this.$options._componentTag || this.$vnode.tag
-
-    // const doAction = tag => (name, ...args) => {
-    //   let tag = this.$options._componentTag || this.$vnode.tag
-    //
-    // }
     this.$f = contextFlow(`𝒱 ${tag}`)
-
-    let launch = newAction(tag) as any
-  //   launch.bind({
-  //     z:"z"
-  // })
-
-    this.$a = launch
-    // this.$vnode.componentInstance.$x = "xxx"
-    // this.$vnode.componentOptions.$x = "xxx"
-    // this.$x = "xXx"
-    // console.log(this)
-    //
-    // console.log(this.$vnode)
-
+    this.$a = contextAction("𝒱", tag)
 
     let mapFlowOptions = this.$options.mapFlow
     if (mapFlowOptions) {
