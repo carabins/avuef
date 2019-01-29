@@ -34,8 +34,7 @@ const launch = (actionName, callerName, sym, ...args) => {
 
     let ctxLabel = `𝜶.${actionName}`
     let maybePromise = aFn.apply({
-      caller:actionName,
-      a: contextAction(actionName, "𝜶"), f: contextFlow(ctxLabel), ff: contextFlowPath(ctxLabel)
+      $a: contextAction(actionName, "𝜶"), $f: contextFlow(ctxLabel), $ff: contextFlowPath(ctxLabel)
     }, args)
     if (maybePromise && typeof maybePromise.then === 'function') {
       GlobalState.setRun(actionName, true)
