@@ -20,6 +20,11 @@ const deepFlow = {
     switch (k) {
       case "v":
       case "on":
+      case "im":
+      case "off":
+      case "emit":
+      case "match":
+      case "silent":
       case "mutate":
         if (!p.f)
           throw `flow.${k} "${p.path.join(".")}" not found in ${p.ctx}`
