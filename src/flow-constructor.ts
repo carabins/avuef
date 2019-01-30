@@ -16,7 +16,7 @@ const createFlow = (node, name) => {
   if (startValue) {
     flow(...startValue)
     flow.setMetaObj({
-      lc: "hardcoded",
+      lc: "init",
     })
   }
 

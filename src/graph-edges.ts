@@ -48,7 +48,7 @@ const mutateFlowFromAction = (sym, action, flow) => {
     if (value !== null) {
       let r = await aFn(value)
       // console.log(aFn.q)
-      flow.o.lc = `∴ ${action}`
+      flow.o.lc = `${action} 𝜶 ∴`
       flow(r)
     } else {
       flow(null)
@@ -89,11 +89,11 @@ export function graphEdges() {
   // Create get Edges
   for (let [action, flow] of graph.edges.actions) {
     flow.on((...v) => {
-      getCtxAction(action, flow.id, "∴")(...v)
+      getCtxAction(action, flow.id, "ƒ ∴")(...v)
     })
   }
   for (let [action, defaultValue, flow] of graph.edges.get) {
-    let mutator = mutateFlowFromAction(`∴`, action, flow)
+    let mutator = mutateFlowFromAction(`ƒ get ∴`, action, flow)
     subscribe(flow, mutator)
   }
 
@@ -101,7 +101,7 @@ export function graphEdges() {
   // Create On Edges
   for (let [path, action, defaultValue, flow] of graph.edges.on) {
     let f = getFlow(path, flow)
-    const mutator = mutateFlowFromAction(`∴`, action,  flow)
+    const mutator = mutateFlowFromAction(`ƒ on ∴`, action,  flow)
     subscribe(f, () => f.on(mutator))
   }
 

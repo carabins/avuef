@@ -32,7 +32,6 @@ export class AVue<T> implements PluginObject<T> {
   }
 
   install(_Vue, options) {
-    Aloger.simple(" ✶ 𝗔ction ƒlow")
     actions.set(this.actionModules)
     graphNodes(this.schemaClass)
     if (!this.options.prioritySchema) {
@@ -47,6 +46,7 @@ export class AVue<T> implements PluginObject<T> {
     this.a = a
     this.kit({f: graph.flow, a})
     actions.runEntity(options)
+    Aloger.simple(" 𝗔 ✶ ƒ")
   }
 
   [key: string]: any;

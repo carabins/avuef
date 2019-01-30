@@ -30,11 +30,13 @@ const launch = (actionName, callerName, sym, ...args) => {
   if (!aFn) {
     return Promise.reject(`𝗔ction "${actionName}" not found`)
   } else {
-    Aloger.group(` 𝜶  ${actionName} ← ${sym} ${callerName}`, args)
+    Aloger.group(` 𝜶  ${actionName} ← ${callerName} ${sym}`, args)
+    let ctxLabel = `${actionName} 𝜶`
 
-    let ctxLabel = `𝜶.${actionName}`
     let maybePromise = aFn.apply({
-      $a: contextAction(actionName, "𝜶"), $f: contextFlow(ctxLabel), $ff: contextFlowPath(ctxLabel)
+      $g: GlobalState.data,
+      $a: contextAction(actionName, "𝜶"),
+      $f: contextFlow(ctxLabel), $ff: contextFlowPath(ctxLabel)
     }, args)
     if (maybePromise && typeof maybePromise.then === 'function') {
       GlobalState.setRun(actionName, true)
