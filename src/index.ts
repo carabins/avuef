@@ -46,7 +46,7 @@ export class AVue<T> implements PluginObject<T> {
     this.a = a
     this.kit({f: graph.flow, a})
     actions.runEntity(options)
-    Aloger.simple(" 𝗔 ✶ ƒ")
+    Aloger.simple(" 𝗔  ✶")
   }
 
   [key: string]: any;

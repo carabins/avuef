@@ -35,6 +35,10 @@ export const addEdge = (name, args, flow, path) => {
     case "if" :
       add(graph.edges.if, "if", 3)
       break
+    case "lazyA" :
+      add(graph.edges.actions, "lazy")
+      break
+    case "a" :
     case "action" :
       add(graph.edges.actions)
       break

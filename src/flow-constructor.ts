@@ -5,7 +5,7 @@ import {addEdge} from "./add-edges";
 const ext = new Set(["valueOf"])
 
 const alakProps = new Set(["stateless", "emitter"])
-const allowEdges = new Set(["lazyGet", "get", "map", "lazyMap", "on", "lazyOn", "if", "action"])
+const allowEdges = new Set(["lazyGet", "get", "map", "lazyMap", "on", "lazyOn", "if", "action","a","lazyA"])
 
 
 const createFlow = (node, name) => {
