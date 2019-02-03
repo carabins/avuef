@@ -6,7 +6,7 @@ import {graphEdges} from "./graph-edges";
 import {actions} from "./actions";
 import {graph} from "./graph";
 import {installMixin} from "./install-mixin";
-import {webPackActions} from "./wp-context";
+import {webPackActions, wpContext} from "./wp-context";
 import {vuex} from "./vuex";
 import {Aloger} from "./logger";
 import {flowConstructor} from "./flow-constructor";
@@ -25,15 +25,18 @@ export class AVue<T> implements PluginObject<T> {
   kit = alak.A.flow
   f: T
   a: Function
-  constructor(private schemaClass, private actionModules, private options: any = {}) {
+  constructor(private storeModules, private options: any = {}) {
+    this.storeModules = wpContext(storeModules)
+
     if (options.silent) {
       Aloger.silent()
     }
   }
 
   install(_Vue, options) {
-    actions.set(this.actionModules)
-    graphNodes(this.schemaClass)
+    actions.set(this.storeModules)
+    graphNodes(this.storeModules)
+
     if (!this.options.prioritySchema) {
       actions.runEntity.on(v => graphEdges())
     } else {

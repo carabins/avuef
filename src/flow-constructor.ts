@@ -10,7 +10,6 @@ const allowEdges = new Set(["lazyGet", "get", "map", "lazyMap", "on", "lazyOn", 
 
 const createFlow = (node, name) => {
   let flow = A.f
-  // console.log({name})
 
   let startValue = node.value
   if (startValue) {

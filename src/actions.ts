@@ -13,12 +13,8 @@ const launch = (actionName, callerName, sym, ...args) => {
 
 
 
-  // if (m.length==1){
-  //   mod = "$root"
-  // }
-
   if (!aFn) {
-    let m = callerName.split(".")
+    let m = callerName ? callerName.split(".") : ""
     if (m.length>1){
       let mod = m[0]
       actionName = mod+"."+actionName
@@ -54,25 +50,11 @@ const launch = (actionName, callerName, sym, ...args) => {
   }
 }
 
-// function dispatchAction(...context) {
-//   let [contextType, ctxPath, ctxSym] = context
-//   return contextAction(contextType)
-// }
-
 
 const runEntity = A.flow
-// runEntity.on(app => {
-//   let entry = actionModules['entry']
-//   if (entry) {
-//     Aloger.simple(" 𝜶  root.entry ← app")
-//     entry(app)
-//   }
-// })
-
 
 let actionModules = {}
 export const actions = {
-  // newDispatcher: dispatchAction,
   launch,
   runEntity,
   get modules() {
@@ -80,12 +62,17 @@ export const actions = {
   },
   set(v) {
     let ctx = webPackActions(v)
+
     if (ctx) {
       actionModules = ctx()
     } else {
-      actionModules = v
-      Object.keys(actionModules).forEach(k=>{
-        actionModules[k].path = k
+      let am = {}
+      Object.keys(v).forEach(k=>{
+        let a = v[k].actions
+        if (a){
+          actionModules[k] = v[k].actions
+          actionModules[k].path = k
+        }
       })
     }
   }

@@ -33,8 +33,6 @@ const deepFlow = {
     p.path.push(k)
     p.f = wayTo(p.path, graph.flow)
     return p.q
-    // if (p.f) return p.f
-    // else return p.q
   }
 }
 
@@ -73,7 +71,6 @@ export const contextFlow = ctx => {
 const fnProps = new Set<any>(["call", "constructor", "prototype"])
 const deepAction = {
   apply(p, ctx, args) {
-    // console.log("callerName::", p.callerName)
     let actionName = p.path.join(".")
     let promise = actions.launch(actionName, p.callerName, p.sym, ...args)
     return promise
@@ -85,17 +82,9 @@ const deepAction = {
     }
   }
 }
-//
 export const contextAction = (callerName, sym) => {
-  // console.log("contextAction", ctx)
 
   return new Proxy(Object.assign(fn,{callerName}), {
-    // apply(o, __, args) {
-    //   console.log("apply", ctx)
-    //   let actionName = args.shift()
-    
-    //   return actions.launch(actionName, ctx, ...args)
-    // },
     get(o, k) {
       if (typeof k === "symbol"){
         return hint => {
@@ -112,8 +101,7 @@ export const contextAction = (callerName, sym) => {
       } as any
       p.q = new Proxy(fn, deepAction)
       Object.assign(fn, p)
-      
-      // console.log(deepAction)
+
       return p.q
     }
   })

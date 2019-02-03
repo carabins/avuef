@@ -1,7 +1,6 @@
 import V1 from "vue"
 const V2 = require("vue")
 let Vue = V1 ? V1 : V2
-// let wm // = V1 ? V1 : V2
 
 const wm = new Vue({
   data: {

@@ -5,52 +5,36 @@ import {A} from "alak";
 const Vue = require("vue")
 Vue.config.silent = true
 
-let aa = A.flow
-aa.stateless()
-aa("x")
-console.log(aa.v)
-
-
-export default class FlowGraphSchema {
-  user = {
-    id: F.get("get"),
-    name: F.stateless,
-    // name3: F.v("noname"),
-    // name1: F.stored.global.v("noname")
-  }
-  gallery = {
-    // list: F.on("user.id", "getGallery").action("user.echo")
-  }
-}
-
-const actions = {
-  user: {
-    get(){
-      // console.log(this.f.user.name.v)
-      // this.f.user.name("hello")
-      // console.log(this.f.user.name.v)
-      // this.a("user.echo")
-      // this.$a.user.echo()
-      // this.$a.echo()
-      this.$f.user.name("-")
-      console.log("→", this.$f.user.name.v)
-
-      return 'user'+Math.round(Math.random()*1000)
+const store ={
+  user:{
+    flows:{
+      id: F.get("get"),
+      name: F
     },
-    echo(...a){
-      console.log(".", a)
+    actions:{
+      get(){
+        this.$f.user.name("v")
+        return 1
+      }
     }
   },
-  gallery:{
-    getGallery(userid){
-      // console.log("api.getGallery", {userid})
-      // console.log( this.$f.user.name.v, "←")
-      return [1,2,3]
+  gallery: {
+    flows:{
+      list: F.on("user.id", "get"),
+      page: F,
+    },
+    actions:{
+      get(){
+        this.$f.gallery.page("x")
+        return [1]
+      }
     }
   }
 }
 
-const avue = new AVue(FlowGraphSchema, actions)
+
+
+const avue = new AVue(store)
 Vue.use(avue)
 
 

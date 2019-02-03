@@ -1,3 +1,57 @@
+export function wpContext(context) {
+  if (context.keys && context.keys()) {
+    let keys = context.keys();
+    let mpath = keys.map(k => ({k,n:k.replace("./", "")})) ///.replace(new RegExp('/', 'g'), "."))
+    let modules = {};
+    mpath.forEach(k => {
+      let ma = k.n.split("/");
+      let nameParts = ma.pop().split(".");
+      if (nameParts.length > 1) {
+        let name = nameParts[0];
+        let path = "./" + k.n.split(".")[0];
+        if (name)
+          if (ma.length > 0) {
+            let a = ma[0];
+            let m = modules[a] = modules[a] ? modules[a] : {};
+            if (ma.length > 1)
+              for (let i = 1; i < ma.length; i++) {
+                a = ma[i];
+                m = m[a] = m[a] ? m[a] : {};
+              }
+            m[name] = {path, good:true, k:k.k};
+          }
+          else {
+            modules[name] =
+              {path, good:true, k:k.k}
+            ;
+          }
+      }
+    });
+
+    const resolveModule = (path) => {
+      let module = context(path).default;
+      module.path = path;
+      return module;
+    };
+    let o = {}
+    Object.keys(modules).forEach(k=>{
+      let m = modules[k]
+      if (m.good) {
+        o[k] = resolveModule(m.k)
+      } else {
+        if (m.index) {
+          o[k] = resolveModule(m.index.k)
+        } else {
+          o[k] = resolveModule(m.k)
+        }
+      }
+    })
+    return o
+  } else {
+    return context
+  }
+}
+
 export const webPackActions = context => {
   if (context.keys && context.keys())
     return function (...args) {
@@ -77,19 +131,7 @@ export const webPackActions = context => {
       }
     })
 
-    // let indexModule
-    // if (modules.index) {
-    //   indexModule = resolveModule(modules.index)
-    //   console.log(indexModule)
-    //
-    //   return makeProxy(modules, indexModule)
-    // } else {
       return makeProxy(modules)
-    // }
-    // console.log("?", modules)
-    // return () => {
-      // console.log("xx?")
-    // }
   }
   return false
 }

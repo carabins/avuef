@@ -16,14 +16,6 @@ const clearCleaner = (v, t) => {
     v.delete(t)
   }
 }
-// function newAction(tagName){
-//   let aFn = contextAction(tagName, "𝒱")
-//   return aFn
-//   // return function(..args){
-//   //   let actionName = `𝜶.${name} ← 𝒱 ${tagName}`
-//   //   return contextAction() actions.launch(name, actionName, ...args)
-//   // }
-// }
 export const installMixin = {
   data() {
     if (toData.has(this))

@@ -24,7 +24,4 @@ export function InstallAlak() {
   A.install("lazyOn", addEdge(graph.edges.on, "lazy", 3))
   A.install("if", addEdge(graph.edges.if, "if", 3))
 
-  // A.install("edges", (edges)=>{
-  //   console.log("A.install", edges)
-  // })
 }

@@ -4,7 +4,6 @@ let isServer = !isBrowser()
 
 export class LoStorage {
   static setItem(key, item) {
-    // console.log("setItem", key, item)
     if (isServer) return false
     else return localStorage.setItem(key, JSON.stringify(item))
 
@@ -29,7 +28,6 @@ export class LoStorage {
   static restoreFlow(id, flow): any {
     if (isServer) return false
     let v = localStorage.getItem(id)
-    // console.log("restoreFlow", id,flow,v)
     if (v && v!='undefined') {
       flow.o.lc = "restored"
       flow(JSON.parse(v))

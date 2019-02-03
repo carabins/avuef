@@ -25,15 +25,13 @@ export const optionMapflow = (mapCleaner, comp, toData, params) => {
 
 
       if (flow.isMeta("lazy")) {
-        // console.log("Ω", graphEdges.lazyEdges.has(flow), graphEdges.lazyEdges.get(flow), fullPath)
         if (graph.lazyActions.has(flow))
           graph.lazyActions.get(flow)(`𝝭' `+compName)
       }
 
 
-      // if (value != null) {
       value = value ? value : flow[flow.isMeta("mutable") ? "v" : "imv"]
-      // }
+
       if (!isFullPatch) {
         let missPath = path.slice(lastI)
         if (value)
@@ -41,7 +39,6 @@ export const optionMapflow = (mapCleaner, comp, toData, params) => {
             value = value[p]
           })
       }
-      // console.log("Ω",fullPath, toData.has(comp),  value)
       if (toData.has(comp)) {
         comp.$set(comp, targetKey, value)
       } else {
@@ -62,7 +59,6 @@ export const optionMapflow = (mapCleaner, comp, toData, params) => {
         mutatePatch(pValue, k)
         break
       case "array":
-        // console.log("array")
         let flow = graph.flow[k]
         if (flow) {
           if (pValue.length == 0) pValue = Object.keys(flow)
@@ -77,9 +73,7 @@ export const optionMapflow = (mapCleaner, comp, toData, params) => {
   })
   mapCleaner.set(comp, () => {
     cleanFns.forEach(f => f())
-    // toData.delete(comp)
   })
-  // Object.assign(comp, dataObject)
   toData.set(comp, dataObject)
   return dataObject
 }

@@ -89,12 +89,16 @@ const bindFlow = (node,
 
 
 
-export function graphNodes(schemaClass) {
-  const node = new schemaClass()
-  // console.log("schemaClass")
+export function graphNodes(storeModules) {
+  let nodes = {}
+  Object.keys(storeModules).forEach(k=>{
 
-  let flow = createFlowNode(node)
-  //console.log({flow})
+    let f = storeModules[k].flows
+    if (f)
+      nodes[k] = f
+  })
+
+  let flow = createFlowNode(nodes)
 
   let binded = bindFlow(flow)
   const mutateViewOnly = (ctx, path, value) => {
