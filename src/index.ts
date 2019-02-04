@@ -11,7 +11,7 @@ import {vuex} from "./vuex";
 import {Aloger} from "./logger";
 import {flowConstructor} from "./flow-constructor";
 import {GlobalState} from "./global-state";
-import {contextAction, contextFlow} from "./utils/deepProxy";
+import {contextAction, contextFlow, contextFlowPath} from "./utils/deepProxy";
 
 
 InstallAlak()
@@ -43,6 +43,7 @@ export class AVue<T> implements PluginObject<T> {
       graphEdges()
     }
     this.f = contextFlow("Ω")
+    this.ff = contextFlowPath("Ω")
     _Vue.prototype.$g = GlobalState.data
     _Vue.mixin(installMixin)
     let a = contextAction("Ω","")
