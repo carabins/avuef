@@ -16,6 +16,7 @@ import {contextAction, contextFlow, contextFlowPath} from "./utils/deepProxy";
 
 InstallAlak()
 
+export const sync = {}
 export const F = flowConstructor
 export const wpFlolderActions = webPackActions
 
