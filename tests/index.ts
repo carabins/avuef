@@ -26,6 +26,7 @@ const store ={
     actions:{
       get(){
         this.$f.gallery.page("x")
+        let id = avue.ff("user.id")
         return [1]
       }
     }
