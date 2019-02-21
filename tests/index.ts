@@ -1,4 +1,4 @@
-require('jsdom-global')()
-import './002-observ'
+// require('jsdom-global')()
+// import './002-observ'
 
-// import './001-base'
+import './001-base'

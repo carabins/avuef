@@ -10,14 +10,16 @@ const store ={
     flows:{
       // id: F.get("get"),
       id: F.observ.v(1),
-      profile: F.edge('id', 'getProfile'),
+      m1: F.observ.v(2),
+      profile: F.from(['id','m1'], 'getProfile'),
       stats: F.v
     },
     actions:{
       newId(){
         this.$f.user.id(10)
       },
-      getProfile(){
+      getProfile(...a){
+        console.log(a)
         // this.$f.user.stats("x")
         return "x"
       },

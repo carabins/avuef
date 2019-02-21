@@ -1,11 +1,4 @@
-// import V1 from "vue"
-// const V2 = require("vue")
-// let Vue = V1 ? V1 : V2
-
-
 export function observableValue(v){
-  console.log("?")
-
   let observable = GlobalState.Vue.observable as any
   observable(v)
   if (Array.isArray(v))
@@ -17,7 +10,6 @@ export function observableValue(v){
 
 export const GlobalState = {
   init(vue){
-    console.log("init")
     this.Vue = vue
     observableValue(GlobalState.Vue)
   },
