@@ -1,4 +1,4 @@
-import {InstallAlak} from "./install-alak";
+// import {InstallAlak} from "./install-alak";
 import {PluginObject} from "vue";
 import * as alak from "alak";
 import {graphNodes} from "./graph-nodes";
@@ -7,22 +7,21 @@ import {actions} from "./actions";
 import {graph} from "./graph";
 import {installMixin} from "./install-mixin";
 import {webPackActions, wpContext} from "./wp-context";
-import {vuex} from "./vuex";
 import {Aloger} from "./logger";
 import {flowConstructor} from "./flow-constructor";
 import {GlobalState} from "./global-state";
 import {contextAction, contextFlow, contextFlowPath} from "./utils/deepProxy";
 
 
-InstallAlak()
+// InstallAlak()
 
 export const sync = {}
 export const F = flowConstructor
 export const wpFlolderActions = webPackActions
 
 
+
 export class AVue<T> implements PluginObject<T> {
-  vuex = vuex
   kit = alak.A.flow
   f: T
   a: Function
@@ -34,7 +33,8 @@ export class AVue<T> implements PluginObject<T> {
     }
   }
 
-  install(_Vue, options) {
+  install(_Vue:any, options:any) {
+    GlobalState.init(_Vue)
     actions.set(this.storeModules)
     graphNodes(this.storeModules)
 
@@ -49,9 +49,10 @@ export class AVue<T> implements PluginObject<T> {
     _Vue.mixin(installMixin)
     let a = contextAction("Ω","")
     this.a = a
-    this.kit({f: graph.flow, a})
     actions.runEntity(options)
     Aloger.simple(" 𝗔  ✶")
+
+    this.kit({f: this.f, a})
   }
 
   [key: string]: any;

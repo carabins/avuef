@@ -4,9 +4,9 @@ import Vue from "vue";
 type AGraphNode = {
   global: AGraphNode;
   stored: AGraphNode;
+  observ: AGraphNode;
   immutable: AGraphNode;
   stateless: AGraphNode;
-  vuex: AGraphNode;
   emitter: AGraphNode;
   on(parentFlowPath: string, actionPath: string) : AGraphNode;
   lazyOn(parentFlowPath: string, actionPath: string) : AGraphNode;

@@ -1,3 +1,6 @@
+import {observableValue} from "../global-state";
+
+
 let isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
 
 let isServer = !isBrowser()
@@ -21,19 +24,27 @@ export class LoStorage {
   static restoreState(key, state): any {
     if (isServer) return false
     let v = localStorage.getItem(key)
-    if (v && v!='undefined') {
+    if (v && v != 'undefined') {
       state[key] = JSON.parse(v)
     }
   }
+
   static restoreFlow(id, flow): any {
     if (isServer) return false
     let v = localStorage.getItem(id)
-    if (v && v!='undefined') {
+    if (v && v != 'undefined') {
       flow.o.lc = "restored"
-      flow(JSON.parse(v))
+      let observe = flow.isMeta("observe")
+      let vv = JSON.parse(v)
+      if (observe) {
+        flow(observableValue(vv))
+      } else {
+        flow(vv)
+      }
     }
   }
-  static clear(){
+
+  static clear() {
     if (isServer) return false
     localStorage.clear()
   }

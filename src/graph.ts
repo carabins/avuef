@@ -8,6 +8,6 @@ export const graph = {
     if: [],
     get: [],
     actions: [],
-    on: []
+    from: []
   }
 }

@@ -21,13 +21,17 @@ const launch = (actionName, callerName, sym, ...args) => {
       aFn = pathTo(actionName, actionModules)
     }
   }
-
+  // console.log(actionName, ...args)
 
   if (!aFn) {
-    return Promise.reject(`𝗔ction "${actionName}" not found`)
+    let errorMessage = `𝜶 ${actionName} ← ${callerName} ${sym}`
+    console.error(`!!!  ${errorMessage}`, args)
+    return Promise.reject(`ACTION ${errorMessage} NOT FOUND`)
   } else {
     Aloger.group(` 𝜶  ${actionName} ← ${callerName} ${sym}`, args)
     let ctxLabel = `${actionName} 𝜶`
+
+    // console.log({ctxLabel})
 
     let maybePromise = aFn.apply({
       $g: GlobalState.data,

@@ -24,12 +24,16 @@ const getCtxAction = (action, name, sym) => {
   let p = action.split(".")
   let aFn = a[p.shift()]
   p.forEach(k=>aFn=aFn[k])
+  // console.log("getCtxAction", p.callerName)
   return aFn
 }
+
 const mutateFlowFromAction = (sym, action, flow) => {
-  let aFn = getCtxAction(action, flow.id, sym)
   return async value => {
+    let aFn = getCtxAction(action, flow.id, sym)
     if (value !== null) {
+      // console.log("→→→→→ set CtxAction", action, flow.id)
+      // console.log("afn", aFn.callerName)
       let r = await aFn(value)
       flow.o.lc = `${action} 𝜶 ∴`
       flow(r)
@@ -61,17 +65,21 @@ export function graphEdges() {
       getCtxAction(action, flow.id, "ƒ ∴")(...v)
     })
   }
-  for (let [action, defaultValue, flow] of graph.edges.get) {
+  for (let [action, flow] of graph.edges.get) {
     let mutator = mutateFlowFromAction(`ƒ get ∴`, action, flow)
     subscribe(flow, mutator)
   }
 
 
   // Create On Edges
-  for (let [path, action, defaultValue, flow] of graph.edges.on) {
+  for (let [path, action, flow] of graph.edges.from) {
     let f = getFlow(path, flow)
-    const mutator = mutateFlowFromAction(`ƒ on ∴`, action,  flow)
-    subscribe(f, () => f.on(mutator))
+    const mutator = mutateFlowFromAction(`ƒ from ∴`, action,  flow)
+
+    subscribe(f, () => {
+      // console.log("subscribe")
+      f.on(mutator)
+    })
   }
 
   // Create Mapped Edges

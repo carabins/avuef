@@ -1,11 +1,14 @@
 import {A, AFlow} from "alak";
 import {graph} from "./graph";
 import {addEdge} from "./add-edges";
+import {observableValue} from "./global-state";
 
 const ext = new Set(["valueOf"])
 
 const alakProps = new Set(["stateless", "emitter"])
-const allowEdges = new Set(["lazyGet", "get", "map", "lazyMap", "on", "lazyOn", "if", "action","a","lazyA"])
+const allowEdges = new Set(
+  ["lazyGet", "get", "mapEdge", "lazyMapEdge", "from", "fromEdge", "if", "action", "a", "lazyA", "lazyAction"]
+)
 
 
 const createFlow = (node, name) => {
@@ -13,6 +16,7 @@ const createFlow = (node, name) => {
 
   let startValue = node.value
   if (startValue) {
+    startValue.forEach(observableValue)
     flow(...startValue)
     flow.setMetaObj({
       lc: "init",
@@ -29,7 +33,7 @@ const createFlow = (node, name) => {
 
   Object.keys(node.edges).forEach(edgeName => {
     let edgeArgs = node.edges[edgeName]
-    addEdge(edgeName, edgeArgs, flow,name)
+    addEdge(edgeName, edgeArgs, flow, name)
   })
   return flow
 }
@@ -62,7 +66,6 @@ const deepHandler = {
         return true
     }
     let edges = target.edges
-
 
 
     switch (typeof key) {

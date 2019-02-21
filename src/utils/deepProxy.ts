@@ -14,6 +14,7 @@ const updateFlowByPath = (ctx, path, v) =>{
 
 const deepFlow = {
   apply(p, ctx, args) {
+    // console.log("updateFlowByPath", p.path, args)
     return updateFlowByPath(p.ctx, p.path, args[0])
   },
   get(p, k) {
@@ -50,10 +51,10 @@ let fn = () => {
 export const contextFlow = ctx => {
   return new Proxy(graph.flow, {
     apply(o, __, args) {
+      console.log("?")
       return graph.flow(ctx, ...args)
     },
     get(o, k) {
-
       if (typeof k === "symbol"){
         return hint => {
           return "Flow Proxy"
@@ -76,6 +77,7 @@ const fnProps = new Set<any>(["call", "constructor", "prototype"])
 const deepAction = {
   apply(p, ctx, args) {
     let actionName = p.path.join(".")
+    // console.log("apply actionName", p.path, actionName)
     let promise = actions.launch(actionName, p.callerName, p.sym, ...args)
     return promise
   },
