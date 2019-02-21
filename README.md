@@ -10,3 +10,6 @@
 - live https://github.com/carabins/unqonl.front (now version 0.2.x)
 
 - теория https://github.com/datamonsters/state-tree-management-theory
+- todomvc
+    - https://github.com/carabins/avuef-todomvc
+    - https://codesandbox.io/s/github/carabins/avuef-todomvc/tree/master/
