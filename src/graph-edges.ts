@@ -74,21 +74,28 @@ export function graphEdges() {
   // Create On Edges
   for (let [paths, action, flow] of graph.edges.from) {
     let targets = []
+    let count = 0
+    let countN = 0
     const getValues = () => targets.map(f=>f.v)
     const exec = path => {
       let f = getFlow(path, flow)
       targets.push(f)
       const mutator = mutateFlowFromAction(`ƒ from ∴`, action,  flow)
       subscribe(f, () => {
-        // console.log("subscribe")
+        count++
         f.on(()=>{
-          mutator(...getValues())
+          if (count>=countN){
+            mutator(...getValues())
+          }
+
         })
       })
     }
     if (Array.isArray(paths)){
+      countN = paths.length
       paths.forEach(exec)
     } else {
+      countN = 0
       exec(paths)
     }
   }

@@ -33,6 +33,8 @@ const deepFlow = {
     }
     p.path.push(k)
     p.f = wayTo(p.path, graph.flow)
+    if (p.f.o)
+      p.f.o.lc = p.ctx
     return p.q
   }
 }

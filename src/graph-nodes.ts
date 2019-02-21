@@ -92,7 +92,6 @@ const bindFlow = (node,
 export function graphNodes(storeModules) {
   let nodes = {}
   Object.keys(storeModules).forEach(k=>{
-
     let f = storeModules[k].flows
     if (f)
       nodes[k] = f
