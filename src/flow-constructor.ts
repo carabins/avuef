@@ -14,7 +14,7 @@ const allowEdges = new Set(
 const createFlow = (node, name) => {
   let flow = A.f
 
-  let startValue = node.value
+  let startValue = node.val
   if (startValue) {
     startValue.forEach(observableValue)
     flow(...startValue)
@@ -54,13 +54,14 @@ export const createFlowNode = o => {
 
 const deepHandler = {
   get(target, key) {
+    if (key=="value") key = "v"
     let meta = target.meta as Set<any>
     switch (key) {
       case "meta":
         return Array.from(meta.values())
       case "edges":
         return target.edges
-      case "value":
+      case "val":
         return target.v
       case "isNode":
         return true
@@ -68,7 +69,9 @@ const deepHandler = {
     let edges = target.edges
 
 
+
     switch (typeof key) {
+
       case "string" :
         if (allowEdges.has(key)) {
           return (...args) => {

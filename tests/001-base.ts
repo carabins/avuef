@@ -9,7 +9,7 @@ const store ={
   user:{
     flows:{
       // id: F.get("get"),
-      id: F.observ.v(1),
+      id: F.observ.value(1),
       m1: F.observ.v(2),
       profile: F.from(['id','m1'], 'getProfile'),
       stats: F.v

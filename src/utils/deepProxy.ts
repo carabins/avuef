@@ -19,6 +19,8 @@ const deepFlow = {
   },
   get(p, k) {
     switch (k) {
+      case "value":
+        k="v"
       case "v":
       case "on":
       case "im":
