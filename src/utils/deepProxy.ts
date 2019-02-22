@@ -14,8 +14,12 @@ const updateFlowByPath = (ctx, path, v) =>{
 
 const deepFlow = {
   apply(p, ctx, args) {
-    // console.log("updateFlowByPath", p.path, args)
-    return updateFlowByPath(p.ctx, p.path, args[0])
+    if (args.length==0) {
+      let f = wayTo(p.path, graph.flow);
+      return f.v
+    } else {
+      return updateFlowByPath(p.ctx, p.path, args[0]);
+    }
   },
   get(p, k) {
     switch (k) {
