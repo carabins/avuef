@@ -37,6 +37,7 @@ const deepFlow = {
       case "effect":
       case "clearEffect":
       case "map":
+      case "each":
       case "set":
       case "remove":
       case "push":
