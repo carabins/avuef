@@ -33,6 +33,13 @@ const deepFlow = {
       case "match":
       case "silent":
       case "mutate":
+      case "isValue":
+      case "effect":
+      case "clearEffect":
+      case "map":
+      case "set":
+      case "remove":
+      case "push":
         if (!p.f)
           throw `flow.${k} "${p.path.join(".")}" not found in ${p.ctx}`
         else return p.f[k]

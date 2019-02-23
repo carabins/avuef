@@ -5,7 +5,7 @@ import {observableValue} from "./global-state";
 
 const ext = new Set(["valueOf"])
 
-const alakProps = new Set(["stateless", "emitter"])
+const alakProps = new Set(["stateless", "emitter", "immutable"])
 const allowEdges = new Set(
   ["lazyGet", "get", "mapEdge", "lazyMapEdge", "from", "fromEdge", "if", "action", "a", "lazyA", "lazyAction"]
 )
