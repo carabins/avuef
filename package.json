@@ -1,6 +1,6 @@
 {
   "name": "avuef",
-  "version": "0.2.20",
+  "version": "0.2.21",
   "description": "𝗔 vue flow state machine",
   "author": "Gleb Panteleev",
   "license": "Apache-2.0",
@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@types/core-js": "^2.5.0",
-    "@types/node": "^11.9.4",
+    "@types/node": "^11.9.5",
     "@vue/test-utils": "^1.0.0-beta.29",
     "fuse-box": "^3.7.1",
     "jest": "^24.1.0",
@@ -24,10 +24,10 @@
     "ts-jest": "^24.0.0",
     "ts-loader": "^5.3.3",
     "ts-node": "^8.0.2",
-    "typescript": "^3.3.3",
+    "typescript": "^3.3.3333",
     "typescript-parser": "^2.6.1",
-    "vue": "^2.6.6",
-    "vue-template-compiler": "^2.6.6",
+    "vue": "^2.6.7",
+    "vue-template-compiler": "^2.6.7",
     "webpack": "^4.29.5"
   }
 }
