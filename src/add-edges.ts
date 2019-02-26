@@ -10,8 +10,12 @@ export const addEdge = (name, args, flow, path) => {
     edges.push(args)
   }
   switch (name) {
+    case "fx" :
+    case "effect" :
+      add(graph.edges.fx)
+      break
     case "lazyGet" :
-      add(graph.edges.get, "lazy" )
+      add(graph.edges.get, "lazy")
       break
     case "get" :
       add(graph.edges.get)
@@ -22,6 +26,7 @@ export const addEdge = (name, args, flow, path) => {
     case "lazyMapEdge" :
       add(graph.edges.map, "lazy")
       break
+    case "edge" :
     case "from" :
       add(graph.edges.from)
       break
@@ -37,6 +42,7 @@ export const addEdge = (name, args, flow, path) => {
       add(graph.edges.actions, "lazy")
       break
     case "a" :
+    case "call" :
     case "action" :
       add(graph.edges.actions)
       break

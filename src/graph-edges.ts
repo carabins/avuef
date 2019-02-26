@@ -19,12 +19,12 @@ const getFlow = (path, flow) => {
   console.error("Edge Flow Not Found:", path, "in", flow.o.path.join("."), "schema")
 
 }
-const getCtxAction = (action, name, sym) => {
+function getCtxAction (action, name, sym) {
   let a = contextAction(name, sym)
   let p = action.split(".")
   let aFn = a[p.shift()]
   p.forEach(k=>aFn=aFn[k])
-  // console.log("getCtxAction", p.callerName)
+  // console.log("→→ getCtxAction")
   return aFn
 }
 
@@ -45,6 +45,8 @@ const mutateFlowFromAction = (sym, action, flow) => {
 
 
 const subscribe = (flow, fn) => {
+  console.log("subscribe", flow.isMeta('lazy'))
+
   if (flow.isMeta('lazy')) {
     graph.lazyActions.set(flow, () => {
       if (!flow.isMeta('subscribed')) {
@@ -71,6 +73,12 @@ export function graphEdges() {
   }
 
 
+  // Create
+  for (let [action, flow] of graph.edges.fx) {
+    subscribe(flow, () => {
+      flow.effect(v=>getCtxAction(action, flow.id, `effect ∴`)(v), true)
+    })
+  }
   // Create On Edges
   for (let [paths, action, flow] of graph.edges.from) {
     let targets = []
@@ -80,14 +88,13 @@ export function graphEdges() {
     const exec = path => {
       let f = getFlow(path, flow)
       targets.push(f)
-      const mutator = mutateFlowFromAction(`ƒ from ∴`, action,  flow)
+      const mutator = mutateFlowFromAction(`from ∴`, action,  flow)
       subscribe(f, () => {
         count++
         f.on(()=>{
           if (count>=countN){
             mutator(...getValues())
           }
-
         })
       })
     }
