@@ -104,6 +104,12 @@ const deepAction = {
     }
   }
 }
+
+export const contextActionPath = ctx1 => (actionPath, ...value) => {
+  // let promise = actions.launch(actionName, p.callerName, p.sym, ...args)
+  return actions.launch(actionPath, "", ctx1, ...value)
+}
+
 export const contextAction = (callerName, sym) => {
 
   return new Proxy(Object.assign(fn,{callerName}), {

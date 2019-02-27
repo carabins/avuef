@@ -10,7 +10,7 @@ import {webPackActions, wpContext} from "./wp-context";
 import {Aloger} from "./logger";
 import {flowConstructor} from "./flow-constructor";
 import {GlobalState} from "./global-state";
-import {contextAction, contextFlow, contextFlowPath} from "./utils/deepProxy";
+import {contextAction, contextActionPath, contextFlow, contextFlowPath} from "./utils/deepProxy";
 
 
 // InstallAlak()
@@ -49,6 +49,7 @@ export class AVue<T> implements PluginObject<T> {
     _Vue.mixin(installMixin)
     let a = contextAction("Ω","")
     this.a = a
+    this.aa = contextActionPath("Ω")
     actions.runEntity(options)
     Aloger.simple(" 𝗔  ✶")
 
