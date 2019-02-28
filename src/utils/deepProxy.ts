@@ -47,6 +47,10 @@ const deepFlow = {
     }
     p.path.push(k)
     p.f = wayTo(p.path, graph.flow)
+    if (!p.f) {
+      console.warn("fall on the edge:", p.ctx)
+      throw `Flow not found: ${p.path.join(".")}`
+    }
     if (p.f.o)
       p.f.o.lc = p.ctx
     return p.q
