@@ -45,8 +45,6 @@ const mutateFlowFromAction = (sym, action, flow) => {
 
 
 const subscribe = (flow, fn) => {
-  console.log("subscribe", flow.isMeta('lazy'))
-
   if (flow.isMeta('lazy')) {
     graph.lazyActions.set(flow, () => {
       if (!flow.isMeta('subscribed')) {

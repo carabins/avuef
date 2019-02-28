@@ -1,16 +1,19 @@
 import {graph} from "./graph";
 import {isBrowser} from "./utils/context";
 
-let canlog = true
+let opt = {
+  log:true
+}
 export const Aloger = {
-  silent() {
-    canlog = false
+  opt,
+  silent(v) {
+    opt.log = v
   },
   simple: v => {
-    if (canlog) console.log(v)
+    if (opt.log) console.log(v)
   },
   group: (title, params) => {
-    if (canlog) {
+    if (opt.log) {
       if (isBrowser)
         if (params.length >= 1) {
           console.groupCollapsed(title)

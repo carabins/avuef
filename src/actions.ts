@@ -28,7 +28,8 @@ const launch = (actionName, callerName, sym, ...args) => {
     console.error(`!!!  ${errorMessage}`, args)
     return Promise.reject(`ACTION ${errorMessage} NOT FOUND`)
   } else {
-    Aloger.group(` 𝜶  ${actionName} ← ${callerName} ${sym}`, args)
+    if (Aloger.opt.log && Aloger.opt.log.action)
+      Aloger.group(` 𝜶  ${actionName} ← ${callerName} ${sym}`, args)
     let ctxLabel = `${actionName} 𝜶`
 
     // console.log({ctxLabel})

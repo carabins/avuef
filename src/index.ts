@@ -28,8 +28,8 @@ export class AVue<T> implements PluginObject<T> {
   constructor(private storeModules, private options: any = {}) {
     this.storeModules = wpContext(storeModules)
 
-    if (options.silent) {
-      Aloger.silent()
+    if (options.log) {
+      Aloger.silent(options.log)
     }
   }
 

@@ -9,8 +9,8 @@ import {createFlowNode} from "./flow-constructor";
 
 const logFlow = (v, flow, size) => {
 
-  if (v != null) {
-
+  if (v != null && Aloger.opt) {
+    if (flow.o.lc == "init") return
     Aloger.group(` ƒ  ${flow.id} ← ${flow.o.lc}` ,
       [
         v,
