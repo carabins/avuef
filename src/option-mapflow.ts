@@ -30,7 +30,8 @@ export const optionMapflow = (mapCleaner, comp, toData, params) => {
       }
 
 
-      value = value ? value : flow[flow.isMeta("mutable") ? "v" : "imv"]
+      value = value ? value : flow()
+      // console.log("→→", flow(), flow.v)
 
       if (!isFullPatch) {
         let missPath = path.slice(lastI)
