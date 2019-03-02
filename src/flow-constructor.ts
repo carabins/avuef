@@ -7,7 +7,7 @@ const ext = new Set(["valueOf"])
 
 const alakProps = new Set(["stateless", "emitter", "immutable"])
 const allowEdges = new Set(
-  ["fx","lazyGet", "get", "mapEdge", "lazyMapEdge", "from", "fromEdge", "if", "action", "call","a", "lazyA", "lazyAction"]
+  ["mix", "wrap", "call", "fx","action", "call", "a",]
 )
 
 
