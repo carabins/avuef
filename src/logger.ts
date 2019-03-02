@@ -2,7 +2,10 @@ import {graph} from "./graph";
 import {isBrowser} from "./utils/context";
 
 let opt = {
-  log:true
+  log:{
+    action:false,
+    flow:false
+  }
 }
 export const Aloger = {
   opt,
