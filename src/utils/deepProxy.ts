@@ -7,7 +7,10 @@ import {Aloger} from "../logger";
 const updateFlowByPath = (ctx, path, v) =>{
   let f = wayTo(path, graph.flow)
   if (!f) throw `flow → ${path} not found ← ${ctx}`
-  f.o.lc = ctx
+  if (f.o)
+    f.o.lc = ctx
+  else
+    console.warn("no metaobject for flow", path)
   f(v)
   return f
 }
@@ -27,6 +30,7 @@ const deepFlow = {
         k="v"
       case "v":
       case "on":
+      case "next":
       case "im":
       case "off":
       case "emit":
