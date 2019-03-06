@@ -30,6 +30,7 @@ const deepFlow = {
         k="v"
       case "v":
       case "on":
+      case "once":
       case "next":
       case "im":
       case "off":
@@ -137,7 +138,6 @@ export const contextAction = (callerName, sym) => {
       } as any
       p.q = new Proxy(fn, deepAction)
       Object.assign(fn, p)
-
       return p.q
     }
   })

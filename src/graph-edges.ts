@@ -3,6 +3,7 @@ import {graph} from "./graph";
 import {pathTo} from "./utils";
 import {Aloger} from "./logger";
 import {contextAction} from "./utils/deepProxy";
+import {clearLine} from "readline";
 
 
 const getFlow = (path, flow) => {
@@ -16,7 +17,7 @@ const getFlow = (path, flow) => {
   } else {
     return pathTo(path, graph.flow)
   }
-  console.error("Edge Flow Not Found:", path, "in", flow.o.path.join("."), "schema")
+  console.error(flow.o.path.join(".")+"."+path, "← Flow NOT FOUND, check edges in flowgraph")
 
 }
 function getCtxAction (action, name, sym) {
@@ -80,27 +81,29 @@ export function graphEdges() {
   // Create On Edges
   for (let [paths, action, flow] of graph.edges.from) {
     let targets = []
-    let count = 0
-    let countN = 0
+    let haveV = {}
+
     const getValues = () => targets.map(f=>f.v)
     const exec = path => {
       let f = getFlow(path, flow)
       targets.push(f)
+      haveV[path] = false
       const mutator = mutateFlowFromAction(`from ∴`, action,  flow)
       subscribe(f, () => {
-        count++
-        f.on(()=>{
-          if (count>=countN){
-            mutator(...getValues())
+        f.on(function(){
+          haveV[path] = true
+          if (Object.keys(haveV).every(k=>haveV[k])){
+            f.off(this)
+            f.on(()=>mutator(...getValues()))
           }
         })
       })
     }
+
     if (Array.isArray(paths)){
-      countN = paths.length
+      paths.forEach(v=>haveV[v] = false)
       paths.forEach(exec)
     } else {
-      countN = 0
       exec(paths)
     }
   }
