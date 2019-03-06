@@ -19,7 +19,12 @@ const store ={
       },
       newId(){
         this.$f.user.id(10)
+
         console.log(this.$f.user.id.v)
+        this.$f.user.id.once(x=>{
+          console.log({x})
+        })
+        this.$f.user.id(20)
 
       },
       getProfile(...a){
