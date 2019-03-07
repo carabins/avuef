@@ -1,6 +1,6 @@
 {
   "name": "avuef",
-  "version": "0.2.34",
+  "version": "0.2.35",
   "description": "𝗔 vue flow state machine",
   "author": "Gleb Panteleev",
   "license": "Apache-2.0",
@@ -9,7 +9,7 @@
   "module": "lib.esm/index.js",
   "typings": "index.d.ts",
   "dependencies": {
-    "alak": "^0.10.38"
+    "alak": "^0.10.40"
   },
   "scripts": {
     "start": "webpack --config webpack.config.js"
