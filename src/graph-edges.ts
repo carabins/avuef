@@ -75,7 +75,7 @@ export function graphEdges() {
   // Create
   for (let [action, flow] of graph.edges.wrap) {
     let w = getCtxAction(action, flow.id, `wrap ∴`)
-    flow.wrap(v=>getCtxAction(action, flow.id, `wrap ∴`)(v))
+    flow.wrap(v=>getCtxAction(action, flow.id, `wrap ∴`)(v, flow.v))
   }
   // Create On Edges
   for (let [paths, action, flow] of graph.edges.from) {
