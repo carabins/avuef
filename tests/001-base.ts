@@ -9,23 +9,23 @@ const store ={
   user:{
     flows:{
       // id: F.get("get"),
-      id: F.fx("add"),
+      id: F.wrap("add"),
       // m1: F.observ.v(2),      profile: F.from(['id','m1'], 'getProfile'),
       stats: F.v
     },
     actions:{
       add(v){
+        console.log("add", v)
         return v+v
       },
       newId(){
-        this.$f.user.id(10)
-
-        console.log(this.$f.user.id.v)
+        this.$f.user.id(1)
+        console.log("v;", this.$f.user.id.v)
         this.$f.user.id.once(x=>{
-          console.log({x})
+          // console.log({x})
         })
         this.$f.user.id(20)
-
+        console.log("v;", this.$f.user.id.v)
       },
       getProfile(...a){
         console.log(a)

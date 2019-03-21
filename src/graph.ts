@@ -7,7 +7,7 @@ export const graph = {
     map: [],
     if: [],
     get: [],
-    fx: [],
+    wrap: [],
     actions: [],
     from: []
   }

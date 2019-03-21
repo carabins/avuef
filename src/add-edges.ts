@@ -10,9 +10,8 @@ export const addEdge = (name, args, flow, path) => {
     edges.push(args)
   }
   switch (name) {
-    case "fx" :
     case "wrap" :
-      add(graph.edges.fx)
+      add(graph.edges.wrap)
       break
     case "lazyGet" :
       add(graph.edges.get, "lazy")
