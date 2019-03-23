@@ -4,11 +4,10 @@ export const graph = {
   mutations: {},
   lazyActions: new WeakMap(),
   edges: {
-    map: [],
-    if: [],
-    get: [],
     wrap: [],
-    actions: [],
-    from: []
+    bind: [],
+    born: [],
+    upmix: [],
+    downmix: [],
   }
 }

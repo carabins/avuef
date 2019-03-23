@@ -1,4 +1,4 @@
-// import {InstallAlak} from "./install-alak";
+// import {InstallAlak} mix "./install-alak";
 import {PluginObject} from "vue";
 import * as alak from "alak";
 import {graphNodes} from "./graph-nodes";

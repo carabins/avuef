@@ -8,11 +8,12 @@ type AGraphNode = {
   immutable: AGraphNode;
   stateless: AGraphNode;
   emitter: AGraphNode;
-  on(parentFlowPath: string, actionPath: string) : AGraphNode;
-  lazyOn(parentFlowPath: string, actionPath: string) : AGraphNode;
-  get(actionPath: string) : AGraphNode;
-  lazyGet(actionPath: string) : AGraphNode;
-  action(actionPath: string) : AGraphNode;
+
+  upmix(parentFlowPath: string, actionPath: string) : AGraphNode;
+  downmix(parentFlowPath: string, actionPath: string) : AGraphNode;
+  born(actionPath: string) : AGraphNode;
+  warp(actionPath: string) : AGraphNode;
+
   v: IA;
 };
 

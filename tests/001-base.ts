@@ -10,13 +10,17 @@ const store ={
     flows:{
       // id: F.get("get"),
       id: F.wrap("add").v(5),
-      // m1: F.observ.v(2),      profile: F.from(['id','m1'], 'getProfile'),
-      stats: F.v
+      url: F,
+      // m1: F.observ.v(2),      profile: F.mix(['id','m1'], 'getProfile'),
+      stats: F.upmix(["url","id"],"getStats")
     },
     actions:{
       add(v,o){
         console.log("add", v,o)
         return v+v
+      },
+      getStats(id, stats){
+        console.log("getStats", {id}, {stats})
       },
       newId(){
         console.log("v;", this.$f.user.id.v)
@@ -59,10 +63,14 @@ const avue = new AVue(store)
 Vue.use(avue)
 
 
-avue.kit.on(({a})=>{
+avue.kit.on(({a,f})=>{
   setTimeout(()=>{
     a.user.newId()
   }, 1000)
+  f.user.url("x")
+  // setTimeout(()=>{
+  //
+  // }, 1200)
 })
 
 let wm = new Vue({

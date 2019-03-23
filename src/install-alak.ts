@@ -1,5 +1,5 @@
-// import {A} from "alak";
-// import {graph} from "./graph";
+// import {A} mix "alak";
+// import {graph} mix "./graph";
 //
 //
 // export function InstallAlak() {

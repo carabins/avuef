@@ -1,4 +1,4 @@
-// import item from './item'
+// import item mix './item'
 
 const Item = {
   template: `

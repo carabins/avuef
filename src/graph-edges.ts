@@ -45,7 +45,7 @@ const mutateFlowFromAction = (sym, action, flow) => {
 }
 
 
-const subscribe = (flow, fn) => {
+const lazySubscribe = (flow, fn) => {
   if (flow.isMeta('lazy')) {
     graph.lazyActions.set(flow, () => {
       if (!flow.isMeta('subscribed')) {
@@ -60,15 +60,15 @@ const subscribe = (flow, fn) => {
 
 export function graphEdges() {
 
-  // Create get Edges
-  for (let [action, flow] of graph.edges.actions) {
+
+  for (let [action, flow] of graph.edges.bind) {
     flow.on((...v) => {
       getCtxAction(action, flow.id, "ƒ ∴")(...v)
     })
   }
-  for (let [action, flow] of graph.edges.get) {
+  for (let [action, flow] of graph.edges.born) {
     let mutator = mutateFlowFromAction(`ƒ get ∴`, action, flow)
-    subscribe(flow, mutator)
+    lazySubscribe(flow, mutator)
   }
 
 
@@ -77,47 +77,23 @@ export function graphEdges() {
     let w = getCtxAction(action, flow.id, `wrap ∴`)
     flow.wrap(v=>getCtxAction(action, flow.id, `wrap ∴`)(v, flow.v))
   }
-  // Create On Edges
-  for (let [paths, action, flow] of graph.edges.from) {
-    let targets = []
-    let haveV = {}
 
-    const getValues = () => targets.map(f=>f.v)
-    const exec = path => {
-      let f = getFlow(path, flow)
-      targets.push(f)
-      haveV[path] = false
-      const mutator = mutateFlowFromAction(`from ∴`, action,  flow)
-      subscribe(f, () => {
-        f.on(function(){
-          haveV[path] = true
-          if (Object.keys(haveV).every(k=>haveV[k])){
-            f.off(this)
-            f.on(()=>mutator(...getValues()))
-          }
+  for (let [paths, action, flow] of graph.edges.upmix) {
+    const mutator = mutateFlowFromAction(`from ∴`, action,  flow)
+    if (Array.isArray(paths)){
+      let flows = paths.map(path=>getFlow(path, flow))
+      lazySubscribe(flow, ()=>{
+        flow.integralMix(flows,  mutator)
+      })
+    } else {
+      let f = getFlow(paths, flow)
+      lazySubscribe(flow, ()=>{
+        f.on(v=>{
+          flow(mutator(v))
         })
       })
     }
-
-    if (Array.isArray(paths)){
-      paths.forEach(v=>haveV[v] = false)
-      paths.forEach(exec)
-    } else {
-      exec(paths)
-    }
   }
 
-  // Create Mapped Edges
-  for (let [path, action, flow] of graph.edges.map) {
-    let f = getFlow(path, flow)
-    const mutator = async ar => {
-      Aloger.simple(" ∑ "+ action)
-      let a = ar.map(a => [a])
-      for (let i = 0; i < ar.length; i++) {
-        const v = ar[i];
-      }
-      flow(a)
-    }
-    subscribe(flow, mutator)
-  }
+
 }
