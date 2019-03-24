@@ -78,7 +78,7 @@ export function graphEdges() {
     flow.wrap(v=>getCtxAction(action, flow.id, `wrap ∴`)(v, flow.v))
   }
 
-  for (let [paths, action, flow] of graph.edges.upmix) {
+  for (let [paths, action, flow] of graph.edges.in) {
     const mutator = mutateFlowFromAction(`from ∴`, action,  flow)
     if (Array.isArray(paths)){
       let flows = paths.map(path=>getFlow(path, flow))

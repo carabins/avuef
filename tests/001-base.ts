@@ -12,7 +12,7 @@ const store ={
       id: F.wrap("add").v(5),
       url: F,
       // m1: F.observ.v(2),      profile: F.mix(['id','m1'], 'getProfile'),
-      stats: F.upmix(["url","id"],"getStats")
+      stats: F.in(["url","id"],"getStats")
     },
     actions:{
       add(v,o){

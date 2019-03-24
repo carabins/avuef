@@ -7,7 +7,7 @@ const ext = new Set(["valueOf"])
 
 const alakProps = new Set(["stateless", "emitter", "immutable"])
 const allowEdges = new Set(
-  ["born","wrap", "bind", "upmix", "downmix"]
+  ["born","wrap", "bind", "in", "out"]
 )
 
 

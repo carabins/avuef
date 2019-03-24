@@ -19,11 +19,11 @@ export const addEdge = (name, args, flow, path) => {
     case "born" :
       add(graph.edges.born)
       break
-    case "upmix" :
-      add(graph.edges.upmix)
+    case "in" :
+      add(graph.edges.in)
       break
-    case "downmix" :
-      add(graph.edges.downmix)
+    case "out" :
+      add(graph.edges.out)
       break
   }
 }

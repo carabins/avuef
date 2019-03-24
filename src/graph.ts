@@ -7,7 +7,7 @@ export const graph = {
     wrap: [],
     bind: [],
     born: [],
-    upmix: [],
-    downmix: [],
+    in: [],
+    out: [],
   }
 }
