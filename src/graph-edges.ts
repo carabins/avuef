@@ -79,14 +79,18 @@ export function graphEdges() {
   }
 
   for (let [paths, action, flow] of graph.edges.in) {
-    const mutator = mutateFlowFromAction(`from ∴`, action,  flow)
+
     if (Array.isArray(paths)){
       let flows = paths.map(path=>getFlow(path, flow))
       lazySubscribe(flow, ()=>{
-        flow.integralMix(flows,  mutator)
+        flow.integralMix(flows,  (...a)=>{
+          flow.o.lc = `${action} 𝜶 mix ∴`;
+          return getCtxAction(action, flow.id, `mix ∴`)(...a)
+        })
       })
     } else {
       let f = getFlow(paths, flow)
+      const mutator = mutateFlowFromAction(`from ∴`, action,  flow)
       lazySubscribe(flow, ()=>{
         f.on(v=>{
           flow(mutator(v))
