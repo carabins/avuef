@@ -16,7 +16,7 @@ import {contextAction, contextActionPath, contextFlow, contextFlowPath} from "./
 // InstallAlak()
 
 export const sync = {}
-export const F = flowConstructor
+export const N = flowConstructor
 export const wpFlolderActions = webPackActions
 
 
@@ -51,7 +51,7 @@ export class AVue<T> implements PluginObject<T> {
     this.a = a
     this.aa = contextActionPath("Ω")
     actions.runEntity(options)
-    Aloger.simple(" 𝗔  ✶")
+    Aloger.simple(" ℵ → ƒ")
 
     this.kit({f: this.f, a})
   }

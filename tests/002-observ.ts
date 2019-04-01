@@ -1,5 +1,5 @@
 const Vue = require("vue")
-import {AVue, F} from "../src";
+import {AVue, N} from "../src";
 import { mount } from '@vue/test-utils'
 
 
@@ -33,7 +33,7 @@ const Items = {
 const store ={
   items:{
     flows:{
-      list: F.v({})
+      list: N.v({})
     },
     actions:{
       get(){

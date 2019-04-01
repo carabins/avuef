@@ -1,5 +1,5 @@
 import {AVue} from "../src";
-import {F} from "../src/index";
+import {N} from "../src/index";
 import {A} from "alak";
 
 const Vue = require("vue")
@@ -7,18 +7,18 @@ Vue.config.silent = true
 
 const store ={
   user:{
-    flows:{
+    nodes:{
       // id: F.get("get"),
-      id: F.wrap("add").v(5),
-      url: F,
+      id: N.wrap("add").v(5),
+      url: N,
       // m1: F.observ.v(2),      profile: F.mix(['id','m1'], 'getProfile'),
       // stats: F.in(["url","id"],"getStats"),
-      stats2: F.in("id","getStats").out("stats3", "asIs"),
-      stats3: F
+      stats2: N.in("id","getStats").out("stats3", "asIs"),
+      stats3: N
     },
     actions:{
-      asIs(asV){
-        console.log("caller:",this.caller)
+      asIs(asV, to){
+        // console.log({to})
       },
       add(v,o){
         // console.log("add", v,o)/
@@ -51,7 +51,7 @@ const store ={
   gallery: {
     flows:{
       // list: F.on("user.profile", "get"),
-      page: F,
+      page: N,
     },
     actions:{
       get(){
