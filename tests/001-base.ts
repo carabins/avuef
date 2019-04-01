@@ -9,7 +9,7 @@ const store ={
   user:{
     nodes:{
       // id: F.get("get"),
-      id: N.wrap("add").start(8),
+      id: N.wrap("add").value(8),
       url: N,
       // m1: F.observ.v(2),      profile: F.mix(['id','m1'], 'getProfile'),
       // stats: F.in(["url","id"],"getStats"),
@@ -26,7 +26,7 @@ const store ={
         return v+v
       },
       getStats(id, url, stats){
-        console.log("in getStats→→→→", {id}, {stats}, {url})
+        // console.log("in getStats→→→→", {id}, {stats}, {url})
         return "fine"+id
       },
       newId({a}){

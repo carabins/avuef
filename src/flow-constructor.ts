@@ -17,13 +17,12 @@ const createFlow = (node, name) => {
 
 
   Object.keys(node.methods).forEach(k => {
-    console.log(k)
     let v = node.methods[k]
-    flow.setMetaObj({
-      lc: "ℵ",
-    })
     switch (k) {
       case "start":
+        flow.setMetaObj({
+          lc: "ℵ",
+        })
         flow(...v)
         break
       case "value":

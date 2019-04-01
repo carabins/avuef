@@ -10,7 +10,7 @@ import {createFlowNode} from "./flow-constructor";
 const logFlow = (v, flow, size) => {
 
   if (v != null && Aloger.opt) {
-    if (flow.o.lc == "init") return
+    if (!flow.o.lc) return
     Aloger.group(` ƒ  ${flow.id} ←  ${flow.o.lc}` ,
       [
         v,
@@ -68,7 +68,6 @@ const bindFlow = (node,
         LoStorage.restoreFlow(flow.id, flow)
       flow[cmd](flowMutation)
       flowMap[id] = flow
-
 
     }
 
