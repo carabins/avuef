@@ -13,7 +13,7 @@ const store ={
       url: N,
       // m1: F.observ.v(2),      profile: F.mix(['id','m1'], 'getProfile'),
       // stats: F.in(["url","id"],"getStats"),
-      stats2: N.in("getStats", "id").out("asIs", "stats3"),
+      stats2: N.in("getStats id url").out("asIs stats3"),
       stats3: N
     },
     actions:{
@@ -25,8 +25,8 @@ const store ={
         // console.log("add", v,o)/
         return v+v
       },
-      getStats(id, stats){
-        // console.log("in getStats→→→→", {id}, {stats})
+      getStats(id, url, stats){
+        console.log("in getStats→→→→", {id}, {stats}, {url})
         return "fine"+id
       },
       newId({a}){

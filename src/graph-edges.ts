@@ -80,7 +80,8 @@ export function graphEdges() {
 
 
   // out
-  for (let [flow, action, path] of graph.edges.out) {
+  for (let [flow, args] of graph.edges.out) {
+    let [action, path] = args.split(" ").filter(l=>l.length>1)
     let f = getFlow(path, flow)
     lazySubscribe(flow, ()=>{
       const mutator = mutateFlowFromAction(`out ∴`, action,  f)
@@ -91,7 +92,8 @@ export function graphEdges() {
   }
 
   // in
-  for (let [flow, action, paths] of graph.edges.in) {
+  for (let [flow, args] of graph.edges.in) {
+    let [action, ...paths] = args.split(" ").filter(l=>l.length>1)
     if (Array.isArray(paths)){
       let flows = paths.map(path=>getFlow(path, flow))
       lazySubscribe(flow, ()=>{
