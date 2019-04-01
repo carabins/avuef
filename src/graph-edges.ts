@@ -61,26 +61,26 @@ const lazySubscribe = (flow, fn) => {
 export function graphEdges() {
 
 
-  for (let [action, flow] of graph.edges.bind) {
+  for (let [flow, action] of graph.edges.bind) {
     flow.on((...v) => {
       getCtxAction(action, flow.id, "bind ∴")(...v)
     })
   }
-  for (let [action, flow] of graph.edges.born) {
+  for (let [flow, action] of graph.edges.born) {
     let mutator = mutateFlowFromAction(`get ∴`, action, flow)
     lazySubscribe(flow, mutator)
   }
 
 
   // Warp
-  for (let [action, flow] of graph.edges.wrap) {
+  for (let [flow, action] of graph.edges.wrap) {
     let w = getCtxAction(action, flow.id, `wrap ∴`)
     flow.wrap(v=>getCtxAction(action, flow.id, `wrap ∴`)(v, flow.v))
   }
 
 
   // out
-  for (let [path, action, flow] of graph.edges.out) {
+  for (let [flow, action, path] of graph.edges.out) {
     let f = getFlow(path, flow)
     lazySubscribe(flow, ()=>{
       const mutator = mutateFlowFromAction(`out ∴`, action,  f)
@@ -91,7 +91,7 @@ export function graphEdges() {
   }
 
   // in
-  for (let [paths, action, flow] of graph.edges.in) {
+  for (let [flow, action, paths] of graph.edges.in) {
     if (Array.isArray(paths)){
       let flows = paths.map(path=>getFlow(path, flow))
       lazySubscribe(flow, ()=>{

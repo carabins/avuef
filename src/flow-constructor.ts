@@ -42,7 +42,7 @@ const createFlow = (node, name) => {
 
   Object.keys(node.edges).forEach(edgeName => {
     let edgeArgs = node.edges[edgeName]
-    addEdge(edgeName, edgeArgs, flow, name)
+    addEdge(edgeName, edgeArgs, flow)
   })
   return flow
 }

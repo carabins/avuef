@@ -34,11 +34,18 @@ const launch = (actionName, callerName, sym, ...args) => {
 
     // console.log({ctxLabel})
 
+    let kit = {
+      caller:callerName,
+      g: GlobalState.data,
+      a: contextAction(actionName, "𝜶"),
+      f: contextFlow(ctxLabel), ff: contextFlowPath(ctxLabel)
+    }
+    args.push(kit)
     let maybePromise = aFn.apply({
       caller:callerName,
-      $g: GlobalState.data,
-      $a: contextAction(actionName, "𝜶"),
-      $f: contextFlow(ctxLabel), $ff: contextFlowPath(ctxLabel)
+      $g: kit.g,
+      $a: kit.a,
+      $f: kit.f, $ff:kit.ff
     }, args)
     if (maybePromise && typeof maybePromise.then === 'function') {
       GlobalState.setRun(actionName, true)
