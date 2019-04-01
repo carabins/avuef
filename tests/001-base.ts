@@ -9,7 +9,7 @@ const store ={
   user:{
     nodes:{
       // id: F.get("get"),
-      id: N.wrap("add").v(5),
+      id: N.wrap("add").start(8),
       url: N,
       // m1: F.observ.v(2),      profile: F.mix(['id','m1'], 'getProfile'),
       // stats: F.in(["url","id"],"getStats"),
@@ -19,6 +19,7 @@ const store ={
     actions:{
       asIs(asV, to){
         // console.log({to})
+        return asV
       },
       add(v,o){
         // console.log("add", v,o)/

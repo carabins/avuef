@@ -6,6 +6,7 @@ import {observableValue} from "./global-state";
 const ext = new Set(["valueOf"])
 
 const alakProps = new Set(["stateless", "emitter", "immutable"])
+const allowMethods = new Set(["value", "start"])
 const allowEdges = new Set(
   ["born","wrap", "bind", "in", "out"]
 )
@@ -14,16 +15,24 @@ const allowEdges = new Set(
 const createFlow = (node, name) => {
   let flow = A.f
 
-  let startValue = node.val
-  if (startValue) {
-    startValue.forEach(observableValue)
-    flow(...startValue)
-    flow.setMetaObj({
-      lc: "init",
-    })
-  }
 
-  node.meta.forEach(k => {
+  Object.keys(node.methods).forEach(k => {
+    console.log(k)
+    let v = node.methods[k]
+    flow.setMetaObj({
+      lc: "ℵ",
+    })
+    switch (k) {
+      case "start":
+        flow(...v)
+        break
+      case "value":
+        flow.silent(...v)
+        break
+    }
+  })
+
+  node.props.forEach(k => {
     if (alakProps.has(k)) {
       flow[k]()
     } else {
@@ -55,14 +64,11 @@ export const createFlowNode = o => {
 const deepHandler = {
   get(target, key) {
     if (key=="value") key = "v"
-    let meta = target.meta as Set<any>
     switch (key) {
-      case "meta":
-        return Array.from(meta.values())
+      case "props":
       case "edges":
-        return target.edges
-      case "val":
-        return target.v
+      case "methods":
+        return target[key]
       case "isNode":
         return true
     }
@@ -71,15 +77,19 @@ const deepHandler = {
 
 
     switch (typeof key) {
-
       case "string" :
-        if (allowEdges.has(key)) {
+        if (allowMethods.has(key)) {
+          return  (...a) => {
+            target.methods[key] = a
+            return target.deep
+          }
+        } else if (allowEdges.has(key)) {
           return (...args) => {
             edges[key] = args
             return target.deep
           }
-        } else if (!meta.has(key) && !ext.has(key) && key != "v") {
-          target.meta.add(key)
+        } else if (!alakProps.has(key) && !ext.has(key)) {
+          target.props.push(key)
         }
         break
     }
@@ -95,7 +105,8 @@ const startHandler = {
     }
     __.fn = fn
     fn.fn = fn
-    fn.meta = new Set()
+    fn.props = []
+    fn.methods = {}
     fn.edges = {}
     fn.deep = new Proxy(fn, deepHandler)
     return fn.deep[key]

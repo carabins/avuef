@@ -11,7 +11,7 @@ const logFlow = (v, flow, size) => {
 
   if (v != null && Aloger.opt) {
     if (flow.o.lc == "init") return
-    Aloger.group(` ƒ  ${flow.id} ← ${flow.o.lc}` ,
+    Aloger.group(` ƒ  ${flow.id} ←  ${flow.o.lc}` ,
       [
         v,
         'hooks : '+size,

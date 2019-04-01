@@ -36,7 +36,7 @@ const mutateFlowFromAction = (sym, action, flow) => {
       // console.log("→→→→→ set CtxAction", action, flow.id)
       // console.log("afn", aFn.callerName)
       let r = await aFn(...value)
-      flow.o.lc = `${action} 𝜶 ∴`
+      flow.o.lc = `${action} 𝜶${sym}`
       flow(r)
     } else {
       flow(null)
@@ -85,12 +85,12 @@ export function graphEdges() {
     lazySubscribe(flow, ()=>{
       const mutator = mutateFlowFromAction(`out ∴`, action,  f)
       flow.on(v=>{
-        mutator(v, flow.id)
+        mutator(v, f.v, flow.id)
       })
     })
   }
 
-  // out
+  // in
   for (let [paths, action, flow] of graph.edges.in) {
     if (Array.isArray(paths)){
       let flows = paths.map(path=>getFlow(path, flow))
@@ -105,7 +105,7 @@ export function graphEdges() {
       const mutator = mutateFlowFromAction(`in ∴`, action,  flow)
       lazySubscribe(flow, ()=>{
         f.on(v=>{
-          flow(mutator(v))
+          mutator(v)
         })
       })
     }
