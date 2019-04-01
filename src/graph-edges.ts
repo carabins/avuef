@@ -63,34 +63,46 @@ export function graphEdges() {
 
   for (let [action, flow] of graph.edges.bind) {
     flow.on((...v) => {
-      getCtxAction(action, flow.id, "ƒ ∴")(...v)
+      getCtxAction(action, flow.id, "bind ∴")(...v)
     })
   }
   for (let [action, flow] of graph.edges.born) {
-    let mutator = mutateFlowFromAction(`ƒ get ∴`, action, flow)
+    let mutator = mutateFlowFromAction(`get ∴`, action, flow)
     lazySubscribe(flow, mutator)
   }
 
 
-  // Create
+  // Warp
   for (let [action, flow] of graph.edges.wrap) {
     let w = getCtxAction(action, flow.id, `wrap ∴`)
     flow.wrap(v=>getCtxAction(action, flow.id, `wrap ∴`)(v, flow.v))
   }
 
-  for (let [paths, action, flow] of graph.edges.in) {
 
+  // out
+  for (let [path, action, flow] of graph.edges.out) {
+    let f = getFlow(path, flow)
+    const mutator = mutateFlowFromAction(`out ∴`, action,  flow)
+    lazySubscribe(flow, ()=>{
+      flow.on(v=>{
+        f(mutator(v))
+      })
+    })
+  }
+
+  // out
+  for (let [paths, action, flow] of graph.edges.in) {
     if (Array.isArray(paths)){
       let flows = paths.map(path=>getFlow(path, flow))
       lazySubscribe(flow, ()=>{
         flow.integralMix(flows,  (...a)=>{
-          flow.o.lc = `${action} 𝜶 mix ∴`;
-          return getCtxAction(action, flow.id, `mix ∴`)(...a)
+          flow.o.lc = `${action} 𝜶 in ∴`;
+          return getCtxAction(action, flow.id, `in ∴`)(...a)
         })
       })
     } else {
       let f = getFlow(paths, flow)
-      const mutator = mutateFlowFromAction(`from ∴`, action,  flow)
+      const mutator = mutateFlowFromAction(`in ∴`, action,  flow)
       lazySubscribe(flow, ()=>{
         f.on(v=>{
           flow(mutator(v))
