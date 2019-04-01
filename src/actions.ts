@@ -35,6 +35,7 @@ const launch = (actionName, callerName, sym, ...args) => {
     // console.log({ctxLabel})
 
     let maybePromise = aFn.apply({
+      caller:callerName,
       $g: GlobalState.data,
       $a: contextAction(actionName, "𝜶"),
       $f: contextFlow(ctxLabel), $ff: contextFlowPath(ctxLabel)

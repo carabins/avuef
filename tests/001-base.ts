@@ -10,23 +10,23 @@ const store ={
     flows:{
       // id: F.get("get"),
       id: F.wrap("add").v(5),
-      url: F.out("stats3", "asIs"),
+      url: F,
       // m1: F.observ.v(2),      profile: F.mix(['id','m1'], 'getProfile'),
       // stats: F.in(["url","id"],"getStats"),
-      stats2: F.in("id","getStats"),
+      stats2: F.in("id","getStats").out("stats3", "asIs"),
       stats3: F
     },
     actions:{
       asIs(asV){
-        console.log({asV})
+        console.log("caller:",this.caller)
       },
       add(v,o){
         // console.log("add", v,o)/
         return v+v
       },
       getStats(id, stats){
-        console.log("in getStats→→→→", {id}, {stats})
-        return "fine"
+        // console.log("in getStats→→→→", {id}, {stats})
+        return "fine"+id
       },
       newId(){
         // console.log("v;", this.$f.user.id.v)
