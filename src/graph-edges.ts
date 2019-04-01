@@ -82,10 +82,10 @@ export function graphEdges() {
   // out
   for (let [path, action, flow] of graph.edges.out) {
     let f = getFlow(path, flow)
-    const mutator = mutateFlowFromAction(`out ∴`, action,  flow)
     lazySubscribe(flow, ()=>{
+      const mutator = mutateFlowFromAction(`out ∴`, action,  f)
       flow.on(v=>{
-        f(mutator(v))
+        mutator(v)
       })
     })
   }
