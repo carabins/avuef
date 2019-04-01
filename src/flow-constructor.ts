@@ -63,7 +63,6 @@ export const createFlowNode = o => {
 
 const deepHandler = {
   get(target, key) {
-    if (key=="value") key = "v"
     switch (key) {
       case "props":
       case "edges":
