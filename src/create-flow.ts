@@ -5,8 +5,15 @@ import {LoStorage} from "./utils/LoStorage";
 
 const createFlow = (node, name, m) => {
   let flow = A.f
-  // let store = flow.isMeta('stored')
-  // if (store) LoStorage.restoreFlow(flow.id, flow)
+  let id = m+"."+name
+  flow.setId(id)
+  let metaObj = {
+    m: m,
+    name,
+    path: [m, name]
+  }
+  if (flow.o) Object.assign(metaObj, flow.o)
+  flow.setMetaObj(metaObj)
   node.props.forEach(k => {
     if (alakProps.has(k)) {
       flow[k]()
@@ -37,23 +44,6 @@ const createFlow = (node, name, m) => {
 
 
 
-  let id = m+"."+name
-  // console.log({id})
-
-  flow.setId(id)
-  // let cmd = flow.isMeta('immutable') ? 'im' : 'on'
-
-
-  let metaObj = {
-    m: m,
-    name,
-    path: [m, name]
-  }
-  // console.log(metaObj)
-
-
-  if (flow.o) Object.assign(metaObj, flow.o)
-  flow.setMetaObj(metaObj)
 
 
 
