@@ -9,12 +9,15 @@ type AGraphNode = {
   stateless: AGraphNode;
   emitter: AGraphNode;
 
-  upmix(parentFlowPath: string, actionPath: string) : AGraphNode;
-  downmix(parentFlowPath: string, actionPath: string) : AGraphNode;
+  in(parentFlowPath: string, actionPath: string) : AGraphNode;
+  out(parentFlowPath: string, actionPath: string) : AGraphNode;
+
+  bind(actionPath: string) : AGraphNode;
   born(actionPath: string) : AGraphNode;
   warp(actionPath: string) : AGraphNode;
 
-  v: IA;
+  start(value: string) : AGraphNode;
+  value(value: string) : AGraphNode;
 };
 
 export declare interface IA {

@@ -5,7 +5,7 @@ import {throws} from "assert";
 import {pathTo} from "./utils";
 import {Aloger} from "./logger";
 import {A} from "alak";
-import {createFlowNode} from "./flow-constructor";
+import {createFlowNode} from "./create-flow";
 
 const logFlow = (v, flow, size) => {
 
@@ -87,8 +87,7 @@ const bindFlow = (node,
 }
 
 
-
-export function graphNodes(storeModules) {
+export function createNodes(storeModules) {
   let nodes = {}
   Object.keys(storeModules).forEach(k=>{
     let f = storeModules[k].nodes

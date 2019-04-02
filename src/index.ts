@@ -1,14 +1,14 @@
 // import {InstallAlak} mix "./install-alak";
 import {PluginObject} from "vue";
 import * as alak from "alak";
-import {graphNodes} from "./graph-nodes";
+import {createNodes} from "./create-nodes";
 import {graphEdges} from "./graph-edges";
 import {actions} from "./actions";
 import {graph} from "./graph";
 import {installMixin} from "./install-mixin";
 import {webPackActions, wpContext} from "./wp-context";
 import {Aloger} from "./logger";
-import {flowConstructor} from "./flow-constructor";
+import {NodeFlowDsl} from "./NodeFlowDsl";
 import {GlobalState} from "./global-state";
 import {contextAction, contextActionPath, contextFlow, contextFlowPath} from "./utils/deepProxy";
 
@@ -16,8 +16,8 @@ import {contextAction, contextActionPath, contextFlow, contextFlowPath} from "./
 // InstallAlak()
 
 export const sync = {}
-export const N = flowConstructor
-export const wpFlolderActions = webPackActions
+export const N = NodeFlowDsl
+export const webpackActionsGetter = webPackActions
 
 
 
@@ -36,7 +36,7 @@ export class AVue<T> implements PluginObject<T> {
   install(_Vue:any, options:any) {
     GlobalState.init(_Vue)
     actions.set(this.storeModules)
-    graphNodes(this.storeModules)
+    createNodes(this.storeModules)
 
     if (!this.options.prioritySchema) {
       actions.runEntity.on(v => graphEdges())

@@ -7,6 +7,7 @@ Vue.config.silent = true
 
 const store ={
   user:{
+    edges:["justEdge id stats3"],
     nodes:{
       // id: F.get("get"),
       id: N.wrap("add").value(8),
@@ -17,6 +18,9 @@ const store ={
       stats3: N
     },
     actions:{
+      justEdge(id, s3){
+        console.log(id, s3)
+      },
       asIs(asV, to){
         // console.log({to})
         return asV
