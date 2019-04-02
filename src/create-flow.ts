@@ -21,7 +21,7 @@ const createFlow = (node, name, m) => {
     let v = node.methods[k]
     switch (k) {
       case 'start':
-        if (!store && !flow.v) {
+        if (!flow.v) {
           flow.setMetaObj({
             lc: 'ℵ'
           })
@@ -29,7 +29,7 @@ const createFlow = (node, name, m) => {
         }
         break
       case 'value':
-        if (!store && !flow.v)
+        if (!flow.v)
           flow.silent(...v)
         break
     }
