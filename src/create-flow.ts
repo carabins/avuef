@@ -8,7 +8,6 @@ const createFlow = (node, name, m) => {
   // let store = flow.isMeta('stored')
   // if (store) LoStorage.restoreFlow(flow.id, flow)
   node.props.forEach(k => {
-    console.log({k})
     if (alakProps.has(k)) {
       flow[k]()
     } else {
@@ -22,7 +21,7 @@ const createFlow = (node, name, m) => {
     let v = node.methods[k]
     switch (k) {
       case 'start':
-        if (!store) {
+        if (!store && !flow.v) {
           flow.setMetaObj({
             lc: 'ℵ'
           })
@@ -30,7 +29,7 @@ const createFlow = (node, name, m) => {
         }
         break
       case 'value':
-        if (!store)
+        if (!store && !flow.v)
           flow.silent(...v)
         break
     }
