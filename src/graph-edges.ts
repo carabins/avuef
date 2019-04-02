@@ -77,7 +77,7 @@ export function graphEdges() {
     let [action, path] = args.split(' ').filter(l => l.length > 1)
     let f = getFlow(path, flow.o.m)
     lazySubscribe(flow, () => {
-      const mutator = mutateFlowFromAction(` 𝜶 ∴`, action, f)
+      const mutator = mutateFlowFromAction(` ∴`, action, f)
       flow.on(v => {
         mutator(v, f.v, flow.id)
       })
