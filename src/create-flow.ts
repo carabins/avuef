@@ -1,6 +1,6 @@
-import {alakProps} from "./NodeFlowDsl";
-import {addEdge} from "./add-edges";
-import {A} from "alak";
+import {alakProps} from './NodeFlowDsl'
+import {addEdge} from './add-edges'
+import {A} from 'alak'
 
 const createFlow = (node, name) => {
   let flow = A.f
@@ -8,13 +8,13 @@ const createFlow = (node, name) => {
   Object.keys(node.methods).forEach(k => {
     let v = node.methods[k]
     switch (k) {
-      case "start":
+      case 'start':
         flow.setMetaObj({
-          lc: "ℵ",
+          lc: 'ℵ'
         })
         flow(...v)
         break
-      case "value":
+      case 'value':
         flow.silent(...v)
         break
     }

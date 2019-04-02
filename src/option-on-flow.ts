@@ -1,5 +1,5 @@
-import {graph} from "./graph";
-import {pathTo} from "./utils";
+import {graph} from './graph'
+import {pathTo} from './utils'
 
 export function optionOnFlow(cleaner, comp, params) {
   let offList = []
@@ -9,7 +9,7 @@ export function optionOnFlow(cleaner, comp, params) {
     let flow = pathTo(k, graph.flow)
 
     if (flow) {
-      if (flow.isMeta("lazy")) {
+      if (flow.isMeta('lazy')) {
         if (graph.lazyActions.has(flow))
           graph.lazyActions.get(flow)('𝝭 ' + compName)
       }
@@ -20,7 +20,5 @@ export function optionOnFlow(cleaner, comp, params) {
       console.warn(`${compName}.onFlow ƒ '${k}' flow not found`)
     }
   })
-  cleaner.set(this, () =>
-    offList.forEach(f => f())
-  )
+  cleaner.set(this, () => offList.forEach(f => f()))
 }

@@ -44,12 +44,12 @@ export function getFlowData(pathArray, stateFlow, inValue) {
   while (i--) {
     lastFlow = flowPath[i]
     if (lastFlow.isFlow) {
-      lastI = i+1
+      lastI = i + 1
       break
     }
   }
   let isFullPatch = pathArray.length == (lastI)
   return {
-    isFullPatch, flow:lastFlow, lastI
+    isFullPatch, flow: lastFlow, lastI
   }
 }

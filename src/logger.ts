@@ -1,10 +1,9 @@
-import {graph} from "./graph";
-import {isBrowser} from "./utils/context";
+import {isBrowser} from './utils/context'
 
 let opt = {
-  log:{
-    action:false,
-    flow:false
+  log: {
+    action: false,
+    flow: false
   }
 }
 export const Aloger = {
@@ -20,16 +19,13 @@ export const Aloger = {
       if (isBrowser)
         if (params.length >= 1) {
           console.groupCollapsed(title)
-          params.forEach(v=>console.log(v))
+          params.forEach(v => console.log(v))
           console.groupEnd()
         } else {
           console.log(title)
         }
-      else
-        console.log(title)
+      else console.log(title)
     }
   },
-  flow: (context)=> new Proxy({},{
-
-  })
+  flow: context => new Proxy({}, {})
 }

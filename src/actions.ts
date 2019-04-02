@@ -1,23 +1,17 @@
-import {pathTo} from "./utils";
-import {GlobalState} from "./global-state";
-import {webPackActions} from "./wp-context";
-import {A} from "alak";
-import {Aloger} from "./logger";
-import {graph} from "./graph";
-import {contextAction, contextFlow, contextFlowPath} from "./utils/deepProxy";
+import {pathTo} from './utils'
+import {GlobalState} from './global-state'
+import {webPackActions} from './wp-context'
+import {A} from 'alak'
+import {Aloger} from './logger'
+import {contextAction, contextFlow, contextFlowPath} from './utils/deepProxy'
 
 const launch = (actionName, callerName, sym, ...args) => {
-
   let aFn = pathTo(actionName, actionModules)
-
-
-
-
   if (!aFn) {
-    let m = callerName ? callerName.split(".") : ""
-    if (m.length>1){
+    let m = callerName ? callerName.split('.') : ''
+    if (m.length > 1) {
       let mod = m[0]
-      actionName = mod+"."+actionName
+      actionName = mod + '.' + actionName
       aFn = pathTo(actionName, actionModules)
     }
   }
@@ -35,54 +29,59 @@ const launch = (actionName, callerName, sym, ...args) => {
     // console.log({ctxLabel})
 
     let kit = {
-      caller:callerName,
+      caller: callerName,
       g: GlobalState.data,
-      a: contextAction(actionName, "𝜶"),
-      f: contextFlow(ctxLabel), ff: contextFlowPath(ctxLabel)
+      a: contextAction(actionName, '𝜶'),
+      f: contextFlow(ctxLabel),
+      ff: contextFlowPath(ctxLabel)
     }
     args.push(kit)
-    let maybePromise = aFn.apply({
-      caller:callerName,
-      $g: kit.g,
-      $a: kit.a,
-      $f: kit.f, $ff:kit.ff
-    }, args)
+    let maybePromise = aFn.apply(
+      {
+        caller: callerName,
+        $g: kit.g,
+        $a: kit.a,
+        $f: kit.f,
+        $ff: kit.ff
+      },
+      args
+    )
     if (maybePromise && typeof maybePromise.then === 'function') {
       GlobalState.setRun(actionName, true)
-      return new Promise(((resolve, reject) => {
-        maybePromise.then(r => {
-          GlobalState.setRun(actionName, false)
-          resolve(r)
-        }).catch(e => {
-          GlobalState.setRun(actionName, false)
-          reject(e)
-        })
-      }))
+      return new Promise((resolve, reject) => {
+        maybePromise
+          .then(r => {
+            GlobalState.setRun(actionName, false)
+            resolve(r)
+          })
+          .catch(e => {
+            GlobalState.setRun(actionName, false)
+            reject(e)
+          })
+      })
     }
     return maybePromise
   }
 }
 
-
-const runEntity = A.flow
+// const runEntity = A.flow
 
 let actionModules = {}
 export const actions = {
   launch,
-  runEntity,
+  // runEntity,
   get modules() {
     return actionModules
   },
   set(v) {
     let ctx = webPackActions(v)
-
     if (ctx) {
       actionModules = ctx()
     } else {
       let am = {}
-      Object.keys(v).forEach(k=>{
+      Object.keys(v).forEach(k => {
         let a = v[k].actions
-        if (a){
+        if (a) {
           actionModules[k] = v[k].actions
           actionModules[k].path = k
         }

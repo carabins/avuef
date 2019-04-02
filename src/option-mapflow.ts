@@ -1,5 +1,5 @@
-import {graph} from "./graph";
-import {getFlowData} from "./utils";
+import {graph} from './graph'
+import {getFlowData} from './utils'
 
 export const optionMapflow = (mapCleaner, comp, toData, params) => {
   let cleanFns: any[] = []
@@ -21,14 +21,12 @@ export const optionMapflow = (mapCleaner, comp, toData, params) => {
     }
 
     let mutator = (value = undefined) => {
-      let {flow, isFullPatch, lastI} = getFlowData(path, graph.flow, value)
+      let { flow, isFullPatch, lastI } = getFlowData(path, graph.flow, value)
 
-
-      if (flow.isMeta("lazy")) {
+      if (flow.isMeta('lazy')) {
         if (graph.lazyActions.has(flow))
-          graph.lazyActions.get(flow)(`𝝭' `+compName)
+          graph.lazyActions.get(flow)(`𝝭' ` + compName)
       }
-
 
       value = value ? value : flow()
       // console.log("→→", flow(), flow.v)
@@ -45,7 +43,6 @@ export const optionMapflow = (mapCleaner, comp, toData, params) => {
       } else {
         comp[targetKey] = dataObject[targetKey] = value
       }
-
     }
     mutator()
 
@@ -54,17 +51,17 @@ export const optionMapflow = (mapCleaner, comp, toData, params) => {
   }
   Object.keys(params).forEach(k => {
     let pValue = params[k]
-    let typeOfParams = Array.isArray(pValue) ? "array" : typeof pValue
+    let typeOfParams = Array.isArray(pValue) ? 'array' : typeof pValue
     switch (typeOfParams) {
-      case "string":
+      case 'string':
         mutatePatch(pValue, k)
         break
-      case "array":
+      case 'array':
         let flow = graph.flow[k]
         if (flow) {
           if (pValue.length == 0) pValue = Object.keys(flow)
           pValue.forEach(v => {
-            mutatePatch(k + "." + v, v)
+            mutatePatch(k + '.' + v, v)
           })
         } else {
           console.warn(`Flow "${k}" not found for component: '${compName}'`)

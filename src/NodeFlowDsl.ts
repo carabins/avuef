@@ -1,33 +1,25 @@
+const ext = new Set(['valueOf'])
 
-const ext = new Set(["valueOf"])
-
-export const alakProps = new Set(["stateless", "emitter", "immutable"])
-const allowMethods = new Set(["value", "start"])
-const allowEdges = new Set(
-  ["born","wrap", "bind", "in", "out"]
-)
-
-
-
+export const alakProps = new Set(['stateless', 'emitter', 'immutable'])
+const allowMethods = new Set(['value', 'start'])
+const allowEdges = new Set(['born', 'wrap', 'bind', 'in', 'out'])
 
 const deepHandler = {
   get(target, key) {
     switch (key) {
-      case "props":
-      case "edges":
-      case "methods":
+      case 'props':
+      case 'edges':
+      case 'methods':
         return target[key]
-      case "isNode":
+      case 'isNode':
         return true
     }
     let edges = target.edges
 
-
-
     switch (typeof key) {
-      case "string" :
+      case 'string':
         if (allowMethods.has(key)) {
-          return  (...a) => {
+          return (...a) => {
             target.methods[key] = a
             return target.deep
           }
@@ -66,4 +58,3 @@ function dslProxy(...args) {
 }
 
 export const NodeFlowDsl = new Proxy(dslProxy, startHandler)
-

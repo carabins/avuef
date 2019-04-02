@@ -74,7 +74,7 @@ const avue = new AVue(store)
 Vue.use(avue)
 
 
-avue.kit.on(({a,f})=>{
+avue.onStart.on(({a,f})=>{
   setTimeout(()=>{
     a.user.newId()
   }, 1000)

@@ -1,10 +1,9 @@
 import {pathTo, wayTo} from "./index";
 import {graph} from "../graph";
 import {actions} from "../actions";
-import {Aloger} from "../logger";
 
 
-const updateFlowByPath = (ctx, path, v) =>{
+const updateFlowByPath = (ctx, path, v) => {
   let f = wayTo(path, graph.flow)
   if (!f) throw `flow → ${path} not found ← ${ctx}`
   if (f.o)
@@ -17,7 +16,7 @@ const updateFlowByPath = (ctx, path, v) =>{
 
 const deepFlow = {
   apply(p, ctx, args) {
-    if (args.length==0) {
+    if (args.length == 0) {
       let f = wayTo(p.path, graph.flow);
       return f.v
     } else {
@@ -27,7 +26,7 @@ const deepFlow = {
   get(p, k) {
     switch (k) {
       case "value":
-        k="v"
+        k = "v"
       case "v":
       case "on":
       case "once":
@@ -80,7 +79,7 @@ export const contextFlow = ctx => {
       return graph.flow(ctx, ...args)
     },
     get(o, k) {
-      if (typeof k === "symbol"){
+      if (typeof k === "symbol") {
         return hint => {
           return "Flow Proxy"
         }
@@ -107,7 +106,7 @@ const deepAction = {
     return promise
   },
   get(p, k) {
-    if (!fnProps.has(k)){
+    if (!fnProps.has(k)) {
       p.path.push(k)
       return p.q
     }
@@ -121,14 +120,14 @@ export const contextActionPath = ctx1 => (actionPath, ...value) => {
 
 export const contextAction = (callerName, sym) => {
 
-  return new Proxy(Object.assign(fn,{callerName}), {
+  return new Proxy(Object.assign(fn, {callerName}), {
     get(o, k) {
-      if (typeof k === "symbol"){
+      if (typeof k === "symbol") {
         return hint => {
           return "Action Proxy"
         }
       }
-      if (fnProps.has(k)){
+      if (fnProps.has(k)) {
         return {}
       }
       let p = {

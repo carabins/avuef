@@ -1,11 +1,6 @@
-import {optionMapflow} from "./option-mapflow";
-import {optionOnFlow} from "./option-on-flow";
-import {graph} from "./graph";
-import {actions} from "./actions";
-import {GlobalState} from "./global-state";
-import {Aloger} from "./logger";
-import {camelCase} from "fuse-box/Utils";
-import {contextAction, contextFlow} from "./utils/deepProxy";
+import {optionMapflow} from './option-mapflow'
+import {optionOnFlow} from './option-on-flow'
+import {contextAction, contextFlow} from './utils/deepProxy'
 
 const mapCleaner = new Map()
 const onCleaner = new Map()
@@ -18,8 +13,7 @@ const clearCleaner = (v, t) => {
 }
 export const installMixin = {
   data() {
-    if (toData.has(this))
-      return toData.get(this)
+    if (toData.has(this)) return toData.get(this)
     return {}
   },
 
@@ -27,7 +21,7 @@ export const installMixin = {
     if (!this.$vnode) return
     let tag = this.$options._componentTag || this.$vnode.tag
     this.$f = contextFlow(`𝒱 ${tag}`)
-    this.$a = contextAction("𝒱", tag)
+    this.$a = contextAction('𝒱', tag)
 
     let mapFlowOptions = this.$options.mapFlow
     if (mapFlowOptions) {
