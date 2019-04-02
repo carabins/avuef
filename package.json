@@ -1,6 +1,6 @@
 {
   "name": "avuef",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Actions on the Flow",
   "author": "Gleb Panteleev",
   "license": "Apache-2.0",
@@ -9,7 +9,7 @@
   "module": "lib.esm/index.js",
   "typings": "index.d.ts",
   "dependencies": {
-    "alak": "^0.10.51"
+    "alak": "^0.10.52"
   },
   "scripts": {
     "start": "webpack --config webpack.config.js",

@@ -579,10 +579,10 @@ ajv@^6.1.0, ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-alak@^0.10.51:
-  version "0.10.51"
-  resolved "https://registry.yarnpkg.com/alak/-/alak-0.10.51.tgz#68b94aa3bf850a0df145318e65c4a7de40d9dd9d"
-  integrity sha512-y9VFq+hPydpBR6z3xAA23VgWJtmOS/Qza6RkvbmmUgFXbN3i2ja/wEUNt8nhLqaUbmv1Cj/7Y2oE+6Iq9hCmNQ==
+alak@^0.10.52:
+  version "0.10.52"
+  resolved "https://registry.yarnpkg.com/alak/-/alak-0.10.52.tgz#495cf09fd6ef0262a11a550d84f549f5cd90d7aa"
+  integrity sha512-PR2cyqODn908HbozCdggSTJ9a7r4CdxeyppFMWjyI71NxEWRX8IGNcloU2VPTX/rep/FLipYPR2kr+Hd3Wg6gg==
 
 ansi-escapes@^3.0.0:
   version "3.2.0"

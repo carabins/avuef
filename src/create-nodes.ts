@@ -24,24 +24,9 @@ const bindFlow = (node, mutations = {}, pathName = '', path = []) => {
     const initFlow = (flow, name) => {
       let uiListiners = (mutations[name] = new Set())
 
-      let pj = path.join('.')
-      let id = pj ? pj + '.' + name : name
-      flow.setId(id)
-      // let cmd = flow.isMeta('immutable') ? 'im' : 'on'
-
-      let metaObj = {
-        m: path.join('.'),
-        name,
-        path: path.slice()
-      }
-
-
-      if (flow.o) Object.assign(metaObj, flow.o)
-      flow.setMetaObj(metaObj)
 
       let store = flow.isMeta('stored')
-
-      let flowMutation = (flowMutations[id] = v => {
+      let flowMutation = (flowMutations[flow.id] = v => {
         logFlow(v, flow, uiListiners.size)
         if (flow.isMeta('global') || flow.isMeta('state')) {
           GlobalState.setState(name, v)
@@ -54,9 +39,8 @@ const bindFlow = (node, mutations = {}, pathName = '', path = []) => {
           LoStorage.setItem(flow.id, v)
         }
       })
-      if (store) LoStorage.restoreFlow(flow.id, flow)
       flow.on(flowMutation)
-      flowMap[id] = flow
+      flowMap[flow.id] = flow
     }
 
     if (maybeFlow.isFlow) {
@@ -78,8 +62,13 @@ export function createNodes(storeModules) {
   let nodes = {}
   Object.keys(storeModules).forEach(k => {
     let f = storeModules[k].nodes
-    if (f) nodes[k] = f
+    if (f) {
+      // f.parent = k
+      nodes[k] = f
+    }
   })
+
+  // console.log(Object.keys(nodes))
 
   let flow = createFlowNode(nodes)
 

@@ -6,15 +6,18 @@ const getFlow = (path, inModule) => {
   let a = path.split('.')
   let f
   if (a.length == 1) {
-    f = pathTo(inModule + '.' + path, graph.flow)
+    f = graph.flowMap[inModule + '.' + path]
+    // console.log("f1", inModule, path, !!f)
     if (f) return f
+    // console.log(Object.keys(graph.flowMap), inModule + '.' + path)
+    // console.log("f2", inModule, path, !!f)
     f = graph.flow[path]
     if (f) return f
   } else {
     return pathTo(path, graph.flow)
   }
   console.error(
-    `Flow: ${path} NOT FOUND , check edges in module ${path}`
+    `Flow: ${path} NOT FOUND , check edges in module ${inModule}`
   )
 }
 
@@ -31,8 +34,6 @@ const mutateFlowFromAction = (sym, action, flow) => {
   return async (...value) => {
     let aFn = getCtxAction(action, flow.id, sym)
     if (value.length > 0) {
-      // console.log("→→→→→ set CtxAction", action, flow.id)
-      // console.log("afn", aFn.callerName)
       let r = await aFn(...value)
       flow.o.lc = `${action} 𝜶 ∴`
       flow(r)

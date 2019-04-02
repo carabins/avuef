@@ -28,7 +28,7 @@ const deepHandler = {
             edges[key] = args
             return target.deep
           }
-        } else if (!alakProps.has(key) && !ext.has(key)) {
+        } else if (!ext.has(key)) {
           target.props.push(key)
         }
         break

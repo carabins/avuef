@@ -13,16 +13,16 @@ const store ={
     ],
     nodes:{
       // id: F.get("get"),
-      id: N.wrap("add").value(8),
-      url: N.immutable,
+      id: N.immutable,
+      url: N.stored.value(0),
       // m1: F.observ.v(2),      profile: F.mix(['id','m1'], 'getProfile'),
       // stats: F.in(["url","id"],"getStats"),
-      stats2: N.in("getStats id url").out("asIs stats3"),
-      stats3: N
+      // stats2: N.in("getStats id ").out("asIs stats3"),
+      // stats3: N
     },
     actions:{
       entry(){
-        console.log("entry")
+        // console.log("entry")
       },
       justEdge(id, s3){
         console.log(this.stats3)
@@ -59,8 +59,19 @@ const store ={
       }
     }
   },
+
+  n3: {
+    nodes:{
+      nn3: N,
+    },
+  },
+  n2: {
+    nodes:{
+      nn2: N,
+    },
+  },
   gallery: {
-    flows:{
+    nodes:{
       // list: F.on("user.profile", "get"),
       page: N,
     },
@@ -84,7 +95,7 @@ avue.onStart.on(({a,f})=>{
   setTimeout(()=>{
     a.user.newId()
   }, 1000)
-  f.user.url("x")
+  // f.user.url("x")
   // setTimeout(()=>{
   //
   // }, 1200)
