@@ -1,5 +1,5 @@
 const Vue = require("vue")
-import {AVue, N} from "../src";
+import {Aotf, N} from "../src";
 import { mount } from '@vue/test-utils'
 
 
@@ -46,7 +46,7 @@ const store ={
 
 
 
-const avue = new AVue(store, {silent:true})
+const avue = new Aotf(store, {silent:true})
 Vue.use(avue)
 
 Vue.config.silent = true

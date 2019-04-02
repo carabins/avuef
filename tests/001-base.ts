@@ -1,4 +1,4 @@
-import {AVue} from "../src";
+import {Aotf} from "../src";
 import {N} from "../src/index";
 import {A} from "alak";
 
@@ -8,6 +8,7 @@ Vue.config.silent = true
 const store ={
   user:{
     edges:[
+      "entry",
       "justEdge id stats3"
     ],
     nodes:{
@@ -20,6 +21,9 @@ const store ={
       stats3: N
     },
     actions:{
+      entry(){
+        console.log("entry")
+      },
       justEdge(id, s3){
         console.log(this.stats3)
       },
@@ -72,7 +76,7 @@ const store ={
 
 
 
-const avue = new AVue(store)
+const avue = new Aotf(store)
 Vue.use(avue)
 
 
