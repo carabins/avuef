@@ -7,7 +7,9 @@ Vue.config.silent = true
 
 const store ={
   user:{
-    edges:["justEdge id stats3"],
+    edges:[
+      "justEdge id stats3"
+    ],
     nodes:{
       // id: F.get("get"),
       id: N.wrap("add").value(8),
@@ -19,7 +21,7 @@ const store ={
     },
     actions:{
       justEdge(id, s3){
-        console.log(id, s3)
+        console.log(this.stats3)
       },
       asIs(asV, to){
         // console.log({to})
@@ -33,11 +35,11 @@ const store ={
         // console.log("in getStats→→→→", {id}, {stats}, {url})
         return "fine"+id
       },
-      newId({a}){
+      newId({a,f}){
         // console.log("v;", this.$f.user.id.v)
-        this.$f.user.id(1)
+        f.user.id(1)
         // console.log("v;", this.$f.user.id.v)
-        this.$f.user.id.once(x=>{
+        f.user.id.once(x=>{
           // console.log({x})
         })
         // this.$f.user.id(20)
@@ -59,8 +61,8 @@ const store ={
       page: N,
     },
     actions:{
-      get(){
-        this.$f.gallery.page("x")
+      get({f}){
+        f.gallery.page("x")
         let id = avue.ff("user.id")
         return [1]
       }

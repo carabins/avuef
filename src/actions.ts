@@ -3,7 +3,8 @@ import {GlobalState} from './global-state'
 import {webPackActions} from './wp-context'
 import {A} from 'alak'
 import {Aloger} from './logger'
-import {contextAction, contextFlow, contextFlowPath} from './utils/deepProxy'
+import {contextAction, contextActionPath, contextFlow, contextFlowPath} from './utils/deepProxy'
+import {graph} from "./graph";
 
 const launch = (actionName, callerName, sym, ...args) => {
   let aFn = pathTo(actionName, actionModules)
@@ -32,19 +33,18 @@ const launch = (actionName, callerName, sym, ...args) => {
       caller: callerName,
       g: GlobalState.data,
       a: contextAction(actionName, '𝜶'),
+      aa: contextActionPath('𝜶'),
       f: contextFlow(ctxLabel),
       ff: contextFlowPath(ctxLabel)
     }
     args.push(kit)
     let maybePromise = aFn.apply(
-      {
-        caller: callerName,
-        $g: kit.g,
-        $a: kit.a,
-        $f: kit.f,
-        $ff: kit.ff
-      },
-      args
+      new Proxy(aFn,{
+        get(o, key){
+          let f = graph.flowMap[`${actionName.split(".")[0]}.${key.toString()}`]
+          return f ? f.v : undefined
+        }
+      }), args
     )
     if (maybePromise && typeof maybePromise.then === 'function') {
       GlobalState.setRun(actionName, true)

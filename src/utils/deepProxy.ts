@@ -119,7 +119,6 @@ export const contextActionPath = ctx1 => (actionPath, ...value) => {
 }
 
 export const contextAction = (callerName, sym) => {
-
   return new Proxy(Object.assign(fn, {callerName}), {
     get(o, k) {
       if (typeof k === "symbol") {
