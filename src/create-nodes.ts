@@ -27,14 +27,15 @@ const bindFlow = (node, mutations = {}, pathName = '', path = []) => {
       let pj = path.join('.')
       let id = pj ? pj + '.' + name : name
       flow.setId(id)
-      let cmd = flow.isMeta('immutable') ? 'im' : 'on'
+      // let cmd = flow.isMeta('immutable') ? 'im' : 'on'
 
       let metaObj = {
         m: path.join('.'),
         name,
-        cmd,
         path: path.slice()
       }
+
+
       if (flow.o) Object.assign(metaObj, flow.o)
       flow.setMetaObj(metaObj)
 
@@ -54,7 +55,7 @@ const bindFlow = (node, mutations = {}, pathName = '', path = []) => {
         }
       })
       if (store) LoStorage.restoreFlow(flow.id, flow)
-      flow[cmd](flowMutation)
+      flow.on(flowMutation)
       flowMap[id] = flow
     }
 

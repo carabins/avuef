@@ -14,7 +14,7 @@ const store ={
     nodes:{
       // id: F.get("get"),
       id: N.wrap("add").value(8),
-      url: N,
+      url: N.immutable,
       // m1: F.observ.v(2),      profile: F.mix(['id','m1'], 'getProfile'),
       // stats: F.in(["url","id"],"getStats"),
       stats2: N.in("getStats id url").out("asIs stats3"),
