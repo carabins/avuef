@@ -23,27 +23,38 @@ export const sync = {}
 export const N = NodeFlowDsl
 export const webpackActionsGetter = webPackActions
 
+export interface AotfInstance {
+  f: any
+  ff: (flowName: string, value: any, contextName: string) => void
+  a: any
+  aa: (actionName: string, ...values: any) => void
+}
+
+function newGate(sym): AotfInstance {
+  return {
+    f: contextFlow(sym),
+    ff: contextFlowPath(sym) as any,
+    a: contextAction(sym, ''),
+    aa: contextActionPath(sym)
+  }
+}
+let ready = alak.A.flow
 export class Aotf<T> implements PluginObject<T> {
-  onStart = alak.A.flow
   f: T
   a: Function
 
   constructor(private storeModules, private options: any = {}) {
     this.storeModules = wpContext(storeModules)
-
     if (options.log) {
       Aloger.silent(options.log)
     }
   }
 
-  static newGate(sym):{a:any,f:any, aa:any, ff:any} {
-    return {
-      f: contextFlow(sym),
-      ff: contextFlowPath(sym),
-      a: contextAction(sym, ''),
-      aa: contextActionPath(sym)
-    }
+  static sync = alak.A.flow
+  static connect(contextName, onConnectListener: (aof: AotfInstance) => void): void {
+    ready.on(() => onConnectListener(newGate(contextName)))
   }
+
   install(_Vue: any, options: any) {
     GlobalState.init(_Vue)
     actions.set(this.storeModules)
@@ -51,16 +62,13 @@ export class Aotf<T> implements PluginObject<T> {
     createEdges(this.storeModules)
     graphEdges()
 
-
-    let gate = Aotf.newGate('Ω')
+    let gate = newGate('Ω')
 
     _Vue.prototype.$g = GlobalState.data
     _Vue.mixin(installMixin)
 
     Aloger.simple(' ℵ → ƒ')
     Object.assign(this, gate)
-    this.onStart(gate)
+    ready(true)
   }
-
-  [key: string]: any
 }

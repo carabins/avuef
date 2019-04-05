@@ -1,5 +1,6 @@
 import { AFlow } from "alak";
 import Vue from "vue";
+import {AotfInstance} from "./src";
 
 type AGraphNode = {
   global: AGraphNode;
@@ -34,6 +35,8 @@ export declare class AVue<T> {
   };
   a: AVueActions;
   f: AVueFlow<T>;
+  static connect: (contextName, onConnectListener: (aof: AotfInstance) => void) => void
+  static sync: AFlow<any>
 
   constructor(
     schemaClass: T,

@@ -76,9 +76,9 @@ const store ={
       page: N,
     },
     actions:{
-      get({f}){
+      get({f, ff}){
         f.gallery.page("x")
-        let id = avue.ff("user.id")
+        let id = ff("user.id")
         return [1]
       }
     }
@@ -91,7 +91,7 @@ const avue = new Aotf(store)
 Vue.use(avue)
 
 
-avue.onStart.on(({a,f})=>{
+Aotf.connect("start", ({a,f})=>{
   setTimeout(()=>{
     a.user.newId()
   }, 1000)
