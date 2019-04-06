@@ -69,7 +69,7 @@ export class Aotf<T> implements PluginObject<T> {
 
     Aloger.simple(' ℵ → ƒ')
     Object.assign(this, gate)
-    if (process.browser){
+    if (process["browser"]){
       window["aof"] = this
       ready(true)
     }
