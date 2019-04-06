@@ -69,6 +69,7 @@ export class Aotf<T> implements PluginObject<T> {
 
     Aloger.simple(' ℵ → ƒ')
     Object.assign(this, gate)
+    window["aof"] = this
     ready(true)
   }
 }
