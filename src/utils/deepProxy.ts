@@ -66,7 +66,8 @@ export const contextFlowPath = ctx1 => (path, value, ctx2) => {
     let ctx = ctx2 ? ctx2 : ctx1
     return updateFlowByPath(ctx, path.split("."), value)
   } else {
-    return pathTo(path, graph.flow)
+    let flow = pathTo(path, graph.flow)
+    return flow ? flow.v : undefined
   }
 }
 
