@@ -71,7 +71,7 @@ export class Aotf<T> implements PluginObject<T> {
     Object.assign(this, gate)
     if (process["browser"]){
       window["aof"] = this
-      ready(true)
     }
+    ready(true)
   }
 }
