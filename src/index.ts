@@ -50,8 +50,8 @@ export class Aotf<T> implements PluginObject<T> {
     }
   }
 
-  static sync = alak.A.flow
-  static connect(contextName, onConnectListener: (aof: AotfInstance) => void): void {
+  sync = alak.A.flow
+  connect(contextName, onConnectListener: (aof: AotfInstance) => void): void {
     ready.on(() => onConnectListener(newGate(contextName)))
   }
 
@@ -59,7 +59,6 @@ export class Aotf<T> implements PluginObject<T> {
     GlobalState.init(_Vue)
     actions.set(this.storeModules)
     createNodes(this.storeModules)
-    createEdges(this.storeModules)
     graphEdges()
 
     let gate = newGate('Ω')
