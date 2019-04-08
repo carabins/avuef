@@ -34,7 +34,7 @@ const bindFlow = (node, mutations = {}, pathName = '', path = []) => {
         if (uiListiners.size) {
           uiListiners.forEach(f => f(v), true)
         }
-
+        // console.log(flow.id, v)
         if (store) {
           LoStorage.setItem(flow.id, v)
         }

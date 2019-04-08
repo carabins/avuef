@@ -39,6 +39,7 @@ function newGate(sym): AotfInstance {
   }
 }
 let ready = alak.A.flow
+let plugins = []
 export class Aotf<T> implements PluginObject<T> {
   f: T
   a: Function
@@ -51,14 +52,19 @@ export class Aotf<T> implements PluginObject<T> {
   }
 
   sync = alak.A.flow
+  static use(plugin){
+    plugins.push(plugin({NodeFlowDsl}))
+  }
   connect(contextName, onConnectListener: (aof: AotfInstance) => void): void {
     ready.on(() => onConnectListener(newGate(contextName)))
   }
 
-  install(_Vue: any, options: any) {
+  install(_Vue: any, options: any, ...a) {
     GlobalState.init(_Vue)
+    plugins.forEach(p=>p.patchModules(this.storeModules))
     actions.set(this.storeModules)
     createNodes(this.storeModules)
+    createEdges(this.storeModules)
     graphEdges()
 
     let gate = newGate('Ω')
@@ -71,6 +77,7 @@ export class Aotf<T> implements PluginObject<T> {
     if (process["browser"]){
       window["aof"] = this
     }
+    plugins.forEach(p=>p.start(this))
     ready(true)
   }
 }
