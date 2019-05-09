@@ -22,17 +22,17 @@ const bindFlow = (node, mutations = {}, pathName = '', path = []) => {
     }
 
     const initFlow = (flow, name) => {
-      let uiListiners = (mutations[name] = new Set())
+      let uiListeners = (mutations[name] = new Set())
 
 
       let store = flow.isMeta('stored')
       let flowMutation = (flowMutations[flow.id] = v => {
-        logFlow(v, flow, uiListiners.size)
+        logFlow(v, flow, uiListeners.size)
         if (flow.isMeta('global') || flow.isMeta('state')) {
           GlobalState.setState(name, v)
         }
-        if (uiListiners.size) {
-          uiListiners.forEach(f => f(v), true)
+        if (uiListeners.size) {
+          uiListeners.forEach(f => f(v), true)
         }
         // console.log(flow.id, v)
         if (store) {

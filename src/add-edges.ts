@@ -3,6 +3,7 @@ import {graph} from './graph'
 export const addEdge = (name, args, flow) => {
   const add = e => e.push([flow, ...args])
 
+
   switch (name) {
     case 'bind':
       add(graph.edges.bind)

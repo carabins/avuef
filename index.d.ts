@@ -10,12 +10,12 @@ type AGraphNode = {
   stateless: AGraphNode;
   emitter: AGraphNode;
 
-  in(parentFlowPath: string, actionPath: string) : AGraphNode;
-  out(parentFlowPath: string, actionPath: string) : AGraphNode;
+  in(parentFlowPath: string, actionPath?: string) : AGraphNode;
+  out(parentFlowPath: string, actionPath?: string) : AGraphNode;
 
   bind(actionPath: string) : AGraphNode;
   born(actionPath: string) : AGraphNode;
-  warp(actionPath: string) : AGraphNode;
+  wrap(actionPath: string) : AGraphNode;
 
   start(value: string) : AGraphNode;
   value(value: string) : AGraphNode;

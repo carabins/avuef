@@ -8,7 +8,8 @@ export function createEdges(storeModules) {
     if (q) {
       let flow = A.f
       flow.setId(k)
-       q.forEach(e => addEdge('top', [e], flow))
+      console.log(q)
+      q.forEach(e => addEdge('top', [e], flow))
     }
   })
 }

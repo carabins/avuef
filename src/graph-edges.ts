@@ -1,6 +1,6 @@
-import {graph} from './graph'
-import {pathTo} from './utils'
-import {contextAction} from './utils/deepProxy'
+import { graph } from './graph'
+import { pathTo } from './utils'
+import { contextAction } from './utils/deepProxy'
 
 const getFlow = (path, inModule) => {
   let a = path.split('.')
@@ -16,9 +16,7 @@ const getFlow = (path, inModule) => {
   } else {
     return pathTo(path, graph.flow)
   }
-  console.error(
-    `Flow: ${path} NOT FOUND , check edges in module ${inModule}`
-  )
+  console.error(`Flow: ${path} NOT FOUND , check edges in module ${inModule}`)
 }
 
 function getCtxAction(action, name, sym) {
@@ -74,50 +72,70 @@ export function graphEdges() {
   }
 
   // out
-  for (let [flow, args] of graph.edges.out) {
-    let [action, path] = args.split(' ').filter(l => l.length > 1)
+  for (let [flow, path, action] of graph.edges.out) {
+    // let [path, action] = args //.split(' ').filter(l => l.length > 1)
+    // let paths = pathsStr.split(' ')
     let f = getFlow(path, flow.o.m)
     lazySubscribe(flow, () => {
-      const mutator = mutateFlowFromAction(` ∴`, action, f)
-      flow.on(v => {
-        mutator(v, f.v, flow.id)
-      })
+      if (action){2
+        const mutator = mutateFlowFromAction(` ∴`, action, f)
+        flow.on(v => {
+          mutator(v, f.v, flow.id)
+        })
+      } else {
+        flow.on(v => {
+          f.o.lc = `${flow.id} ∴`
+          f(v)
+        })
+      }
+
     })
   }
 
   // in
-  graph.edges.in.forEach(([flow, args])=>{
-    let [action, ...paths] = args.split(' ').filter(l => l.length > 1)
+  graph.edges.in.forEach(([flow, pathsStr, action]) => {
+    // let [paths, action] = args//.split(' ').filter(l => l.length > 1)
+    console.log({ pathsStr })
+    let paths = pathsStr.split(' ')
     if (Array.isArray(paths)) {
       let flows = paths.map(path => getFlow(path, flow.o.m))
       lazySubscribe(flow, () => {
-        flow.integralMix(flows, (...a) => {
-          flow.o.lc = `${action} ∴`
-          return getCtxAction(action, flow.id, ` ∴`)(...a)
-        })
+
+        if (action) {
+          flow.integralMix(flows, (...a) => {
+            flow.o.lc = `${action} ∴`
+            return getCtxAction(action, flow.id, ` ∴`)(...a)
+          })
+        } else {
+          flow.on(v=>{
+            flows.forEach(f=>{
+              f.o.lc = `${flow.id} ∴`
+              f(v)
+            })
+          })
+        }
       })
     } else {
       let f = getFlow(paths, flow.o.m)
       const mutator = mutateFlowFromAction(` ∴`, action, flow)
-      lazySubscribe(flow, () =>
-        f.on(mutator)
-      )
+      lazySubscribe(flow, () => f.on(mutator))
     }
   })
 
-  graph.edges.top.forEach( ([flow, args])=> {
+  graph.edges.top.forEach(([flow, args]) => {
     let [action, ...paths] = args.split(' ').filter(l => l.length > 1)
+    // let paths = pathsStr.split(' ')
     if (Array.isArray(paths)) {
       if (paths.length > 0) {
         let flows = paths.map(path => getFlow(path, flow.id))
         flow.stateless()
-        flow.integralMix(flows, (...a)=>{
+        flow.integralMix(flows, (...a) => {
           a.pop()
-          getCtxAction(action, flow.id+".x", `∴`)(...a)
+          getCtxAction(action, flow.id + '.x', `∴`)(...a)
           return true
         })
       } else {
-        getCtxAction(action, flow.id+".x", `∴`)()
+        getCtxAction(action, flow.id + '.x', `∴`)()
       }
     }
   })
